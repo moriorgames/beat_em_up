@@ -41,6 +41,7 @@ impl EventHandler<GameError> for MainState {
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
         self.player.draw(ctx, &mut canvas);
+        self.enemy.draw(ctx, &mut canvas);
 
         canvas.finish(ctx)?;
 
