@@ -10,16 +10,14 @@ use ggez::{
 use graphics::{Canvas, Color};
 use window::window::Window;
 
-const GAME_ID: &str = "";
-const AUTHOR: &str = "";
+const GAME_ID: &str = "Beat 'em up";
+const AUTHOR: &str = "MoriorGames";
 
-struct MainState {
-    _window: Window,
-}
+struct MainState {}
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        Ok(MainState { _window: Window {} })
+        Ok(MainState {})
     }
 }
 
@@ -39,8 +37,8 @@ impl EventHandler<GameError> for MainState {
 }
 
 pub fn main() -> GameResult {
-    let setup: WindowSetup = WindowSetup::default().title(Window::TITLE);
-    let mode: WindowMode = WindowMode::default().dimensions(Window::WIDTH, Window::HEIGHT);
+    let setup: WindowSetup = Window::create_window_setup();
+    let mode: WindowMode = Window::create_window_mode();
     let cb: ContextBuilder = ContextBuilder::new(GAME_ID, AUTHOR)
         .window_setup(setup)
         .window_mode(mode);
