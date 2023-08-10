@@ -11,5 +11,7 @@ impl PlayerState {
         }
     }
 
-    pub fn update(&mut self) {}
+    pub fn move_right(&mut self) {
+        self.position.x += 2.0;
+    }
 }

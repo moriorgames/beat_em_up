@@ -19,9 +19,8 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self, _ctx: &Context) {
-        self.controls.handle_input();
-        self.state.update();
+    pub fn update(&mut self, ctx: &mut Context) {
+        self.controls.handle_input(ctx, &mut self.state);
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {

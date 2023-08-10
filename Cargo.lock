@@ -164,6 +164,7 @@ name = "beat_em_up"
 version = "0.1.0"
 dependencies = [
  "ggez",
+ "gilrs",
  "nalgebra",
 ]
 
