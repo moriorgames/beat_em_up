@@ -3,6 +3,7 @@ use super::player_state::PlayerState;
 use super::player_view::PlayerView;
 use ggez::graphics::Canvas;
 use ggez::Context;
+use nalgebra::Point2;
 
 pub struct Player {
     state: PlayerState,
@@ -19,8 +20,10 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self, ctx: &mut Context) {
+    pub fn update(&mut self, ctx: &mut Context) -> Point2<f32> {
         self.controls.handle_input(ctx, &mut self.state);
+
+        self.state.position
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {

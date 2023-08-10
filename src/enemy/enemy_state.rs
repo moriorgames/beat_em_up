@@ -10,4 +10,8 @@ impl EnemyState {
             position: Point2::new(600.0, 250.0),
         }
     }
+
+    pub fn update_position(&mut self, position: Point2<f32>) {
+        self.position = position;
+    }
 }

@@ -11,6 +11,7 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
+use nalgebra::Point2;
 use player::player::Player;
 use window::window::Window;
 
@@ -32,7 +33,8 @@ impl MainState {
 
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
-        self.player.update(ctx);
+        let player_position: Point2<f32> = self.player.update(ctx);
+        self.enemy.update(player_position);
         Ok(())
     }
 
