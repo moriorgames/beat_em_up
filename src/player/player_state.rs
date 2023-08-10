@@ -5,13 +5,24 @@ pub struct PlayerState {
 }
 
 impl PlayerState {
+    const SPEED: f32 = 2.0;
+
     pub fn new() -> Self {
         PlayerState {
             position: Point2::new(400.0, 300.0),
         }
     }
 
+    pub fn move_left(&mut self) {
+        self.position.x -= Self::SPEED;
+    }
     pub fn move_right(&mut self) {
-        self.position.x += 2.0;
+        self.position.x += Self::SPEED;
+    }
+    pub fn move_up(&mut self) {
+        self.position.y -= Self::SPEED;
+    }
+    pub fn move_down(&mut self) {
+        self.position.y += Self::SPEED;
     }
 }
