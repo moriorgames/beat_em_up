@@ -1,74 +1,43 @@
+use super::controller::gamepad_controller::GamePadController;
+use super::controller::keyboard_controller::keyboard_controller;
 use super::player_state::PlayerState;
-use ggez::{input::keyboard::KeyCode, Context};
-use gilrs::EventType::ButtonChanged;
-use gilrs::{Button, Event, Gilrs};
+use ggez::Context;
 
 pub struct PlayerControls {
-    gilrs: Gilrs,
-    dpad_left_pressed: bool,
-    dpad_right_pressed: bool,
-    dpad_up_pressed: bool,
-    dpad_down_pressed: bool,
+    gamepad_controller: GamePadController,
+}
+
+pub struct PlayerIntention {
+    pub move_left: bool,
+    pub move_right: bool,
+    pub move_up: bool,
+    pub move_down: bool,
+    pub quit: bool,
 }
 
 impl PlayerControls {
     pub fn new() -> Self {
-        let gilrs = Gilrs::new().unwrap();
-        PlayerControls {
-            gilrs,
-            dpad_left_pressed: false,
-            dpad_right_pressed: false,
-            dpad_up_pressed: false,
-            dpad_down_pressed: false,
-        }
+        let gamepad_controller: GamePadController = GamePadController::new();
+        PlayerControls { gamepad_controller }
     }
 
     pub fn handle_input(&mut self, ctx: &mut Context, player_state: &mut PlayerState) {
-        while let Some(Event { event, .. }) = self.gilrs.next_event() {
-            match event {
-                ButtonChanged(Button::DPadLeft, value, _) => {
-                    self.dpad_left_pressed = value > 0.0;
-                }
-                ButtonChanged(Button::DPadRight, value, _) => {
-                    self.dpad_right_pressed = value > 0.0;
-                }
-                ButtonChanged(Button::DPadUp, value, _) => {
-                    self.dpad_up_pressed = value > 0.0;
-                }
-                ButtonChanged(Button::DPadDown, value, _) => {
-                    self.dpad_down_pressed = value > 0.0;
-                }
-                _ => {}
-            }
-        }
+        let keyboard_intention: PlayerIntention = keyboard_controller::input(ctx);
+        let gamepad_intention: PlayerIntention = self.gamepad_controller.input();
 
-        if self.dpad_left_pressed {
+        if gamepad_intention.move_left || keyboard_intention.move_left {
             player_state.move_left();
         }
-        if self.dpad_right_pressed {
+        if gamepad_intention.move_right || keyboard_intention.move_right {
             player_state.move_right();
         }
-        if self.dpad_up_pressed {
+        if gamepad_intention.move_up || keyboard_intention.move_up {
             player_state.move_up();
         }
-        if self.dpad_down_pressed {
+        if gamepad_intention.move_down || keyboard_intention.move_down {
             player_state.move_down();
         }
-
-        let pressed_keys: &std::collections::HashSet<KeyCode> = ctx.keyboard.pressed_keys();
-        if pressed_keys.contains(&KeyCode::Left) {
-            player_state.move_left();
-        }
-        if pressed_keys.contains(&KeyCode::Right) {
-            player_state.move_right();
-        }
-        if pressed_keys.contains(&KeyCode::Up) {
-            player_state.move_up();
-        }
-        if pressed_keys.contains(&KeyCode::Down) {
-            player_state.move_down();
-        }
-        if pressed_keys.contains(&KeyCode::Escape) {
+        if keyboard_intention.quit {
             ctx.request_quit();
         }
     }
