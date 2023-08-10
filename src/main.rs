@@ -1,6 +1,8 @@
+mod enemy;
 mod player;
 mod window;
 
+use enemy::enemy::Enemy;
 use event::EventHandler;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
@@ -17,12 +19,14 @@ const AUTHOR: &str = "MoriorGames";
 
 struct MainState {
     player: Player,
+    enemy: Enemy,
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let player: Player = Player::new();
-        Ok(MainState { player })
+        let enemy: Enemy = Enemy::new();
+        Ok(MainState { player, enemy })
     }
 }
 
