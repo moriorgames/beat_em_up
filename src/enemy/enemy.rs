@@ -1,5 +1,6 @@
 use super::enemy_behaviour::EnemyBehavior;
 use super::enemy_state::EnemyState;
+use super::enemy_transformation::EnemyTransformation;
 use super::enemy_view::EnemyView;
 use ggez::graphics::Canvas;
 use ggez::Context;
@@ -25,6 +26,8 @@ impl Enemy {
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {
-        let _ = self.view.draw(ctx, canvas, self.state.position.clone());
+        let enemy_transformation: EnemyTransformation =
+            EnemyTransformation::from_enemy(&self.state);
+        let _ = self.view.draw(ctx, canvas, enemy_transformation);
     }
 }

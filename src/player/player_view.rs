@@ -5,8 +5,8 @@ use nalgebra::Point2;
 pub struct PlayerView {}
 
 impl PlayerView {
-    const WIDTH: f32 = 20.0;
-    const HEIGHT: f32 = 20.0;
+    const WIDTH: f32 = 30.0;
+    const HEIGHT: f32 = 30.0;
 
     pub fn new() -> Self {
         PlayerView {}
