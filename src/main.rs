@@ -1,18 +1,25 @@
+mod window;
+
+use event::EventHandler;
+use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
     graphics::{self},
-    Context, ContextBuilder, GameResult,
+    Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
-use ggez::GameError;
-use event::EventHandler;
+use window::window::Window;
+
+const GAME_ID: &str = "";
+const AUTHOR: &str = "";
 
 struct MainState {
+    _window: Window,
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        Ok(MainState { })
+        Ok(MainState { _window: Window {} })
     }
 }
 
@@ -32,8 +39,12 @@ impl EventHandler<GameError> for MainState {
 }
 
 pub fn main() -> GameResult {
-    let cb = ContextBuilder::new("super_simple", "ggez");
+    let setup: WindowSetup = WindowSetup::default().title(Window::TITLE);
+    let mode: WindowMode = WindowMode::default().dimensions(Window::WIDTH, Window::HEIGHT);
+    let cb: ContextBuilder = ContextBuilder::new(GAME_ID, AUTHOR)
+        .window_setup(setup)
+        .window_mode(mode);
     let (mut ctx, event_loop) = cb.build()?;
-    let state = MainState::new(&mut ctx)?;
+    let state: MainState = MainState::new(&mut ctx)?;
     event::run(ctx, event_loop, state)
 }
