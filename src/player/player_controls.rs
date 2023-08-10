@@ -1,12 +1,9 @@
-pub struct PlayerControls {
-}
+pub struct PlayerControls {}
 
 impl PlayerControls {
     pub fn new() -> Self {
-        PlayerControls {
-        }
+        PlayerControls {}
     }
 
-    pub fn handle_input(&mut self) {
-    }
+    pub fn handle_input(&mut self) {}
 }

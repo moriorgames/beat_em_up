@@ -1,6 +1,7 @@
-use super::player_state::PlayerState;
 use super::player_controls::PlayerControls;
+use super::player_state::PlayerState;
 use super::player_view::PlayerView;
+use ggez::graphics::Canvas;
 use ggez::Context;
 
 pub struct Player {
@@ -23,7 +24,7 @@ impl Player {
         self.state.update();
     }
 
-    pub fn draw(&self, _ctx: &Context) {
-        self.view.draw();
+    pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {
+        let _ = self.view.draw(ctx, canvas, self.state.position.clone());
     }
 }

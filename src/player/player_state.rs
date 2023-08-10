@@ -1,15 +1,15 @@
+use nalgebra::Point2;
+
 pub struct PlayerState {
-    health: i32,
+    pub position: Point2<f32>,
 }
 
 impl PlayerState {
     pub fn new() -> Self {
         PlayerState {
-            health: 100,
+            position: Point2::new(400.0, 300.0),
         }
     }
 
-    pub fn update(&mut self) {
-        self.health += 1;
-    }
+    pub fn update(&mut self) {}
 }

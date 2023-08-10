@@ -1,5 +1,5 @@
-mod window;
 mod player;
+mod window;
 
 use event::EventHandler;
 use ggez::conf::{WindowMode, WindowSetup};
@@ -9,8 +9,8 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
-use window::window::Window;
 use player::player::Player;
+use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
@@ -22,7 +22,7 @@ struct MainState {
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let player: Player = Player::new();
-        Ok(MainState {player})
+        Ok(MainState { player })
     }
 }
 
@@ -34,9 +34,9 @@ impl EventHandler<GameError> for MainState {
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         let clear: Color = Color::from([0.1, 0.2, 0.3, 1.0]);
-        let canvas: Canvas = Canvas::from_frame(ctx, clear);
+        let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        self.player.draw(ctx);
+        self.player.draw(ctx, &mut canvas);
 
         canvas.finish(ctx)?;
 
