@@ -5,6 +5,7 @@ mod window;
 
 use enemy::enemy::Enemy;
 use event::EventHandler;
+use geometry::position::Position;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -12,7 +13,6 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
-use nalgebra::Point2;
 use player::player::Player;
 use window::window::Window;
 
@@ -36,7 +36,7 @@ impl MainState {
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
-            let player_position: Point2<f32> = self.player.update(ctx);
+            let player_position: Position = self.player.update(ctx);
             self.enemy.update(player_position);
         }
 

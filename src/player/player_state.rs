@@ -1,7 +1,7 @@
-use nalgebra::Point2;
+use crate::geometry::position::Position;
 
 pub struct PlayerState {
-    pub position: Point2<f32>,
+    pub position: Position,
 }
 
 impl PlayerState {
@@ -9,7 +9,7 @@ impl PlayerState {
 
     pub fn new() -> Self {
         PlayerState {
-            position: Point2::new(400.0, 300.0),
+            position: Position::new(400.0, 300.0),
         }
     }
 

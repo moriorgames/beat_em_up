@@ -2,9 +2,9 @@ use super::enemy_behaviour::EnemyBehavior;
 use super::enemy_state::EnemyState;
 use super::enemy_transformation::EnemyTransformation;
 use super::enemy_view::EnemyView;
+use crate::geometry::position::Position;
 use ggez::graphics::Canvas;
 use ggez::Context;
-use nalgebra::Point2;
 
 pub struct Enemy {
     state: EnemyState,
@@ -21,7 +21,7 @@ impl Enemy {
         }
     }
 
-    pub fn update(&mut self, player_position: Point2<f32>) {
+    pub fn update(&mut self, player_position: Position) {
         self.behaviour.update(&mut self.state, player_position);
     }
 

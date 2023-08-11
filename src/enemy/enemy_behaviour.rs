@@ -1,6 +1,5 @@
 use super::enemy_state::EnemyState;
 use crate::geometry::position::Position;
-use nalgebra::Point2;
 
 pub struct EnemyBehavior;
 
@@ -11,13 +10,13 @@ impl EnemyBehavior {
         EnemyBehavior {}
     }
 
-    pub fn update(&self, enemy_state: &mut EnemyState, player_position: Point2<f32>) {
+    pub fn update(&self, enemy_state: &mut EnemyState, player_position: Position) {
         let enemy_position: Position = enemy_state.position.clone();
         let position: Position = self.seek_player(enemy_position, player_position);
         enemy_state.update_position(position);
     }
 
-    fn seek_player(&self, enemy_position: Position, player_position: Point2<f32>) -> Position {
+    fn seek_player(&self, enemy_position: Position, player_position: Position) -> Position {
         let dir_x: f32 = player_position.x - enemy_position.x;
         let dir_y: f32 = player_position.y - enemy_position.y;
 

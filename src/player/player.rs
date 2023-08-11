@@ -1,9 +1,9 @@
 use super::player_controls::PlayerControls;
 use super::player_state::PlayerState;
 use super::player_view::PlayerView;
+use crate::geometry::position::Position;
 use ggez::graphics::Canvas;
 use ggez::Context;
-use nalgebra::Point2;
 
 pub struct Player {
     state: PlayerState,
@@ -20,10 +20,10 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self, ctx: &mut Context) -> Point2<f32> {
+    pub fn update(&mut self, ctx: &mut Context) -> Position {
         self.controls.handle_input(ctx, &mut self.state);
 
-        self.state.position
+        self.state.position.clone()
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {

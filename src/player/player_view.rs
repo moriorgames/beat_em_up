@@ -1,6 +1,6 @@
+use crate::geometry::position::Position;
 use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect};
 use ggez::{Context, GameResult};
-use nalgebra::Point2;
 
 pub struct PlayerView {}
 
@@ -16,7 +16,7 @@ impl PlayerView {
         &mut self,
         gfx: &mut Context,
         canvas: &mut Canvas,
-        position: Point2<f32>,
+        position: Position,
     ) -> GameResult {
         let mode: DrawMode = DrawMode::fill();
         let bounds: Rect = Rect::new(
