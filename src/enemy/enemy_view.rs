@@ -34,11 +34,9 @@ impl EnemyView {
         enemy_transformation: EnemyTransformation,
     ) {
         let size: Size = enemy_transformation.size;
-        let enemy_position: Position = enemy_transformation.position;
-        let position: Position = Position::new(
-            enemy_position.x - size.w / 2.0,
-            enemy_position.y - size.h / 2.0,
-        );
+        let x: f32 = enemy_transformation.position.x - size.w / 2.0;
+        let y: f32 = enemy_transformation.position.y - size.h / 2.0;
+        let position: Position = Position::new(x, y);
         let color: Color = Color::GREEN;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
     }
