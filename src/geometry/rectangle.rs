@@ -20,4 +20,19 @@ pub mod rectangle {
 
         canvas.draw(&drawable, param);
     }
+
+    pub fn draw_stroke_rectangle(
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        position: &Position,
+        size: &Size,
+        color: Color,
+    ) {
+        let mode: DrawMode = DrawMode::stroke(1.5);
+        let bounds: Rect = Rect::new(position.x, position.y, size.w, size.h);
+        let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color).unwrap();
+        let param: DrawParam = DrawParam::new();
+
+        canvas.draw(&drawable, param);
+    }
 }

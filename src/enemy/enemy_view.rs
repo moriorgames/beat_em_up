@@ -1,8 +1,8 @@
 use super::enemy_transformation::EnemyTransformation;
 use crate::geometry::position::Position;
-use crate::geometry::rectangle::rectangle::draw_solid_rectangle;
+use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
 use crate::geometry::size::Size;
-use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect};
+use ggez::graphics::{Canvas, Color};
 use ggez::{Context, GameResult};
 
 pub struct EnemyView;
@@ -47,32 +47,21 @@ impl EnemyView {
         canvas: &mut Canvas,
         enemy_transformation: EnemyTransformation,
     ) {
-        let position: Position = enemy_transformation.position;
-        let size: Size = enemy_transformation.size;
+        let enemy_size: Size = enemy_transformation.size;
+        let x: f32 = enemy_transformation.position.x - enemy_size.w / 2.0;
+        let y: f32 = enemy_transformation.position.y + Self::HEALTH_BAR_Y_OFFSET;
+        let position: Position = Position::new(x, y);
 
-        let mode: DrawMode = DrawMode::fill();
-        let current_health_width: f32 = size.w * enemy_transformation.health_percentage;
-        let health_rect = Rect::new(
-            position.x - size.w / 2.0,
-            position.y + Self::HEALTH_BAR_Y_OFFSET,
-            current_health_width,
-            Self::HEALTH_BAR_HEIGHT,
-        );
+        let w: f32 = enemy_size.w * enemy_transformation.health_percentage;
+        let h: f32 = Self::HEALTH_BAR_HEIGHT;
+        let size: Size = Size::new(w, h);
         let color: Color = Color::RED;
-        let health_drawable = Mesh::new_rectangle(gfx, mode, health_rect, color).unwrap();
-        let param: DrawParam = DrawParam::new();
-        canvas.draw(&health_drawable, param);
+        draw_solid_rectangle(gfx, canvas, &position, &size, color);
 
-        let mode: DrawMode = DrawMode::stroke(1.5);
-        let bounds: Rect = Rect::new(
-            position.x - size.w / 2.0,
-            position.y + Self::HEALTH_BAR_Y_OFFSET,
-            size.w,
-            Self::HEALTH_BAR_HEIGHT,
-        );
         let color: Color = Color::BLACK;
-        let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color).unwrap();
-        let param: DrawParam = DrawParam::new();
-        canvas.draw(&drawable, param);
+        let w: f32 = enemy_size.w;
+        let h: f32 = Self::HEALTH_BAR_HEIGHT;
+        let size: Size = Size::new(w, h);
+        draw_stroke_rectangle(gfx, canvas, &position, &size, color);
     }
 }

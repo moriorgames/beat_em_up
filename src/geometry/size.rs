@@ -6,9 +6,6 @@ pub struct Size {
 
 impl Size {
     pub fn new(w: f32, h: f32) -> Self {
-        Self {
-            w,
-            h,
-        }
+        Self { w, h }
     }
 }
