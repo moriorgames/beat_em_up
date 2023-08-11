@@ -5,7 +5,7 @@ use nalgebra::Point2;
 pub struct EnemyBehavior;
 
 impl EnemyBehavior {
-    const ENEMY_SPEED: f32 = 0.5;
+    const ENEMY_SPEED: f32 = 1.3;
 
     pub fn new() -> Self {
         EnemyBehavior {}

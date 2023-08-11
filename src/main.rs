@@ -18,6 +18,7 @@ use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
+const TARGET_FPS: u32 = 60;
 
 struct MainState {
     player: Player,
@@ -34,8 +35,11 @@ impl MainState {
 
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
-        let player_position: Point2<f32> = self.player.update(ctx);
-        self.enemy.update(player_position);
+        while ctx.time.check_update_time(TARGET_FPS) {
+            let player_position: Point2<f32> = self.player.update(ctx);
+            self.enemy.update(player_position);
+        }
+
         Ok(())
     }
 

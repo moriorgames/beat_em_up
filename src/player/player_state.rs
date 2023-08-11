@@ -5,7 +5,7 @@ pub struct PlayerState {
 }
 
 impl PlayerState {
-    const SPEED: f32 = 2.0;
+    const SPEED: f32 = 3.7;
 
     pub fn new() -> Self {
         PlayerState {
