@@ -11,22 +11,22 @@ pub mod combat {
                     actions.push(Action::MoveEntity {
                         direction: Direction::Left,
                     });
-                },
+                }
                 Event::MoveRight => {
                     actions.push(Action::MoveEntity {
                         direction: Direction::Right,
                     });
-                },
+                }
                 Event::MoveUp => {
                     actions.push(Action::MoveEntity {
                         direction: Direction::Up,
                     });
-                },
+                }
                 Event::MoveDown => {
                     actions.push(Action::MoveEntity {
                         direction: Direction::Down,
                     });
-                },
+                }
                 _ => {}
             }
         }
