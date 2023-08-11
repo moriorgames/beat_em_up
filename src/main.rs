@@ -1,3 +1,4 @@
+mod behaviours;
 mod combat;
 mod enemy;
 mod geometry;

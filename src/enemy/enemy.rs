@@ -2,6 +2,7 @@ use super::enemy_behaviour::EnemyBehavior;
 use super::enemy_state::EnemyState;
 use super::enemy_transformation::EnemyTransformation;
 use super::enemy_view::EnemyView;
+use crate::behaviours::movable::Movable;
 use crate::combat::action::Action;
 use crate::combat::direction::Direction;
 use crate::combat::event::Event;

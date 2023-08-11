@@ -1,6 +1,7 @@
 use super::player_controls::PlayerControls;
 use super::player_state::PlayerState;
 use super::player_view::PlayerView;
+use crate::behaviours::movable::Movable;
 use crate::combat::action::Action;
 use crate::combat::direction::Direction;
 use crate::combat::event::Event;
