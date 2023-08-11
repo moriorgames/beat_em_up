@@ -6,6 +6,8 @@ pub struct PlayerState {
     pub id: Uuid,
     pub position: Position,
     pub size: Size,
+    pub current_health: f32,
+    pub max_health: f32,
 }
 
 impl PlayerState {
@@ -14,12 +16,12 @@ impl PlayerState {
     const SPEED: f32 = 3.7;
 
     pub fn new() -> Self {
-        let id: Uuid = Uuid::new_v4();
-
         PlayerState {
-            id,
+            id: Uuid::new_v4(),
             position: Position::new(400.0, 300.0),
             size: Size::new(Self::W, Self::H),
+            current_health: 800.0,
+            max_health: 1000.0,
         }
     }
 

@@ -1,7 +1,9 @@
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
+use uuid::Uuid;
 
 pub struct EnemyState {
+    pub id: Uuid,
     pub position: Position,
     pub size: Size,
     pub current_health: f32,
@@ -14,6 +16,7 @@ impl EnemyState {
 
     pub fn new() -> Self {
         EnemyState {
+            id: Uuid::new_v4(),
             position: Position::new(600.0, 250.0),
             size: Size::new(Self::W, Self::H),
             current_health: 800.0,
