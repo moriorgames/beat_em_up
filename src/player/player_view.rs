@@ -1,13 +1,12 @@
 use crate::geometry::position::Position;
-use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect};
+use crate::geometry::rectangle::rectangle::draw_solid_rectangle;
+use crate::geometry::size::Size;
+use ggez::graphics::{Canvas, Color};
 use ggez::{Context, GameResult};
 
 pub struct PlayerView {}
 
 impl PlayerView {
-    const WIDTH: f32 = 55.0;
-    const HEIGHT: f32 = 45.0;
-
     pub fn new() -> Self {
         PlayerView {}
     }
@@ -17,20 +16,24 @@ impl PlayerView {
         gfx: &mut Context,
         canvas: &mut Canvas,
         position: Position,
+        size: Size,
     ) -> GameResult {
-        let mode: DrawMode = DrawMode::fill();
-        let bounds: Rect = Rect::new(
-            position.x - Self::WIDTH / 2.0,
-            position.y - Self::HEIGHT / 2.0,
-            Self::WIDTH,
-            Self::HEIGHT,
-        );
-        let color = Color::YELLOW;
-        let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color)?;
-        let param: DrawParam = DrawParam::new();
-
-        canvas.draw(&drawable, param);
+        self.draw_player(gfx, canvas, position, size);
 
         Ok(())
+    }
+
+    fn draw_player(
+        &mut self,
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        position: Position,
+        size: Size,
+    ) {
+        let x: f32 = position.x - size.w / 2.0;
+        let y: f32 = position.y - size.h / 2.0;
+        let position: Position = Position::new(x, y);
+        let color: Color = Color::YELLOW;
+        draw_solid_rectangle(gfx, canvas, &position, &size, color);
     }
 }

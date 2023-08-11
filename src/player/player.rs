@@ -27,6 +27,8 @@ impl Player {
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {
-        let _ = self.view.draw(ctx, canvas, self.state.position.clone());
+        let position: Position = self.state.position.clone();
+        let size: crate::geometry::size::Size = self.state.size.clone();
+        let _ = self.view.draw(ctx, canvas, position, size);
     }
 }
