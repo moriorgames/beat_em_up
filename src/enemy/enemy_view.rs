@@ -1,5 +1,6 @@
 use super::enemy_transformation::EnemyTransformation;
 use crate::geometry::position::Position;
+use crate::geometry::rectangle::rectangle::draw_solid_rectangle;
 use crate::geometry::size::Size;
 use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect};
 use ggez::{Context, GameResult};
@@ -32,20 +33,14 @@ impl EnemyView {
         canvas: &mut Canvas,
         enemy_transformation: EnemyTransformation,
     ) {
-        let mode: DrawMode = DrawMode::fill();
-        let position: Position = enemy_transformation.position;
         let size: Size = enemy_transformation.size;
-        let bounds: Rect = Rect::new(
-            position.x - size.width / 2.0,
-            position.y - size.height / 2.0,
-            size.width,
-            size.height,
+        let enemy_position: Position = enemy_transformation.position;
+        let position: Position = Position::new(
+            enemy_position.x - size.w / 2.0,
+            enemy_position.y - size.h / 2.0,
         );
         let color: Color = Color::GREEN;
-        let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color).unwrap();
-        let param: DrawParam = DrawParam::new();
-
-        canvas.draw(&drawable, param);
+        draw_solid_rectangle(gfx, canvas, &position, &size, color);
     }
 
     fn draw_health_bar(
@@ -58,9 +53,9 @@ impl EnemyView {
         let size: Size = enemy_transformation.size;
 
         let mode: DrawMode = DrawMode::fill();
-        let current_health_width: f32 = size.width * enemy_transformation.health_percentage;
+        let current_health_width: f32 = size.w * enemy_transformation.health_percentage;
         let health_rect = Rect::new(
-            position.x - size.width / 2.0,
+            position.x - size.w / 2.0,
             position.y + Self::HEALTH_BAR_Y_OFFSET,
             current_health_width,
             Self::HEALTH_BAR_HEIGHT,
@@ -72,9 +67,9 @@ impl EnemyView {
 
         let mode: DrawMode = DrawMode::stroke(1.5);
         let bounds: Rect = Rect::new(
-            position.x - size.width / 2.0,
+            position.x - size.w / 2.0,
             position.y + Self::HEALTH_BAR_Y_OFFSET,
-            size.width,
+            size.w,
             Self::HEALTH_BAR_HEIGHT,
         );
         let color: Color = Color::BLACK;

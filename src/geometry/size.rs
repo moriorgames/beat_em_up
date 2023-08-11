@@ -1,11 +1,14 @@
 #[derive(Clone)]
 pub struct Size {
-    pub height: f32,
-    pub width: f32,
+    pub h: f32,
+    pub w: f32,
 }
 
 impl Size {
     pub fn new(height: f32, width: f32) -> Self {
-        Self { height, width }
+        Self {
+            h: height,
+            w: width,
+        }
     }
 }
