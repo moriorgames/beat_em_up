@@ -24,6 +24,7 @@ use window::window::Window;
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
 const TARGET_FPS: u32 = 60;
+const DEBUG_FPS: bool = true;
 
 struct MainState {
     event_queue: EventQueue,
@@ -49,8 +50,8 @@ impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
             let player_events: Vec<Event> = self.player.update(ctx);
-            for action in player_events {
-                self.event_queue.push(action);
+            for event in player_events {
+                self.event_queue.push(event);
             }
 
             let actions: Vec<Action> = process_combat_queue(self.event_queue.get_events());
@@ -68,6 +69,11 @@ impl EventHandler<GameError> for MainState {
         self.enemy.draw(ctx, &mut canvas);
 
         canvas.finish(ctx)?;
+
+        if DEBUG_FPS {
+            let fps = ctx.time.fps();
+            println!("FPS: {:.0}", fps);
+        }
 
         Ok(())
     }
