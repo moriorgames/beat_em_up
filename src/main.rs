@@ -1,8 +1,13 @@
+mod combat;
 mod enemy;
 mod geometry;
 mod player;
 mod window;
 
+use combat::action::Action;
+use combat::combat::combat::process_combat_queue;
+use combat::event::Event;
+use combat::event_queue::EventQueue;
 use enemy::enemy::Enemy;
 use event::EventHandler;
 use geometry::position::Position;
@@ -21,23 +26,35 @@ const AUTHOR: &str = "MoriorGames";
 const TARGET_FPS: u32 = 60;
 
 struct MainState {
+    event_queue: EventQueue,
     player: Player,
     enemy: Enemy,
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
+        let event_queue: EventQueue = EventQueue::new();
         let player: Player = Player::new();
         let enemy: Enemy = Enemy::new();
-        Ok(MainState { player, enemy })
+
+        Ok(MainState {
+            event_queue,
+            player,
+            enemy,
+        })
     }
 }
 
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
-            let player_position: Position = self.player.update(ctx);
-            self.enemy.update(player_position);
+            let player_events: Vec<Event> = self.player.update(ctx);
+            for action in player_events {
+                self.event_queue.push(action);
+            }
+
+            let actions: Vec<Action> = process_combat_queue(self.event_queue.get_events());
+            self.player.apply_game_actions(actions);
         }
 
         Ok(())
