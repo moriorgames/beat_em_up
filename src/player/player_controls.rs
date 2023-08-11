@@ -12,6 +12,7 @@ pub struct PlayerIntention {
     pub move_right: bool,
     pub move_up: bool,
     pub move_down: bool,
+    pub attack: bool,
     pub quit: bool,
 }
 
@@ -36,6 +37,9 @@ impl PlayerControls {
         }
         if gamepad_intention.move_down || keyboard_intention.move_down {
             player_state.move_down();
+        }
+        if gamepad_intention.attack || keyboard_intention.attack {
+            player_state.attack();
         }
         if keyboard_intention.quit {
             ctx.request_quit();

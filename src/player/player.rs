@@ -21,6 +21,7 @@ impl Player {
     }
 
     pub fn update(&mut self, ctx: &mut Context) -> Position {
+        self.state.update();
         self.controls.handle_input(ctx, &mut self.state);
 
         self.state.position.clone()

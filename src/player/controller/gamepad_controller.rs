@@ -46,6 +46,7 @@ impl GamePadController {
             move_right: self.right_pressed,
             move_up: self.up_pressed,
             move_down: self.down_pressed,
+            attack: false,
             quit: false,
         }
     }
