@@ -10,10 +10,10 @@ impl EnemyBehavior {
         EnemyBehavior {}
     }
 
-    pub fn update(&self, enemy_state: &mut EnemyState, player_position: Position) {
-        let enemy_position: Position = enemy_state.position.clone();
+    pub fn update(&self, state: &mut EnemyState, player_position: Position) {
+        let enemy_position: Position = state.position.clone();
         let position: Position = self.seek_player(enemy_position, player_position);
-        enemy_state.update_position(position);
+        state.update_position(position);
     }
 
     fn seek_player(&self, enemy_position: Position, player_position: Position) -> Position {

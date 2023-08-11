@@ -27,27 +27,27 @@ impl PlayerControls {
         let keyboard_intention: PlayerIntention = keyboard_controller::input(ctx);
         let gamepad_intention: PlayerIntention = self.gamepad_controller.input();
 
-        let mut actions: Vec<Event> = Vec::new();
+        let mut events: Vec<Event> = Vec::new();
 
         if gamepad_intention.move_left || keyboard_intention.move_left {
-            actions.push(Event::MoveLeft { id });
+            events.push(Event::MoveLeft { id });
         }
         if gamepad_intention.move_right || keyboard_intention.move_right {
-            actions.push(Event::MoveRight { id });
+            events.push(Event::MoveRight { id });
         }
         if gamepad_intention.move_up || keyboard_intention.move_up {
-            actions.push(Event::MoveUp { id });
+            events.push(Event::MoveUp { id });
         }
         if gamepad_intention.move_down || keyboard_intention.move_down {
-            actions.push(Event::MoveDown { id });
+            events.push(Event::MoveDown { id });
         }
         if gamepad_intention.attack || keyboard_intention.attack {
-            actions.push(Event::Attack { id });
+            events.push(Event::Attack { id });
         }
         if keyboard_intention.quit {
             ctx.request_quit();
         }
 
-        actions
+        events
     }
 }
