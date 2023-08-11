@@ -24,8 +24,6 @@ impl Player {
     }
 
     pub fn update(&mut self, ctx: &mut Context) -> Vec<Event> {
-        self.state.update();
-
         self.controls.handle_input(ctx, self.state.id)
     }
 
