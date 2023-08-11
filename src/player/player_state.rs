@@ -1,7 +1,9 @@
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
+use uuid::Uuid;
 
 pub struct PlayerState {
+    pub id: Uuid,
     pub position: Position,
     pub size: Size,
     attack_frame_counter: u32,
@@ -15,7 +17,10 @@ impl PlayerState {
     const ATTACK_FRAME_SPEED: u32 = 15;
 
     pub fn new() -> Self {
+        let id: Uuid = Uuid::new_v4();
+
         PlayerState {
+            id,
             position: Position::new(400.0, 300.0),
             size: Size::new(Self::W, Self::H),
             attack_frame_counter: 0,

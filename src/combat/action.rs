@@ -1,5 +1,6 @@
 use super::direction::Direction;
+use uuid::Uuid;
 
 pub enum Action {
-    MoveEntity { direction: Direction },
+    MoveEntity { id: Uuid, direction: Direction },
 }

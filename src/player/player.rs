@@ -26,7 +26,7 @@ impl Player {
     pub fn update(&mut self, ctx: &mut Context) -> Vec<Event> {
         self.state.update();
 
-        self.controls.handle_input(ctx)
+        self.controls.handle_input(ctx, self.state.id)
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {
@@ -38,8 +38,10 @@ impl Player {
     pub fn apply_game_actions(&mut self, actions: Vec<Action>) {
         for action in actions {
             match action {
-                Action::MoveEntity { direction } => {
-                    self.move_player_in_direction(direction);
+                Action::MoveEntity { id, direction } => {
+                    if id == self.state.id {
+                        self.move_player_in_direction(direction);
+                    }
                 }
             }
         }

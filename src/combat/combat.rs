@@ -3,34 +3,27 @@ pub mod combat {
     use std::collections::VecDeque;
 
     pub fn process_combat_queue(events: VecDeque<Event>) -> Vec<Action> {
-        let mut actions: Vec<Action> = Vec::new();
-
-        for event in events {
-            match event {
-                Event::MoveLeft => {
-                    actions.push(Action::MoveEntity {
-                        direction: Direction::Left,
-                    });
-                }
-                Event::MoveRight => {
-                    actions.push(Action::MoveEntity {
-                        direction: Direction::Right,
-                    });
-                }
-                Event::MoveUp => {
-                    actions.push(Action::MoveEntity {
-                        direction: Direction::Up,
-                    });
-                }
-                Event::MoveDown => {
-                    actions.push(Action::MoveEntity {
-                        direction: Direction::Down,
-                    });
-                }
-                _ => {}
-            }
-        }
-
-        actions
+        events
+            .iter()
+            .filter_map(|event: &Event| match event {
+                Event::MoveLeft { id } => Some(Action::MoveEntity {
+                    id: *id,
+                    direction: Direction::Left,
+                }),
+                Event::MoveRight { id } => Some(Action::MoveEntity {
+                    id: *id,
+                    direction: Direction::Right,
+                }),
+                Event::MoveUp { id } => Some(Action::MoveEntity {
+                    id: *id,
+                    direction: Direction::Up,
+                }),
+                Event::MoveDown { id } => Some(Action::MoveEntity {
+                    id: *id,
+                    direction: Direction::Down,
+                }),
+                _ => None,
+            })
+            .collect()
     }
 }
