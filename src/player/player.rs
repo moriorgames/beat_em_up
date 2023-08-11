@@ -33,6 +33,10 @@ impl Player {
         let _ = self.view.draw(ctx, canvas, position, size);
     }
 
+    pub fn get_last_player_position(&mut self) -> Position {
+        self.state.position.clone()
+    }
+
     pub fn apply_game_actions(&mut self, actions: Vec<Action>) {
         for action in actions {
             match action {

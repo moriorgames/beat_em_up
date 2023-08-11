@@ -1,22 +1,22 @@
 use super::enemy_state::EnemyState;
-use crate::geometry::position::Position;
+use crate::{combat::event::Event, geometry::position::Position};
+use uuid::Uuid;
 
 pub struct EnemyBehavior;
 
 impl EnemyBehavior {
-    const ENEMY_SPEED: f32 = 1.3;
-
     pub fn new() -> Self {
         EnemyBehavior {}
     }
 
-    pub fn update(&self, state: &mut EnemyState, player_position: Position) {
-        let enemy_position: Position = state.position.clone();
-        let position: Position = self.seek_player(enemy_position, player_position);
-        state.update_position(position);
+    pub fn update(&self, state: &mut EnemyState, player_position: Position) -> Vec<Event> {
+        self.seek_player(state, player_position)
     }
 
-    fn seek_player(&self, enemy_position: Position, player_position: Position) -> Position {
+    fn seek_player(&self, state: &mut EnemyState, player_position: Position) -> Vec<Event> {
+        let mut events: Vec<Event> = Vec::new();
+
+        let enemy_position: Position = state.position.clone();
         let dir_x: f32 = player_position.x - enemy_position.x;
         let dir_y: f32 = player_position.y - enemy_position.y;
 
@@ -24,9 +24,19 @@ impl EnemyBehavior {
         let normalized_dir_x: f32 = dir_x / magnitude;
         let normalized_dir_y: f32 = dir_y / magnitude;
 
-        let x: f32 = enemy_position.x + normalized_dir_x * Self::ENEMY_SPEED;
-        let y: f32 = enemy_position.y + normalized_dir_y * Self::ENEMY_SPEED;
+        let id: Uuid = state.id;
+        if normalized_dir_x > 0.0 {
+            events.push(Event::MoveRight { id });
+        } else if normalized_dir_x < 0.0 {
+            events.push(Event::MoveLeft { id });
+        }
 
-        Position::new(x, y)
+        if normalized_dir_y > 0.0 {
+            events.push(Event::MoveDown { id });
+        } else if normalized_dir_y < 0.0 {
+            events.push(Event::MoveUp { id });
+        }
+
+        events
     }
 }

@@ -13,6 +13,7 @@ pub struct EnemyState {
 impl EnemyState {
     pub const W: f32 = 40.0;
     pub const H: f32 = 30.0;
+    const SPEED: f32 = 1.3;
 
     pub fn new() -> Self {
         EnemyState {
@@ -24,10 +25,19 @@ impl EnemyState {
         }
     }
 
-    pub fn update_position(&mut self, position: Position) {
-        if self.current_health > 1.0 {
-            self.current_health -= 1.0;
-        }
-        self.position = position;
+    pub fn move_left(&mut self) {
+        self.position.x -= Self::SPEED;
+    }
+
+    pub fn move_right(&mut self) {
+        self.position.x += Self::SPEED;
+    }
+
+    pub fn move_up(&mut self) {
+        self.position.y -= Self::SPEED;
+    }
+
+    pub fn move_down(&mut self) {
+        self.position.y += Self::SPEED;
     }
 }

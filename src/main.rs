@@ -54,8 +54,15 @@ impl EventHandler<GameError> for MainState {
                 self.event_queue.push(event);
             }
 
+            let player_position: Position = self.player.get_last_player_position();
+            let enemy_events: Vec<Event> = self.enemy.update(player_position);
+            for event in enemy_events {
+                self.event_queue.push(event);
+            }
+
             let actions: Vec<Action> = process_combat_queue(self.event_queue.get_events());
-            self.player.apply_game_actions(actions);
+            self.player.apply_game_actions(actions.clone());
+            self.enemy.apply_game_actions(actions.clone());
         }
 
         Ok(())
