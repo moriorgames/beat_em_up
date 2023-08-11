@@ -1,9 +1,11 @@
 use super::enemy_state::EnemyState;
-use nalgebra::Point2;
+use crate::geometry::position::Position;
+use crate::geometry::size::Size;
 
 #[derive(Clone)]
 pub struct EnemyTransformation {
-    pub position: Point2<f32>,
+    pub position: Position,
+    pub size: Size,
     pub health_percentage: f32,
 }
 
@@ -13,6 +15,7 @@ impl EnemyTransformation {
 
         EnemyTransformation {
             position: state.position.clone(),
+            size: state.size.clone(),
             health_percentage,
         }
     }

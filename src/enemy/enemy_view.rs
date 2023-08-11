@@ -1,16 +1,13 @@
 use super::enemy_transformation::EnemyTransformation;
+use crate::geometry::position::Position;
+use crate::geometry::size::Size;
 use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect};
 use ggez::{Context, GameResult};
-use nalgebra::Point2;
 
 pub struct EnemyView;
 
 impl EnemyView {
-    const WIDTH: f32 = 30.0;
-    const HEIGHT: f32 = 30.0;
-
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
-    const HEALTH_BAR_WIDTH: f32 = Self::WIDTH;
     const HEALTH_BAR_Y_OFFSET: f32 = -25.0;
 
     pub fn new() -> Self {
@@ -36,12 +33,13 @@ impl EnemyView {
         enemy_transformation: EnemyTransformation,
     ) {
         let mode: DrawMode = DrawMode::fill();
-        let position: Point2<f32> = enemy_transformation.position;
+        let position: Position = enemy_transformation.position;
+        let size: Size = enemy_transformation.size;
         let bounds: Rect = Rect::new(
-            position.x - Self::WIDTH / 2.0,
-            position.y - Self::HEIGHT / 2.0,
-            Self::WIDTH,
-            Self::HEIGHT,
+            position.x - size.width / 2.0,
+            position.y - size.height / 2.0,
+            size.width,
+            size.height,
         );
         let color: Color = Color::GREEN;
         let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color).unwrap();
@@ -56,12 +54,13 @@ impl EnemyView {
         canvas: &mut Canvas,
         enemy_transformation: EnemyTransformation,
     ) {
-        let position: Point2<f32> = enemy_transformation.position;
+        let position: Position = enemy_transformation.position;
+        let size: Size = enemy_transformation.size;
 
         let mode: DrawMode = DrawMode::fill();
-        let current_health_width = Self::HEALTH_BAR_WIDTH * enemy_transformation.health_percentage;
+        let current_health_width: f32 = size.width * enemy_transformation.health_percentage;
         let health_rect = Rect::new(
-            position.x - Self::HEALTH_BAR_WIDTH / 2.0, // Esta línea se mantiene sin cambios
+            position.x - size.width / 2.0,
             position.y + Self::HEALTH_BAR_Y_OFFSET,
             current_health_width,
             Self::HEALTH_BAR_HEIGHT,
@@ -73,9 +72,9 @@ impl EnemyView {
 
         let mode: DrawMode = DrawMode::stroke(1.5);
         let bounds: Rect = Rect::new(
-            position.x - Self::HEALTH_BAR_WIDTH / 2.0,
+            position.x - size.width / 2.0,
             position.y + Self::HEALTH_BAR_Y_OFFSET,
-            Self::HEALTH_BAR_WIDTH,
+            size.width,
             Self::HEALTH_BAR_HEIGHT,
         );
         let color: Color = Color::BLACK;

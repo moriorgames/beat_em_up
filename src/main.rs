@@ -1,4 +1,5 @@
 mod enemy;
+mod geometry;
 mod player;
 mod window;
 
