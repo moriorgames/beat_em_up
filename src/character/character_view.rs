@@ -56,24 +56,24 @@ pub mod character_view {
     pub fn draw_characters(
         gfx: &mut Context,
         canvas: &mut Canvas,
-        characters: Vec<Character>,
+        characters: &Vec<Character>,
     ) -> GameResult {
         for character in characters {
-            draw_character(gfx, canvas, character.clone());
-            draw_health_bar(gfx, canvas, character.clone());
+            draw_character(gfx, canvas, character);
+            draw_health_bar(gfx, canvas, character);
         }
 
         Ok(())
     }
 
-    fn draw_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+    fn draw_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
         match character.character_type {
-            CharacterTypes::Player => draw_player_character(gfx, canvas, character.clone()),
-            _ => draw_generic_character(gfx, canvas, character.clone()),
+            CharacterTypes::Player => draw_player_character(gfx, canvas, character),
+            _ => draw_generic_character(gfx, canvas, character),
         }
     }
 
-    fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+    fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
         let pixel_size: f32 = 2.0;
         let start_x: f32 =
             character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
@@ -99,7 +99,7 @@ pub mod character_view {
         }
     }
 
-    fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+    fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
         let pixel_size: f32 = 2.0;
         let start_x: f32 =
             character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
@@ -125,7 +125,7 @@ pub mod character_view {
         }
     }
 
-    fn draw_health_bar(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+    fn draw_health_bar(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
         let enemy_size: Size = character.size;
         let x: f32 = character.position.x - enemy_size.w / 2.0;
         let y: f32 = character.position.y + HEALTH_BAR_Y_OFFSET;

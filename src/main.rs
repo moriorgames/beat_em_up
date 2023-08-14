@@ -30,7 +30,7 @@ use window::window::Window;
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
 const TARGET_FPS: u32 = 60;
-const DEBUG_FPS: bool = true;
+const DEBUG_FPS: bool = false;
 
 struct MainState {
     event_queue: EventQueue,
@@ -110,12 +110,19 @@ impl EventHandler<GameError> for MainState {
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
+
+        let now: std::time::Instant = std::time::Instant::now();
         let clear: Color = Color::from([0.4, 0.6, 0.3, 1.0]);
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
+        println!("canvas {:?}", now.elapsed());
 
-        let _ = draw_characters(ctx, &mut canvas, self.characters.clone());
+        let now: std::time::Instant = std::time::Instant::now();
+        let _ = draw_characters(ctx, &mut canvas, &self.characters);
+        println!("draw_characters {:?}", now.elapsed());
 
+        let now: std::time::Instant = std::time::Instant::now();
         canvas.finish(ctx)?;
+        println!("canvas.finish {:?}", now.elapsed());
 
         if DEBUG_FPS {
             let fps = ctx.time.fps();
