@@ -10,6 +10,44 @@ pub mod character_view {
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
     const HEALTH_BAR_Y_OFFSET: f32 = -25.0;
 
+    const KNIGHT_PIXELS: [[u8; 16]; 16] = [
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 1],
+        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 1, 1],
+        [0, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
+        [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0],
+        [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0],
+        [0, 0, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 0, 0],
+        [0, 0, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 0, 0],
+        [0, 0, 0, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+    ];
+
+    const SKULL_PIXELS: [[u8; 16]; 16] = [
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0],
+        [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0],
+        [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0],
+        [1, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 0],
+        [1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1],
+        [1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1],
+        [1, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1],
+        [0, 1, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 0],
+        [0, 0, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 0, 0],
+        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 1, 2, 2, 1, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+    ];
+
     pub fn draw_characters(
         gfx: &mut Context,
         canvas: &mut Canvas,
@@ -31,21 +69,55 @@ pub mod character_view {
     }
 
     fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
-        let size: Size = character.size;
-        let x: f32 = character.position.x - size.w / 2.0;
-        let y: f32 = character.position.y - size.h / 2.0;
-        let position: Position = Position::new(x, y);
-        let color: Color = Color::YELLOW;
-        draw_solid_rectangle(gfx, canvas, &position, &size, color);
+        let pixel_size: f32 = 2.0;
+        let start_x: f32 =
+            character.position.x - (pixel_size * (KNIGHT_PIXELS[0].len() as f32) / 2.0);
+        let start_y: f32 = character.position.y - (pixel_size * (KNIGHT_PIXELS.len() as f32) / 2.0);
+
+        for (y, row) in KNIGHT_PIXELS.iter().enumerate() {
+            for (x, &color_val) in row.iter().enumerate() {
+                let color = match color_val {
+                    1 => Color::from_rgb(0, 0, 0),
+                    2 => Color::from_rgb(100, 100, 100),
+                    _ => Color::from_rgba(0, 0, 0, 0),
+                };
+
+                if color.a > 0.0 {
+                    let position = Position::new(
+                        start_x + (x as f32 * pixel_size),
+                        start_y + (y as f32 * pixel_size),
+                    );
+                    let size = Size::new(pixel_size, pixel_size);
+                    draw_solid_rectangle(gfx, canvas, &position, &size, color);
+                }
+            }
+        }
     }
 
     fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
-        let size: Size = character.size;
-        let x: f32 = character.position.x - size.w / 2.0;
-        let y: f32 = character.position.y - size.h / 2.0;
-        let position: Position = Position::new(x, y);
-        let color: Color = Color::GREEN;
-        draw_solid_rectangle(gfx, canvas, &position, &size, color);
+        let pixel_size: f32 = 2.0;
+        let start_x: f32 =
+            character.position.x - (pixel_size * (SKULL_PIXELS[0].len() as f32) / 2.0);
+        let start_y: f32 = character.position.y - (pixel_size * (SKULL_PIXELS.len() as f32) / 2.0);
+
+        for (y, row) in SKULL_PIXELS.iter().enumerate() {
+            for (x, &color_val) in row.iter().enumerate() {
+                let color = match color_val {
+                    1 => Color::from_rgb(0, 0, 0),
+                    2 => Color::from_rgb(240, 240, 240),
+                    _ => Color::from_rgba(0, 0, 0, 0),
+                };
+
+                if color.a > 0.0 {
+                    let position = Position::new(
+                        start_x + (x as f32 * pixel_size),
+                        start_y + (y as f32 * pixel_size),
+                    );
+                    let size = Size::new(pixel_size, pixel_size);
+                    draw_solid_rectangle(gfx, canvas, &position, &size, color);
+                }
+            }
+        }
     }
 
     fn draw_health_bar(gfx: &mut Context, canvas: &mut Canvas, character: Character) {

@@ -110,7 +110,7 @@ impl EventHandler<GameError> for MainState {
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
-        let clear: Color = Color::from([0.4, 0.4, 0.4, 1.0]);
+        let clear: Color = Color::from([0.4, 0.6, 0.3, 1.0]);
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
         let _ = draw_characters(ctx, &mut canvas, self.characters.clone());
