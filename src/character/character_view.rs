@@ -1,5 +1,6 @@
 pub mod character_view {
     use crate::character::character::Character;
+    use crate::character::character_types::CharacterTypes;
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
@@ -23,6 +24,22 @@ pub mod character_view {
     }
 
     fn draw_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+        match character.character_type {
+            CharacterTypes::Player => draw_player_character(gfx, canvas, character.clone()),
+            _ => draw_generic_character(gfx, canvas, character.clone()),
+        }
+    }
+
+    fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+        let size: Size = character.size;
+        let x: f32 = character.position.x - size.w / 2.0;
+        let y: f32 = character.position.y - size.h / 2.0;
+        let position: Position = Position::new(x, y);
+        let color: Color = Color::YELLOW;
+        draw_solid_rectangle(gfx, canvas, &position, &size, color);
+    }
+
+    fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
         let size: Size = character.size;
         let x: f32 = character.position.x - size.w / 2.0;
         let y: f32 = character.position.y - size.h / 2.0;
