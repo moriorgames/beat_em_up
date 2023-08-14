@@ -17,7 +17,23 @@ pub mod combat {
         for event in &events {
             for handler in &EVENT_HANDLERS {
                 if let Some(action) = handler(event) {
-                    actions.push(action);
+                    match action {
+                        Action::MoveEntity { id, direction: _ } => {
+                            if let Some(main_character) =
+                                characters.iter().find(|&char| char.id == id)
+                            {
+                                let has_collision: bool =
+                                    characters.iter().any(|character: &Character| {
+                                        is_colliding(&main_character, character)
+                                    });
+
+                                if !has_collision {
+                                    actions.push(action);
+                                }
+                            }
+                        }
+                        _ => actions.push(action),
+                    }
                 }
             }
         }
@@ -33,5 +49,23 @@ pub mod combat {
                 }
             }
         }
+    }
+
+    fn is_colliding(a: &Character, b: &Character) -> bool {
+        if a.id == b.id {
+            return false;
+        }
+
+        let a_left: f32 = a.position.x;
+        let a_right: f32 = a.position.x + a.size.w;
+        let a_top: f32 = a.position.y;
+        let a_bottom: f32 = a.position.y + a.size.h;
+
+        let b_left: f32 = b.position.x;
+        let b_right: f32 = b.position.x + b.size.w;
+        let b_top: f32 = b.position.y;
+        let b_bottom: f32 = b.position.y + b.size.h;
+
+        !(a_left > b_right || a_right < b_left || a_top > b_bottom || a_bottom < b_top)
     }
 }

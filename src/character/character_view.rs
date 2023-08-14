@@ -4,7 +4,7 @@ pub mod character_view {
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
-    use ggez::graphics::{Canvas, Color, MeshBuilder, DrawMode, Rect, Mesh, DrawParam};
+    use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, MeshBuilder, Rect};
     use ggez::{Context, GameResult};
 
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
@@ -12,7 +12,7 @@ pub mod character_view {
 
     const KNIGHT_GRAY: Color = Color::new(100.0 / 255.0, 100.0 / 255.0, 100.0 / 255.0, 1.0);
     const SKULL_WHITE: Color = Color::new(230.0 / 255.0, 230.0 / 255.0, 230.0 / 255.0, 1.0);
-    
+
     const MATRIX_LEN: usize = 16;
 
     const KNIGHT_PIXELS: [[u8; MATRIX_LEN]; MATRIX_LEN] = [
@@ -77,8 +77,7 @@ pub mod character_view {
         let mb: &mut MeshBuilder = &mut MeshBuilder::new();
 
         let pixel_size: f32 = 2.0;
-        let start_x: f32 =
-            character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
+        let start_x: f32 = character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
         let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
 
         for (y, row) in KNIGHT_PIXELS.iter().enumerate() {
@@ -110,8 +109,7 @@ pub mod character_view {
         let mb: &mut MeshBuilder = &mut MeshBuilder::new();
 
         let pixel_size: f32 = 2.0;
-        let start_x: f32 =
-            character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
+        let start_x: f32 = character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
         let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
 
         for (y, row) in SKULL_PIXELS.iter().enumerate() {
