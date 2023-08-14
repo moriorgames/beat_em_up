@@ -10,7 +10,12 @@ pub mod character_view {
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
     const HEALTH_BAR_Y_OFFSET: f32 = -25.0;
 
-    const KNIGHT_PIXELS: [[u8; 16]; 16] = [
+    const KNIGHT_GRAY: Color = Color::new(100.0 / 255.0, 100.0 / 255.0, 100.0 / 255.0, 1.0);
+    const SKULL_WHITE: Color = Color::new(230.0 / 255.0, 230.0 / 255.0, 230.0 / 255.0, 1.0);
+    
+    const MATRIX_LEN: usize = 16;
+
+    const KNIGHT_PIXELS: [[u8; MATRIX_LEN]; MATRIX_LEN] = [
         [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 1],
@@ -29,7 +34,7 @@ pub mod character_view {
         [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
     ];
 
-    const SKULL_PIXELS: [[u8; 16]; 16] = [
+    const SKULL_PIXELS: [[u8; MATRIX_LEN]; MATRIX_LEN] = [
         [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0],
         [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0],
@@ -71,14 +76,14 @@ pub mod character_view {
     fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
         let pixel_size: f32 = 2.0;
         let start_x: f32 =
-            character.position.x - (pixel_size * (KNIGHT_PIXELS[0].len() as f32) / 2.0);
-        let start_y: f32 = character.position.y - (pixel_size * (KNIGHT_PIXELS.len() as f32) / 2.0);
+            character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
+        let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
 
         for (y, row) in KNIGHT_PIXELS.iter().enumerate() {
             for (x, &color_val) in row.iter().enumerate() {
                 let color = match color_val {
-                    1 => Color::from_rgb(0, 0, 0),
-                    2 => Color::from_rgb(100, 100, 100),
+                    1 => Color::BLACK,
+                    2 => KNIGHT_GRAY,
                     _ => Color::from_rgba(0, 0, 0, 0),
                 };
 
@@ -97,14 +102,14 @@ pub mod character_view {
     fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
         let pixel_size: f32 = 2.0;
         let start_x: f32 =
-            character.position.x - (pixel_size * (SKULL_PIXELS[0].len() as f32) / 2.0);
-        let start_y: f32 = character.position.y - (pixel_size * (SKULL_PIXELS.len() as f32) / 2.0);
+            character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
+        let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
 
         for (y, row) in SKULL_PIXELS.iter().enumerate() {
             for (x, &color_val) in row.iter().enumerate() {
                 let color = match color_val {
-                    1 => Color::from_rgb(0, 0, 0),
-                    2 => Color::from_rgb(240, 240, 240),
+                    1 => Color::BLACK,
+                    2 => SKULL_WHITE,
                     _ => Color::from_rgba(0, 0, 0, 0),
                 };
 
