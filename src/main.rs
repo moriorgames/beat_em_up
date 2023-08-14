@@ -1,17 +1,21 @@
 mod behaviours;
+mod character;
 mod combat;
 mod enemy;
 mod geometry;
 mod player;
 mod window;
 
-use combat::action::Action;
+use character::character::Character;
+use character::character_types::CharacterTypes;
+use character::character_view::character_view::draw_characters;
 use combat::combat::combat::process_combat_queue;
 use combat::event::Event;
 use combat::event_queue::EventQueue;
-use enemy::enemy::Enemy;
+use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
+use geometry::size::Size;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -19,7 +23,6 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
-use player::player::Player;
 use player::player_controls::PlayerControls;
 use uuid::Uuid;
 use window::window::Window;
@@ -31,24 +34,49 @@ const DEBUG_FPS: bool = true;
 
 struct MainState {
     event_queue: EventQueue,
-    player: Player,
     player_controls: PlayerControls,
-    enemy: Enemy,
+    characters: Vec<Character>,
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let event_queue: EventQueue = EventQueue::new();
-        let player: Player = Player::new();
-        let player_id: Uuid = player.state.id;
+
+        let mut characters: Vec<Character> = Vec::new();
+
+        // Player
+        let position: Position = Position::new(400.0, 300.0);
+        let size: Size = Size::new(55.0, 45.0);
+        let speed: f32 = 3.7;
+        let max_health: f32 = 1000.0;
+        let character_type: CharacterTypes = CharacterTypes::Player;
+        let player: Character = Character::new(position, size, speed, max_health, character_type);
+        let player_id: Uuid = player.id;
         let player_controls: PlayerControls = PlayerControls::new(player_id);
-        let enemy: Enemy = Enemy::new();
+        characters.push(player);
+
+        // Enemy
+        let position: Position = Position::new(600.0, 400.0);
+        let size: Size = Size::new(45.0, 35.0);
+        let speed: f32 = 1.3;
+        let max_health: f32 = 800.0;
+        let character_type: CharacterTypes = CharacterTypes::Enemy;
+        let enemy: Character = Character::new(position, size, speed, max_health, character_type);
+        characters.push(enemy);
+
+        // Enemy
+        let position: Position = Position::new(700.0, 800.0);
+        let size: Size = Size::new(45.0, 35.0);
+        let speed: f32 = 1.3;
+        let max_health: f32 = 800.0;
+        let character_type: CharacterTypes = CharacterTypes::Enemy;
+        let enemy: Character = Character::new(position, size, speed, max_health, character_type);
+        characters.push(enemy);
 
         Ok(MainState {
             event_queue,
-            player,
             player_controls,
-            enemy,
+            characters,
         })
     }
 }
@@ -61,15 +89,21 @@ impl EventHandler<GameError> for MainState {
                 self.event_queue.push(event);
             }
 
-            let player_position: Position = self.player.get_last_player_position();
-            let enemy_events: Vec<Event> = self.enemy.update(player_position);
-            for event in enemy_events {
-                self.event_queue.push(event);
+            if let Some(player) = self.characters.first() {
+                match player.character_type {
+                    CharacterTypes::Player => {
+                        let player_position: Position = player.position.clone();
+                        let enemy_events: Vec<Event> =
+                            update_enemy_behaviour(self.characters.clone(), player_position);
+                        for event in enemy_events {
+                            self.event_queue.push(event);
+                        }
+                    }
+                    _ => (),
+                }
             }
 
-            let actions: Vec<Action> = process_combat_queue(self.event_queue.get_events());
-            self.player.apply_game_actions(actions.clone());
-            self.enemy.apply_game_actions(actions.clone());
+            process_combat_queue(self.event_queue.get_events(), &mut self.characters);
         }
 
         Ok(())
@@ -79,8 +113,7 @@ impl EventHandler<GameError> for MainState {
         let clear: Color = Color::from([0.4, 0.4, 0.4, 1.0]);
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        self.player.draw(ctx, &mut canvas);
-        self.enemy.draw(ctx, &mut canvas);
+        let _ = draw_characters(ctx, &mut canvas, self.characters.clone());
 
         canvas.finish(ctx)?;
 
