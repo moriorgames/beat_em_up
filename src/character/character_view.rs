@@ -15,14 +15,14 @@ pub mod character_view {
         characters: Vec<Character>,
     ) -> GameResult {
         for character in characters {
-            draw_enemy(gfx, canvas, character.clone());
+            draw_character(gfx, canvas, character.clone());
             draw_health_bar(gfx, canvas, character.clone());
         }
 
         Ok(())
     }
 
-    fn draw_enemy(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
+    fn draw_character(gfx: &mut Context, canvas: &mut Canvas, character: Character) {
         let size: Size = character.size;
         let x: f32 = character.position.x - size.w / 2.0;
         let y: f32 = character.position.y - size.h / 2.0;
