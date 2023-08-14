@@ -1,17 +1,14 @@
-use super::player_controls::PlayerControls;
 use super::player_state::PlayerState;
 use super::player_view::PlayerView;
 use crate::behaviours::movable::Movable;
 use crate::combat::action::Action;
 use crate::combat::direction::Direction;
-use crate::combat::event::Event;
 use crate::geometry::position::Position;
 use ggez::graphics::Canvas;
 use ggez::Context;
 
 pub struct Player {
-    state: PlayerState,
-    controls: PlayerControls,
+    pub state: PlayerState,
     view: PlayerView,
 }
 
@@ -19,13 +16,8 @@ impl Player {
     pub fn new() -> Self {
         Player {
             state: PlayerState::new(),
-            controls: PlayerControls::new(),
             view: PlayerView::new(),
         }
-    }
-
-    pub fn update(&mut self, ctx: &mut Context) -> Vec<Event> {
-        self.controls.handle_input(ctx, self.state.id)
     }
 
     pub fn draw(&mut self, ctx: &mut Context, canvas: &mut Canvas) {

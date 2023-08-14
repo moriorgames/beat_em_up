@@ -20,6 +20,8 @@ use ggez::{
 };
 use graphics::{Canvas, Color};
 use player::player::Player;
+use player::player_controls::PlayerControls;
+use uuid::Uuid;
 use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
@@ -30,6 +32,7 @@ const DEBUG_FPS: bool = true;
 struct MainState {
     event_queue: EventQueue,
     player: Player,
+    player_controls: PlayerControls,
     enemy: Enemy,
 }
 
@@ -37,11 +40,14 @@ impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let event_queue: EventQueue = EventQueue::new();
         let player: Player = Player::new();
+        let player_id: Uuid = player.state.id;
+        let player_controls: PlayerControls = PlayerControls::new(player_id);
         let enemy: Enemy = Enemy::new();
 
         Ok(MainState {
             event_queue,
             player,
+            player_controls,
             enemy,
         })
     }
@@ -50,7 +56,7 @@ impl MainState {
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
-            let player_events: Vec<Event> = self.player.update(ctx);
+            let player_events: Vec<Event> = self.player_controls.handle_input(ctx);
             for event in player_events {
                 self.event_queue.push(event);
             }
