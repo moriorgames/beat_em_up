@@ -73,8 +73,9 @@ pub mod character_view {
         if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
             let x: f32 = character.position.x - character.size.w / 2.0;
             let y: f32 = character.position.y - character.size.h / 2.0;
-            let dst: Point2<f32> = Point2 { x, y, };
-            canvas.draw(sprite, DrawParam::new().dest(dst));
+            let dst: Point2<f32> = Point2 { x, y };
+            let scale: Point2<f32> = Point2 { x: 2.0, y: 2.0 };
+            canvas.draw(sprite, DrawParam::new().dest(dst).scale(scale));
         }
 
         if HITBOX_DEBUG {

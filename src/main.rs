@@ -32,7 +32,7 @@ use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 60;
+const TARGET_FPS: u32 = 30;
 const DEBUG_FPS: bool = true;
 
 struct MainState {

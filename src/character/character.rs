@@ -15,8 +15,6 @@ pub struct Character {
     pub character_type: CharacterTypes,
     // Animation
     pub animation_frame: u8,
-    pub animation_speed: u8,
-    pub animation_counter: u8,
     pub animation_moved: bool,
 }
 
@@ -37,20 +35,12 @@ impl Character {
             max_health,
             character_type,
             animation_frame: 0,
-            animation_speed: 3,
-            animation_counter: 0,
             animation_moved: false,
         }
     }
 
     pub fn update(&mut self) {
-        self.animation_counter += 1;
-        if self.animation_counter > 80 {
-            self.animation_counter = 0;
-        }
-        if self.animation_counter % self.animation_speed == 0 {
-            self.animation_moved = false;
-        }
+        self.animation_moved = false;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
@@ -67,7 +57,7 @@ impl Character {
         let movement_type: &str = "move";
         const TOTAL_FRAMES: u8 = 8;
         let animation_frame: u8 = self.animation_frame % TOTAL_FRAMES;
-        
+
         format!("{}_{}_{}", character_type, movement_type, animation_frame)
     }
 

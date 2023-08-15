@@ -55,8 +55,14 @@ mod tests {
         let sut: SpriteLoader = SpriteLoader::new();
         let sprites: &Vec<(String, String)> = sut.get_sprite_values();
 
-        assert!(sprites.contains(&&("barbarian_move_0".to_string(), "/barbarian_move_0.png".to_string())));
-        assert!(sprites.contains(&&("barbarian_move_1".to_string(), "/barbarian_move_1.png".to_string())));
+        assert!(sprites.contains(&&(
+            "barbarian_move_0".to_string(),
+            "/barbarian_move_0.png".to_string()
+        )));
+        assert!(sprites.contains(&&(
+            "barbarian_move_1".to_string(),
+            "/barbarian_move_1.png".to_string()
+        )));
     }
 
     #[test]

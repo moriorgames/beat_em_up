@@ -50,7 +50,7 @@ pub mod combat {
                             character.move_by_direction(direction);
                             character.update_move_animation();
                         }
-                    },
+                    }
                     _ => (),
                 }
             }
@@ -62,16 +62,23 @@ pub mod combat {
             return false;
         }
 
-        let a_left: f32 = a.position.x;
-        let a_right: f32 = a.position.x + a.size.w;
-        let a_top: f32 = a.position.y;
-        let a_bottom: f32 = a.position.y + a.size.h;
+        let ax: f32 = a.position.x - a.size.w / 2.0;
+        let ay: f32 = a.position.y - a.size.h / 2.0;
+        let aw: f32 = a.size.w;
+        let ah: f32 = a.size.h;
 
-        let b_left: f32 = b.position.x;
-        let b_right: f32 = b.position.x + b.size.w;
-        let b_top: f32 = b.position.y;
-        let b_bottom: f32 = b.position.y + b.size.h;
+        let bx: f32 = b.position.x - b.size.w / 2.0;
+        let by: f32 = b.position.y - b.size.h / 2.0;
+        let bw: f32 = b.size.w;
+        let bh: f32 = b.size.h;
 
-        !(a_left > b_right || a_right < b_left || a_top > b_bottom || a_bottom < b_top)
+        if ax + aw < bx || bx + bw < ax {
+            return false
+        }
+        if ay + ah < by || by + bh < ay {
+            return false
+        }
+    
+        true
     }
 }

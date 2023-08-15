@@ -17,9 +17,7 @@ impl SpriteRepository {
             sprites.insert(id.clone(), image);
         }
 
-        Self {
-            sprites,
-        }
+        Self { sprites }
     }
 
     pub fn get_sprite(&self, id: &str) -> Option<&Image> {
