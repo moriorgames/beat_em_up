@@ -7,6 +7,7 @@ mod player;
 mod window;
 
 use character::character::Character;
+use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
 use character::character_view::character_view::draw_characters;
 use combat::combat::combat::process_combat_queue;
@@ -15,7 +16,6 @@ use combat::event_queue::EventQueue;
 use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
-use geometry::size::Size;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -42,37 +42,12 @@ struct MainState {
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let event_queue: EventQueue = EventQueue::new();
-
-        let mut characters: Vec<Character> = Vec::new();
-
-        // Player
-        let position: Position = Position::new(400.0, 300.0);
-        let size: Size = Size::new(55.0, 45.0);
-        let speed: f32 = 3.7;
-        let max_health: f32 = 1000.0;
-        let character_type: CharacterTypes = CharacterTypes::Player;
-        let player: Character = Character::new(position, size, speed, max_health, character_type);
-        let player_id: Uuid = player.id;
+        let mut player_id: Uuid = Uuid::new_v4();
+        let characters: Vec<Character> = character_builder::build();
+        if let Some(player) = characters.first() {
+            player_id = player.id;
+        }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
-        characters.push(player);
-
-        // Enemy
-        let position: Position = Position::new(600.0, 400.0);
-        let size: Size = Size::new(45.0, 35.0);
-        let speed: f32 = 1.3;
-        let max_health: f32 = 800.0;
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let enemy: Character = Character::new(position, size, speed, max_health, character_type);
-        characters.push(enemy);
-
-        // Enemy
-        let position: Position = Position::new(700.0, 800.0);
-        let size: Size = Size::new(45.0, 35.0);
-        let speed: f32 = 1.3;
-        let max_health: f32 = 800.0;
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let enemy: Character = Character::new(position, size, speed, max_health, character_type);
-        characters.push(enemy);
 
         Ok(MainState {
             event_queue,
