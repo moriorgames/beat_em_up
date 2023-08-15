@@ -1,4 +1,4 @@
-use super::character_types::CharacterTypes;
+use super::character_types::{CharacterTypes, Facing};
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
@@ -13,6 +13,7 @@ pub struct Character {
     pub current_health: f32,
     pub max_health: f32,
     pub character_type: CharacterTypes,
+    pub facing: Facing,
     // Animation
     pub sprite: String,
     pub move_frames: u8,
@@ -41,6 +42,7 @@ impl Character {
             current_health: max_health,
             max_health,
             character_type,
+            facing: Facing::Right,
             sprite,
             move_frames,
             animation_delay,
@@ -76,10 +78,12 @@ impl Character {
 
     fn move_left(&mut self) {
         self.position.x -= self.speed;
+        self.facing =  Facing::Left;
     }
 
     fn move_right(&mut self) {
         self.position.x += self.speed;
+        self.facing =  Facing::Right;
     }
 
     fn move_up(&mut self) {
