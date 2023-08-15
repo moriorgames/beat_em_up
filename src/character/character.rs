@@ -15,7 +15,9 @@ pub struct Character {
     pub character_type: CharacterTypes,
     // Animation
     pub animation_frame: u8,
-    pub moved: bool,
+    pub animation_speed: u8,
+    pub animation_counter: u8,
+    pub animation_moved: bool,
 }
 
 impl Character {
@@ -35,12 +37,20 @@ impl Character {
             max_health,
             character_type,
             animation_frame: 0,
-            moved: false,
+            animation_speed: 3,
+            animation_counter: 0,
+            animation_moved: false,
         }
     }
 
     pub fn update(&mut self) {
-        self.moved = false;
+        self.animation_counter += 1;
+        if self.animation_counter > 80 {
+            self.animation_counter = 0;
+        }
+        if self.animation_counter % self.animation_speed == 0 {
+            self.animation_moved = false;
+        }
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
@@ -78,12 +88,12 @@ impl Character {
     }
 
     pub fn update_move_animation(&mut self) {
-        if !self.moved {
+        if !self.animation_moved {
             self.animation_frame += 1;
             if self.animation_frame > 80 {
                 self.animation_frame = 0;
             }
-            self.moved = true;
+            self.animation_moved = true;
         }
     }
 }
