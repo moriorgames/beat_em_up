@@ -5,36 +5,16 @@ pub mod character_view {
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
     use crate::sprite::sprite_repository::SpriteRepository;
-    use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, MeshBuilder, Rect};
+    use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, MeshBuilder, Rect};
     use ggez::mint::Point2;
     use ggez::{Context, GameResult};
 
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
-    const HEALTH_BAR_Y_OFFSET: f32 = -25.0;
+    const HITBOX_DEBUG: bool = true;
 
-    const KNIGHT_GRAY: Color = Color::new(100.0 / 255.0, 100.0 / 255.0, 100.0 / 255.0, 1.0);
     const SKULL_WHITE: Color = Color::new(230.0 / 255.0, 230.0 / 255.0, 230.0 / 255.0, 1.0);
 
     const MATRIX_LEN: usize = 16;
-
-    const KNIGHT_PIXELS: [[u8; MATRIX_LEN]; MATRIX_LEN] = [
-        [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 1],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 1, 1],
-        [0, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
-        [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0],
-        [0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0],
-        [0, 0, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 0, 0],
-        [0, 0, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-    ];
 
     const SKULL_PIXELS: [[u8; MATRIX_LEN]; MATRIX_LEN] = [
         [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -89,17 +69,22 @@ pub mod character_view {
         character: &Character,
         sprite_repository: &SpriteRepository,
     ) {
-        let mb: &mut MeshBuilder = &mut MeshBuilder::new();
-
-        let start_x: f32 = character.position.x;
-        let start_y: f32 = character.position.y;
-
         if let Some(sprite) = sprite_repository.get_sprite("barbarian_move_1") {
-            let dst: Point2<f32> = Point2 {
-                x: start_x,
-                y: start_y,
-            };
+            let x: f32 = character.position.x - character.size.w / 2.0;
+            let y: f32 = character.position.y - character.size.h / 2.0;
+            let dst: Point2<f32> = Point2 { x, y, };
             canvas.draw(sprite, DrawParam::new().dest(dst));
+        }
+
+        if HITBOX_DEBUG {
+            let color: Color = Color::RED;
+            let x: f32 = character.position.x - character.size.w / 2.0;
+            let y: f32 = character.position.y - character.size.h / 2.0;
+            let position: Position = Position::new(x, y);
+            let w: f32 = character.size.w;
+            let h: f32 = character.size.h;
+            let size: Size = Size::new(w, h);
+            draw_stroke_rectangle(gfx, canvas, &position, &size, color);
         }
     }
 
@@ -133,23 +118,33 @@ pub mod character_view {
 
         let mesh = Mesh::from_data(gfx, mb.build());
         canvas.draw(&mesh, DrawParam::new());
+
+        if HITBOX_DEBUG {
+            let color: Color = Color::RED;
+            let x: f32 = character.position.x - character.size.w / 2.0;
+            let y: f32 = character.position.y - character.size.h / 2.0;
+            let position: Position = Position::new(x, y);
+            let w: f32 = character.size.w;
+            let h: f32 = character.size.h;
+            let size: Size = Size::new(w, h);
+            draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+        }
     }
 
     fn draw_health_bar(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
-        let enemy_size: Size = character.size;
-        let x: f32 = character.position.x - enemy_size.w / 2.0;
-        let y: f32 = character.position.y + HEALTH_BAR_Y_OFFSET;
+        let x: f32 = character.position.x - character.size.w / 2.0;
+        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
         let position: Position = Position::new(x, y);
 
         let health_percentage: f32 = character.current_health as f32 / character.max_health as f32;
-        let w: f32 = enemy_size.w * health_percentage;
+        let w: f32 = character.size.w * health_percentage;
         let h: f32 = HEALTH_BAR_HEIGHT;
         let size: Size = Size::new(w, h);
         let color: Color = Color::RED;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
 
         let color: Color = Color::BLACK;
-        let w: f32 = enemy_size.w;
+        let w: f32 = character.size.w;
         let h: f32 = HEALTH_BAR_HEIGHT;
         let size: Size = Size::new(w, h);
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);

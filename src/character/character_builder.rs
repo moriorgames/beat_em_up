@@ -9,7 +9,7 @@ pub mod character_builder {
 
         // Player
         let position: Position = Position::new(400.0, 300.0);
-        let size: Size = Size::new(55.0, 45.0);
+        let size: Size = Size::new(64.0, 64.0);
         let speed: f32 = 3.7;
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
