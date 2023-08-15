@@ -14,6 +14,8 @@ pub struct Character {
     pub current_health: f32,
     pub max_health: f32,
     pub character_type: CharacterTypes,
+    // Animation
+    pub animation_frame: u8,
 }
 
 impl Character {
@@ -30,9 +32,14 @@ impl Character {
             size,
             speed,
             current_health: max_health,
-            max_health: max_health,
+            max_health,
             character_type,
+            animation_frame: 0,
         }
+    }
+
+    pub fn update(&mut self) {
+        self.animation_frame += 1;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {

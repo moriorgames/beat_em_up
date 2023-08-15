@@ -4,7 +4,9 @@ pub mod character_view {
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
-    use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, MeshBuilder, Rect};
+    use crate::sprite::sprite_repository::SpriteRepository;
+    use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, MeshBuilder, Rect};
+    use ggez::mint::Point2;
     use ggez::{Context, GameResult};
 
     const HEALTH_BAR_HEIGHT: f32 = 7.0;
@@ -57,52 +59,48 @@ pub mod character_view {
         gfx: &mut Context,
         canvas: &mut Canvas,
         characters: &Vec<Character>,
+        sprite_repository: &SpriteRepository,
     ) -> GameResult {
         for character in characters {
-            draw_character(gfx, canvas, character);
+            draw_character(gfx, canvas, character, &sprite_repository);
             draw_health_bar(gfx, canvas, character);
         }
 
         Ok(())
     }
 
-    fn draw_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
+    fn draw_character(
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        character: &Character,
+        sprite_repository: &SpriteRepository,
+    ) {
         match character.character_type {
-            CharacterTypes::Player => draw_player_character(gfx, canvas, character),
+            CharacterTypes::Player => {
+                draw_player_character(gfx, canvas, character, &sprite_repository)
+            }
             _ => draw_generic_character(gfx, canvas, character),
         };
     }
 
-    fn draw_player_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
+    fn draw_player_character(
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        character: &Character,
+        sprite_repository: &SpriteRepository,
+    ) {
         let mb: &mut MeshBuilder = &mut MeshBuilder::new();
 
-        let pixel_size: f32 = 2.0;
-        let start_x: f32 = character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
-        let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
+        let start_x: f32 = character.position.x;
+        let start_y: f32 = character.position.y;
 
-        for (y, row) in KNIGHT_PIXELS.iter().enumerate() {
-            for (x, &color_val) in row.iter().enumerate() {
-                let color: Color = match color_val {
-                    1 => Color::BLACK,
-                    2 => KNIGHT_GRAY,
-                    _ => Color::from_rgba(0, 0, 0, 0),
-                };
-
-                if color.a > 0.0 {
-                    let position: Position = Position::new(
-                        start_x + (x as f32 * pixel_size),
-                        start_y + (y as f32 * pixel_size),
-                    );
-                    let size: Size = Size::new(pixel_size, pixel_size);
-                    let mode: DrawMode = DrawMode::fill();
-                    let bounds: Rect = Rect::new(position.x, position.y, size.w, size.h);
-                    let _ = mb.rectangle(mode, bounds, color);
-                }
-            }
+        if let Some(sprite) = sprite_repository.get_sprite("barbarian_move_1") {
+            let dst: Point2<f32> = Point2 {
+                x: start_x,
+                y: start_y,
+            };
+            canvas.draw(sprite, DrawParam::new().dest(dst));
         }
-
-        let mesh = Mesh::from_data(gfx, mb.build());
-        canvas.draw(&mesh, DrawParam::new());
     }
 
     fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {

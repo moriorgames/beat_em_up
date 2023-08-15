@@ -4,7 +4,10 @@ mod combat;
 mod enemy;
 mod geometry;
 mod player;
+mod sprite;
 mod window;
+
+use std::path::PathBuf;
 
 use character::character::Character;
 use character::character_builder::character_builder;
@@ -24,7 +27,7 @@ use ggez::{
 };
 use graphics::{Canvas, Color};
 use player::player_controls::PlayerControls;
-use std::path::PathBuf;
+use sprite::sprite_repository::SpriteRepository;
 use uuid::Uuid;
 use window::window::Window;
 
@@ -37,10 +40,11 @@ struct MainState {
     event_queue: EventQueue,
     player_controls: PlayerControls,
     characters: Vec<Character>,
+    sprite_repository: SpriteRepository,
 }
 
 impl MainState {
-    fn new(_ctx: &mut Context) -> GameResult<MainState> {
+    fn new(ctx: &mut Context) -> GameResult<MainState> {
         let event_queue: EventQueue = EventQueue::new();
         let mut player_id: Uuid = Uuid::new_v4();
         let characters: Vec<Character> = character_builder::build();
@@ -48,11 +52,13 @@ impl MainState {
             player_id = player.id;
         }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
+        let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
 
         Ok(MainState {
             event_queue,
             player_controls,
             characters,
+            sprite_repository,
         })
     }
 }
@@ -91,7 +97,7 @@ impl EventHandler<GameError> for MainState {
         let clear: Color = Color::from([0.4, 0.6, 0.3, 1.0]);
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        let _ = draw_characters(ctx, &mut canvas, &self.characters);
+        let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;
 
         if DEBUG_FPS {
@@ -106,12 +112,11 @@ impl EventHandler<GameError> for MainState {
 
 pub fn main() -> GameResult {
     let resource_dir: PathBuf = PathBuf::from("./resources");
-
     let setup: WindowSetup = Window::create_window_setup();
     let mode: WindowMode = Window::create_window_mode();
     let cb: ContextBuilder = ContextBuilder::new(GAME_ID, AUTHOR)
-        .window_setup(setup)
         .add_resource_path(resource_dir)
+        .window_setup(setup)
         .window_mode(mode);
     let (mut ctx, event_loop) = cb.build()?;
     let state: MainState = MainState::new(&mut ctx)?;
