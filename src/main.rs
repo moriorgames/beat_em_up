@@ -24,6 +24,7 @@ use ggez::{
 };
 use graphics::{Canvas, Color};
 use player::player_controls::PlayerControls;
+use std::path::PathBuf;
 use uuid::Uuid;
 use window::window::Window;
 
@@ -129,10 +130,13 @@ impl EventHandler<GameError> for MainState {
 }
 
 pub fn main() -> GameResult {
+    let resource_dir: PathBuf = PathBuf::from("./resources");
+
     let setup: WindowSetup = Window::create_window_setup();
     let mode: WindowMode = Window::create_window_mode();
     let cb: ContextBuilder = ContextBuilder::new(GAME_ID, AUTHOR)
         .window_setup(setup)
+        .add_resource_path(resource_dir)
         .window_mode(mode);
     let (mut ctx, event_loop) = cb.build()?;
     let state: MainState = MainState::new(&mut ctx)?;
