@@ -73,12 +73,12 @@ pub mod combat {
         let bh: f32 = b.size.h;
 
         if ax + aw < bx || bx + bw < ax {
-            return false
+            return false;
         }
         if ay + ah < by || by + bh < ay {
-            return false
+            return false;
         }
-    
+
         true
     }
 }

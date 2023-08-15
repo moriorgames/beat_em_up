@@ -14,6 +14,8 @@ pub struct Character {
     pub max_health: f32,
     pub character_type: CharacterTypes,
     // Animation
+    pub sprite: String,
+    pub move_frames: u8,
     pub animation_frame: u8,
     pub animation_moved: bool,
 }
@@ -25,6 +27,8 @@ impl Character {
         speed: f32,
         max_health: f32,
         character_type: CharacterTypes,
+        sprite: String,
+        move_frames: u8,
     ) -> Self {
         Character {
             id: Uuid::new_v4(),
@@ -34,6 +38,8 @@ impl Character {
             current_health: max_health,
             max_health,
             character_type,
+            sprite,
+            move_frames,
             animation_frame: 0,
             animation_moved: false,
         }
@@ -53,12 +59,10 @@ impl Character {
     }
 
     pub fn get_sprite_name(&self) -> String {
-        let character_type: &str = "barbarian";
         let movement_type: &str = "move";
-        const TOTAL_FRAMES: u8 = 8;
-        let animation_frame: u8 = self.animation_frame % TOTAL_FRAMES;
+        let animation_frame: u8 = self.animation_frame % self.move_frames;
 
-        format!("{}_{}_{}", character_type, movement_type, animation_frame)
+        format!("{}_{}_{}", self.sprite, movement_type, animation_frame)
     }
 
     fn move_left(&mut self) {

@@ -59,7 +59,7 @@ pub mod character_view {
             CharacterTypes::Player => {
                 draw_player_character(gfx, canvas, character, &sprite_repository)
             }
-            _ => draw_generic_character(gfx, canvas, character),
+            _ => draw_generic_character(gfx, canvas, character, &sprite_repository),
         };
     }
 
@@ -90,36 +90,20 @@ pub mod character_view {
         }
     }
 
-    fn draw_generic_character(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
-        let mb: &mut MeshBuilder = &mut MeshBuilder::new();
-
-        let pixel_size: f32 = 2.0;
-        let start_x: f32 = character.position.x - (pixel_size * (MATRIX_LEN as f32) / 2.0);
-        let start_y: f32 = character.position.y - (pixel_size * (MATRIX_LEN as f32) / 2.0);
-
-        for (y, row) in SKULL_PIXELS.iter().enumerate() {
-            for (x, &color_val) in row.iter().enumerate() {
-                let color = match color_val {
-                    1 => Color::BLACK,
-                    2 => SKULL_WHITE,
-                    _ => Color::from_rgba(0, 0, 0, 0),
-                };
-
-                if color.a > 0.0 {
-                    let position = Position::new(
-                        start_x + (x as f32 * pixel_size),
-                        start_y + (y as f32 * pixel_size),
-                    );
-                    let size: Size = Size::new(pixel_size, pixel_size);
-                    let mode: DrawMode = DrawMode::fill();
-                    let bounds: Rect = Rect::new(position.x, position.y, size.w, size.h);
-                    let _ = mb.rectangle(mode, bounds, color);
-                }
-            }
+    fn draw_generic_character(
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        character: &Character,
+        sprite_repository: &SpriteRepository,
+    ) {
+        let sprite_id: String = character.get_sprite_name();
+        if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
+            let x: f32 = character.position.x - character.size.w / 2.0;
+            let y: f32 = character.position.y - character.size.h / 2.0;
+            let dst: Point2<f32> = Point2 { x, y };
+            let scale: Point2<f32> = Point2 { x: 2.0, y: 2.0 };
+            canvas.draw(sprite, DrawParam::new().dest(dst).scale(scale));
         }
-
-        let mesh = Mesh::from_data(gfx, mb.build());
-        canvas.draw(&mesh, DrawParam::new());
 
         if HITBOX_DEBUG {
             let color: Color = Color::RED;
