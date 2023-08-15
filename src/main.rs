@@ -1,4 +1,3 @@
-mod behaviours;
 mod character;
 mod combat;
 mod enemy;

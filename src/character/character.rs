@@ -1,5 +1,4 @@
 use super::character_types::CharacterTypes;
-use crate::behaviours::movable::Movable;
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
@@ -38,10 +37,6 @@ impl Character {
         }
     }
 
-    pub fn update(&mut self) {
-        self.animation_frame += 1;
-    }
-
     pub fn move_by_direction(&mut self, direction: Direction) {
         match direction {
             Direction::Left => self.move_left(),
@@ -50,18 +45,28 @@ impl Character {
             Direction::Down => self.move_down(),
         }
     }
-}
 
-impl Movable for Character {
-    fn position(&self) -> &Position {
-        &self.position
+    fn move_left(&mut self) {
+        self.position.x -= self.speed;
+        self.update_move_animation();
     }
 
-    fn position_mut(&mut self) -> &mut Position {
-        &mut self.position
+    fn move_right(&mut self) {
+        self.position.x += self.speed;
+        self.update_move_animation();
     }
 
-    fn speed(&self) -> f32 {
-        self.speed
+    fn move_up(&mut self) {
+        self.position.y -= self.speed;
+        self.update_move_animation();
+    }
+
+    fn move_down(&mut self) {
+        self.position.y += self.speed;
+        self.update_move_animation();
+    }
+
+    fn update_move_animation(&mut self) {
+        self.animation_frame += 1;
     }
 }

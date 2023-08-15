@@ -46,6 +46,7 @@ pub mod combat {
                             character.move_by_direction(direction);
                         }
                     }
+                    _ => (),
                 }
             }
         }
