@@ -17,6 +17,8 @@ pub struct Character {
     pub sprite: String,
     pub move_frames: u8,
     pub animation_frame: u8,
+    pub animation_delay: u8,
+    pub animation_counter: u8,
     pub animation_moved: bool,
 }
 
@@ -29,6 +31,7 @@ impl Character {
         character_type: CharacterTypes,
         sprite: String,
         move_frames: u8,
+        animation_delay: u8,
     ) -> Self {
         Character {
             id: Uuid::new_v4(),
@@ -40,13 +43,19 @@ impl Character {
             character_type,
             sprite,
             move_frames,
+            animation_delay,
             animation_frame: 0,
+            animation_counter: 0,
             animation_moved: false,
         }
     }
 
     pub fn update(&mut self) {
-        self.animation_moved = false;
+        if self.animation_counter > self.animation_delay {
+            self.animation_moved = false;
+            self.animation_counter = 0;
+        }
+        self.animation_counter += 1;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
