@@ -9,8 +9,8 @@ pub mod character_view {
     use ggez::mint::Point2;
     use ggez::{Context, GameResult};
 
-    const HEALTH_BAR_HEIGHT: f32 = 7.0;
-    const HITBOX_DEBUG: bool = true;
+    const HEALTH_BAR_HEIGHT: f32 = 6.0;
+    const HITBOX_DEBUG: bool = false;
 
     pub fn draw_characters(
         gfx: &mut Context,
@@ -20,7 +20,7 @@ pub mod character_view {
     ) -> GameResult {
         for character in characters {
             draw_character(gfx, canvas, character, &sprite_repository);
-            draw_health_bar(gfx, canvas, character);
+            draw_bars(gfx, canvas, character);
         }
 
         Ok(())
@@ -64,7 +64,7 @@ pub mod character_view {
         }
     }
 
-    fn draw_health_bar(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
+    fn draw_bars(gfx: &mut Context, canvas: &mut Canvas, character: &Character) {
         let x: f32 = character.position.x - character.size.w / 2.0;
         let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
         let position: Position = Position::new(x, y);
@@ -75,11 +75,5 @@ pub mod character_view {
         let size: Size = Size::new(w, h);
         let color: Color = Color::RED;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
-
-        let color: Color = Color::BLACK;
-        let w: f32 = character.size.w;
-        let h: f32 = HEALTH_BAR_HEIGHT;
-        let size: Size = Size::new(w, h);
-        draw_stroke_rectangle(gfx, canvas, &position, &size, color);
     }
 }

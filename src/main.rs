@@ -19,6 +19,8 @@ use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
 use ggez::conf::{WindowMode, WindowSetup};
+use ggez::graphics::{DrawParam, Image};
+use ggez::mint::Point2;
 use ggez::{
     event,
     graphics::{self},
@@ -32,7 +34,7 @@ use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 60;
+const TARGET_FPS: u32 = 30;
 const DEBUG_FPS: bool = true;
 
 struct MainState {
@@ -94,7 +96,17 @@ impl EventHandler<GameError> for MainState {
         let now: std::time::Instant = std::time::Instant::now();
 
         let clear: Color = Color::from([0.4, 0.6, 0.3, 1.0]);
+
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
+
+        let sprite: Image = Image::from_path(ctx, "/scenario.png").unwrap();
+        let x: f32 = 0.0;
+        let y: f32 = 0.0;
+        let dst: Point2<f32> = Point2 { x, y };
+        let scale: Point2<f32> = Point2 { x: 2.8, y: 2.8 };
+
+        canvas.draw(&sprite, DrawParam::new().dest(dst).scale(scale));
+
 
         let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;

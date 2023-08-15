@@ -8,8 +8,8 @@ pub mod character_builder {
         let mut characters: Vec<Character> = Vec::new();
 
         // Player
-        let position: Position = Position::new(500.0, 500.0);
-        let size: Size = Size::new(128.0, 128.0);
+        let position: Position = Position::new(600.0, 700.0);
+        let size: Size = Size::new(120.0, 120.0);
         let speed: f32 = 4.3;
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
@@ -22,8 +22,8 @@ pub mod character_builder {
         characters.push(player);
 
         // Enemy
-        let position: Position = Position::new(100.0, 100.0);
-        let size: Size = Size::new(128.0, 128.0);
+        let position: Position = Position::new(100.0, 600.0);
+        let size: Size = Size::new(120.0, 120.0);
         let speed: f32 = 2.1;
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
@@ -36,8 +36,8 @@ pub mod character_builder {
         characters.push(enemy);
 
         // Enemy
-        let position: Position = Position::new(1000.0, 1000.0);
-        let size: Size = Size::new(128.0, 128.0);
+        let position: Position = Position::new(1200.0, 800.0);
+        let size: Size = Size::new(120.0, 120.0);
         let speed: f32 = 2.7;
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
