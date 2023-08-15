@@ -1,17 +1,16 @@
-use super::sprite_mapper::SpriteMapper;
+use super::sprite_mapper::SpriteLoader;
 use ggez::graphics::Image;
 use ggez::Context;
 use std::collections::HashMap;
 
 pub struct SpriteRepository {
-    sprite_mapper: SpriteMapper,
     sprites: HashMap<String, Image>,
 }
 
 impl SpriteRepository {
     pub fn new(gfx: &mut Context) -> Self {
-        let sprite_mapper: SpriteMapper = SpriteMapper::new();
-        let sprite_tuples: Vec<&(String, String)> = sprite_mapper.get_sprite_map();
+        let sprite_mapper: SpriteLoader = SpriteLoader::new();
+        let sprite_tuples: Vec<&(String, String)> = sprite_mapper.get_sprite_values();
         let mut sprites: HashMap<String, Image> = HashMap::new();
         for (id, path) in sprite_tuples {
             let image: Image = Image::from_path(gfx, path).unwrap();
@@ -19,7 +18,6 @@ impl SpriteRepository {
         }
 
         Self {
-            sprite_mapper,
             sprites,
         }
     }

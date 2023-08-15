@@ -46,6 +46,15 @@ impl Character {
         }
     }
 
+    pub fn get_sprite_name(&self) -> String {
+        let character_type: &str = "barbarian";
+        let movement_type: &str = "move";
+        const TOTAL_FRAMES: u8 = 2;
+        let animation_frame: u8 = self.animation_frame % TOTAL_FRAMES;
+        
+        format!("{}_{}_{}", character_type, movement_type, animation_frame)
+    }
+
     fn move_left(&mut self) {
         self.position.x -= self.speed;
         self.update_move_animation();
