@@ -32,8 +32,8 @@ use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 4;
-const DEBUG_FPS: bool = true;
+const TARGET_FPS: u32 = 12;
+const DEBUG_FPS: bool = false;
 
 struct MainState {
     event_queue: EventQueue,
@@ -100,11 +100,11 @@ impl EventHandler<GameError> for MainState {
         canvas.finish(ctx)?;
 
         if DEBUG_FPS {
-            let fps = ctx.time.fps();
+            let fps: f64 = ctx.time.fps();
             println!("FPS: {:.0}", fps);
+            println!("draw {:?}", now.elapsed());
         }
 
-        println!("draw {:?}", now.elapsed());
         Ok(())
     }
 }

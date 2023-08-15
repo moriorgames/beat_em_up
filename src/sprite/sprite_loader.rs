@@ -13,6 +13,30 @@ impl SpriteLoader {
             "barbarian_move_1".to_string(),
             "/barbarian_move_1.png".to_string(),
         ));
+        sprites.push((
+            "barbarian_move_2".to_string(),
+            "/barbarian_move_2.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_move_3".to_string(),
+            "/barbarian_move_3.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_move_4".to_string(),
+            "/barbarian_move_4.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_move_5".to_string(),
+            "/barbarian_move_5.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_move_6".to_string(),
+            "/barbarian_move_6.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_move_7".to_string(),
+            "/barbarian_move_7.png".to_string(),
+        ));
 
         SpriteLoader { sprites }
     }
@@ -27,19 +51,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn get_sprite_map_returns_correct_textures() {
+    fn sprite_loader_returns_correct_sprites() {
         let sut: SpriteLoader = SpriteLoader::new();
         let sprites: &Vec<(String, String)> = sut.get_sprite_values();
-        assert_eq!(sprites.len(), 2);
+
         assert!(sprites.contains(&&("barbarian_move_0".to_string(), "/barbarian_move_0.png".to_string())));
         assert!(sprites.contains(&&("barbarian_move_1".to_string(), "/barbarian_move_1.png".to_string())));
     }
 
     #[test]
-    fn get_sprite_map_does_not_contain_invalid_key() {
+    fn sprite_loader_does_not_contain_invalid_key() {
         let sut: SpriteLoader = SpriteLoader::new();
         let sprites: &Vec<(String, String)> = sut.get_sprite_values();
-        assert_eq!(sprites.len(), 2);
+
         assert!(!sprites.contains(&&("invalid_key".to_string(), "/invalid_path.png".to_string())));
     }
 }

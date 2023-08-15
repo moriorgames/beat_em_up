@@ -15,6 +15,7 @@ pub struct Character {
     pub character_type: CharacterTypes,
     // Animation
     pub animation_frame: u8,
+    pub moved: bool,
 }
 
 impl Character {
@@ -34,7 +35,12 @@ impl Character {
             max_health,
             character_type,
             animation_frame: 0,
+            moved: false,
         }
+    }
+
+    pub fn update(&mut self) {
+        self.moved = false;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
@@ -49,7 +55,7 @@ impl Character {
     pub fn get_sprite_name(&self) -> String {
         let character_type: &str = "barbarian";
         let movement_type: &str = "move";
-        const TOTAL_FRAMES: u8 = 2;
+        const TOTAL_FRAMES: u8 = 8;
         let animation_frame: u8 = self.animation_frame % TOTAL_FRAMES;
         
         format!("{}_{}_{}", character_type, movement_type, animation_frame)
@@ -57,25 +63,27 @@ impl Character {
 
     fn move_left(&mut self) {
         self.position.x -= self.speed;
-        self.update_move_animation();
     }
 
     fn move_right(&mut self) {
         self.position.x += self.speed;
-        self.update_move_animation();
     }
 
     fn move_up(&mut self) {
         self.position.y -= self.speed;
-        self.update_move_animation();
     }
 
     fn move_down(&mut self) {
         self.position.y += self.speed;
-        self.update_move_animation();
     }
 
-    fn update_move_animation(&mut self) {
-        self.animation_frame += 1;
+    pub fn update_move_animation(&mut self) {
+        if !self.moved {
+            self.animation_frame += 1;
+            if self.animation_frame > 80 {
+                self.animation_frame = 0;
+            }
+            self.moved = true;
+        }
     }
 }

@@ -70,7 +70,6 @@ pub mod character_view {
         sprite_repository: &SpriteRepository,
     ) {
         let sprite_id: String = character.get_sprite_name();
-        println!("sprite_id: {}", sprite_id);
         if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
             let x: f32 = character.position.x - character.size.w / 2.0;
             let y: f32 = character.position.y - character.size.h / 2.0;

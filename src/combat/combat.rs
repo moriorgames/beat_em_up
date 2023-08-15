@@ -14,6 +14,10 @@ pub mod combat {
     pub fn process_combat_queue(events: VecDeque<Event>, characters: &mut Vec<Character>) {
         let mut actions: Vec<Action> = Vec::new();
 
+        for character in &mut *characters {
+            character.update();
+        }
+
         for event in &events {
             for handler in &EVENT_HANDLERS {
                 if let Some(action) = handler(event) {
@@ -44,8 +48,9 @@ pub mod combat {
                     Action::MoveEntity { id, direction } => {
                         if id == character.id {
                             character.move_by_direction(direction);
+                            character.update_move_animation();
                         }
-                    }
+                    },
                     _ => (),
                 }
             }
