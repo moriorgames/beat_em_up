@@ -1,2 +1,2 @@
-mod sprite_mapper;
+mod sprite_loader;
 pub mod sprite_repository;
