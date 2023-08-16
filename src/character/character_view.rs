@@ -27,15 +27,6 @@ pub mod character_view {
     }
 
     fn draw_character( gfx: &mut Context, canvas: &mut Canvas, character: &Character, sprite_repository: &SpriteRepository,) {
-        draw_generic_character(gfx, canvas, character, &sprite_repository);
-    }
-
-    fn draw_generic_character(
-        gfx: &mut Context,
-        canvas: &mut Canvas,
-        character: &Character,
-        sprite_repository: &SpriteRepository,
-    ) {
         let sprite_id: String = character.get_sprite_name();
         if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
             let x: f32 = match character.facing {
@@ -45,8 +36,8 @@ pub mod character_view {
             let y: f32 = character.position.y - character.size.h / 2.0;
             let dst: Point2<f32> = Point2 { x, y };
             let scale: Point2<f32> = match character.facing {
-                Facing::Left => Point2 { x: -2f32, y: 2f32 },
-                Facing::Right => Point2 { x: 2f32, y: 2f32 },
+                Facing::Left => Point2 { x: -3f32, y: 3f32 },
+                Facing::Right => Point2 { x: 3f32, y: 3f32 },
             };
 
             canvas.draw(sprite, DrawParam::new().dest(dst).scale(scale));

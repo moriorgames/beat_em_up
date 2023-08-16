@@ -63,6 +63,11 @@ impl SpriteLoader {
             "/orc_move_5.png".to_string(),
         ));
 
+        sprites.push((
+            "scenario".to_string(),
+            "/scenario.png".to_string(),
+        ));
+
         SpriteLoader { sprites }
     }
 

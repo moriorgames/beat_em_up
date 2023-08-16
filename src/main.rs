@@ -1,4 +1,5 @@
 mod character;
+mod scenario;
 mod combat;
 mod enemy;
 mod geometry;
@@ -28,13 +29,14 @@ use ggez::{
 };
 use graphics::{Canvas, Color};
 use player::player_controls::PlayerControls;
+use scenario::scenario_view::character_view::draw_scenario;
 use sprite::sprite_repository::SpriteRepository;
 use uuid::Uuid;
 use window::window::Window;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 30;
+const TARGET_FPS: u32 = 36;
 const DEBUG_FPS: bool = true;
 
 struct MainState {
@@ -99,14 +101,7 @@ impl EventHandler<GameError> for MainState {
 
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        let sprite: Image = Image::from_path(ctx, "/scenario.png").unwrap();
-        let x: f32 = 0.0;
-        let y: f32 = 0.0;
-        let dst: Point2<f32> = Point2 { x, y };
-        let scale: Point2<f32> = Point2 { x: 2.8, y: 2.8 };
-
-        canvas.draw(&sprite, DrawParam::new().dest(dst).scale(scale));
-
+        let _ = draw_scenario(ctx, &mut canvas, &self.sprite_repository);
 
         let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;

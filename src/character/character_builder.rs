@@ -9,8 +9,8 @@ pub mod character_builder {
 
         // Player
         let position: Position = Position::new(600.0, 700.0);
-        let size: Size = Size::new(120.0, 120.0);
-        let speed: f32 = 4.3;
+        let size: Size = Size::new(190.0, 190.0);
+        let speed: f32 = 5.3;
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
         let sprite: String = "barbarian".to_string();
@@ -23,8 +23,8 @@ pub mod character_builder {
 
         // Enemy
         let position: Position = Position::new(100.0, 600.0);
-        let size: Size = Size::new(120.0, 120.0);
-        let speed: f32 = 2.1;
+        let size: Size = Size::new(190.0, 190.0);
+        let speed: f32 = 2.9;
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let sprite: String = "orc".to_string();
@@ -36,9 +36,9 @@ pub mod character_builder {
         characters.push(enemy);
 
         // Enemy
-        let position: Position = Position::new(1200.0, 800.0);
-        let size: Size = Size::new(120.0, 120.0);
-        let speed: f32 = 2.7;
+        let position: Position = Position::new(1400.0, 850.0);
+        let size: Size = Size::new(190.0, 190.0);
+        let speed: f32 = 3.1;
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let sprite: String = "orc".to_string();
