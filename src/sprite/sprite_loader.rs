@@ -45,7 +45,7 @@ impl SpriteLoader {
         sprites.push(("orc_move_4".to_string(), "/orc_move_4.png".to_string()));
         sprites.push(("orc_move_5".to_string(), "/orc_move_5.png".to_string()));
 
-        sprites.push(("scenario".to_string(), "/scenario.png".to_string()));
+        sprites.push(("world".to_string(), "/world.png".to_string()));
 
         SpriteLoader { sprites }
     }

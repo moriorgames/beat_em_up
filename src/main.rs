@@ -3,9 +3,9 @@ mod combat;
 mod enemy;
 mod geometry;
 mod player;
-mod scenario;
 mod sprite;
 mod window;
+mod world;
 
 use std::path::PathBuf;
 
@@ -19,6 +19,7 @@ use combat::event_queue::EventQueue;
 use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
+use geometry::size::Size;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -27,10 +28,11 @@ use ggez::{
 };
 use graphics::{Canvas, Color};
 use player::player_controls::PlayerControls;
-use scenario::scenario_view::character_view::draw_scenario;
 use sprite::sprite_repository::SpriteRepository;
 use uuid::Uuid;
 use window::window::Window;
+use world::world::World;
+use world::world_view::character_view::draw;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
@@ -40,6 +42,7 @@ const DEBUG_FPS: bool = true;
 struct MainState {
     event_queue: EventQueue,
     player_controls: PlayerControls,
+    world: World,
     characters: Vec<Character>,
     sprite_repository: SpriteRepository,
 }
@@ -53,11 +56,13 @@ impl MainState {
             player_id = player.id;
         }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
+        let world: World = World::new(Position::new(5.0, 175.0), Size::new(1900.0, 850.0));
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
 
         Ok(MainState {
             event_queue,
             player_controls,
+            world,
             characters,
             sprite_repository,
         })
@@ -99,7 +104,7 @@ impl EventHandler<GameError> for MainState {
 
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        let _ = draw_scenario(&mut canvas, &self.sprite_repository);
+        let _ = draw(ctx, &mut canvas, &self.world, &self.sprite_repository);
 
         let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;

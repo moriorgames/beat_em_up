@@ -17,7 +17,6 @@ pub mod character_builder {
             Character::new(position, size, speed, max_health, character_type, animation);
         characters.push(player);
 
-
         let position: Position = Position::new(100.0, 600.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 2.9;
