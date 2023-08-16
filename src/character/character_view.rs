@@ -26,7 +26,12 @@ pub mod character_view {
         Ok(())
     }
 
-    fn draw_character( gfx: &mut Context, canvas: &mut Canvas, character: &Character, sprite_repository: &SpriteRepository,) {
+    fn draw_character(
+        gfx: &mut Context,
+        canvas: &mut Canvas,
+        character: &Character,
+        sprite_repository: &SpriteRepository,
+    ) {
         let sprite_id: String = character.get_sprite_name();
         if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
             let x: f32 = match character.facing {

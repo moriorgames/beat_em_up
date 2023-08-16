@@ -78,12 +78,12 @@ impl Character {
 
     fn move_left(&mut self) {
         self.position.x -= self.speed;
-        self.facing =  Facing::Left;
+        self.facing = Facing::Left;
     }
 
     fn move_right(&mut self) {
         self.position.x += self.speed;
-        self.facing =  Facing::Right;
+        self.facing = Facing::Right;
     }
 
     fn move_up(&mut self) {

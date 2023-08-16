@@ -17,7 +17,14 @@ pub mod character_builder {
         let move_frames: u8 = 8;
         let animation_delay: u8 = 4;
         let player: Character = Character::new(
-            position, size, speed, max_health, character_type, sprite, move_frames, animation_delay
+            position,
+            size,
+            speed,
+            max_health,
+            character_type,
+            sprite,
+            move_frames,
+            animation_delay,
         );
         characters.push(player);
 
@@ -31,7 +38,14 @@ pub mod character_builder {
         let move_frames: u8 = 6;
         let animation_delay: u8 = 6;
         let enemy: Character = Character::new(
-            position, size, speed, max_health, character_type, sprite, move_frames, animation_delay
+            position,
+            size,
+            speed,
+            max_health,
+            character_type,
+            sprite,
+            move_frames,
+            animation_delay,
         );
         characters.push(enemy);
 
@@ -45,7 +59,14 @@ pub mod character_builder {
         let move_frames: u8 = 6;
         let animation_delay: u8 = 6;
         let enemy: Character = Character::new(
-            position, size, speed, max_health, character_type, sprite, move_frames, animation_delay
+            position,
+            size,
+            speed,
+            max_health,
+            character_type,
+            sprite,
+            move_frames,
+            animation_delay,
         );
         characters.push(enemy);
 

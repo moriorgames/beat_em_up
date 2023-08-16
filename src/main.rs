@@ -1,9 +1,9 @@
 mod character;
-mod scenario;
 mod combat;
 mod enemy;
 mod geometry;
 mod player;
+mod scenario;
 mod sprite;
 mod window;
 
@@ -20,8 +20,6 @@ use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
 use ggez::conf::{WindowMode, WindowSetup};
-use ggez::graphics::{DrawParam, Image};
-use ggez::mint::Point2;
 use ggez::{
     event,
     graphics::{self},
@@ -101,7 +99,7 @@ impl EventHandler<GameError> for MainState {
 
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
-        let _ = draw_scenario(ctx, &mut canvas, &self.sprite_repository);
+        let _ = draw_scenario(&mut canvas, &self.sprite_repository);
 
         let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;
