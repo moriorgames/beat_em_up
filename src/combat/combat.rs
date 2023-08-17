@@ -3,7 +3,6 @@ pub mod combat {
         character::{box_collision::BoxCollision, character::Character},
         combat::{
             action::Action,
-            direction::{self, Direction},
             event::Event,
             move_handlers::move_handlers::{down, left, right, up},
         },

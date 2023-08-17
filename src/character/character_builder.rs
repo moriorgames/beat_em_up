@@ -15,7 +15,8 @@ pub mod character_builder {
         let speed: f32 = 5.3;
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
-        let animation: Animation = create_barbarian_move_animation();
+        let move_animation: Animation = create_barbarian_move_animation();
+        let attack_animation: Animation = create_barbarian_attack_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -34,7 +35,8 @@ pub mod character_builder {
             speed,
             max_health,
             character_type,
-            animation,
+            move_animation,
+            attack_animation,
             body_collision,
             foot_collision,
         );
@@ -45,7 +47,8 @@ pub mod character_builder {
         let speed: f32 = 3.1;
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let animation: Animation = create_orc_animation();
+        let move_animation: Animation = create_orc_move_animation();
+        let attack_animation: Animation = create_orc_attack_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -64,7 +67,8 @@ pub mod character_builder {
             speed,
             max_health,
             character_type,
-            animation,
+            move_animation,
+            attack_animation,
             body_collision,
             foot_collision,
         );
@@ -91,7 +95,16 @@ pub mod character_builder {
         Animation::new(sprite, action_type, move_frames, delay)
     }
 
-    fn create_orc_animation() -> Animation {
+    fn create_orc_move_animation() -> Animation {
+        let sprite: String = "orc".to_string();
+        let action_type: String = "move".to_string();
+        let move_frames: u8 = 6;
+        let delay: u8 = 6;
+
+        Animation::new(sprite, action_type, move_frames, delay)
+    }
+
+    fn create_orc_attack_animation() -> Animation {
         let sprite: String = "orc".to_string();
         let action_type: String = "move".to_string();
         let move_frames: u8 = 6;

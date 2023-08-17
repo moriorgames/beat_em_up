@@ -1,5 +1,5 @@
 use super::animation::Animation;
-use super::box_collision::{self, BoxCollision};
+use super::box_collision::BoxCollision;
 use super::character_types::{CharacterTypes, Facing};
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
@@ -16,7 +16,8 @@ pub struct Character {
     pub max_health: f32,
     pub character_type: CharacterTypes,
     pub facing: Facing,
-    pub animation: Animation,
+    pub move_animation: Animation,
+    pub attack_animation: Animation,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
 }
@@ -28,7 +29,8 @@ impl Character {
         speed: f32,
         max_health: f32,
         character_type: CharacterTypes,
-        animation: Animation,
+        move_animation: Animation,
+        attack_animation: Animation,
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
     ) -> Self {
@@ -41,18 +43,19 @@ impl Character {
             max_health,
             character_type,
             facing: Facing::Right,
-            animation,
+            move_animation,
+            attack_animation,
             body_collision,
             foot_collision,
         }
     }
 
     pub fn update(&mut self) {
-        if self.animation.counter > self.animation.delay {
-            self.animation.moved = false;
-            self.animation.counter = 0;
+        if self.move_animation.counter > self.move_animation.delay {
+            self.move_animation.moved = false;
+            self.move_animation.counter = 0;
         }
-        self.animation.counter += 1;
+        self.move_animation.counter += 1;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
@@ -65,11 +68,11 @@ impl Character {
     }
 
     pub fn get_sprite_name(&self) -> String {
-        let animation_frame: u8 = self.animation.frame % self.animation.move_frames;
+        let animation_frame: u8 = self.move_animation.frame % self.move_animation.move_frames;
 
         format!(
             "{}_{}_{}",
-            self.animation.sprite, self.animation.action_type, animation_frame
+            self.move_animation.sprite, self.move_animation.action_type, animation_frame
         )
     }
 
@@ -92,12 +95,12 @@ impl Character {
     }
 
     pub fn update_move_animation(&mut self) {
-        if !self.animation.moved {
-            self.animation.frame += 1;
-            if self.animation.frame > 80 {
-                self.animation.frame = 0;
+        if !self.move_animation.moved {
+            self.move_animation.frame += 1;
+            if self.move_animation.frame > 80 {
+                self.move_animation.frame = 0;
             }
-            self.animation.moved = true;
+            self.move_animation.moved = true;
         }
     }
 
