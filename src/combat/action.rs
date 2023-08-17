@@ -5,4 +5,5 @@ use uuid::Uuid;
 pub enum Action {
     MoveEntity { id: Uuid, direction: Direction },
     Attack { id: Uuid },
+    Damage { id: Uuid, damage: f32 },
 }

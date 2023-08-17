@@ -1,3 +1,5 @@
+use crate::geometry::position::Position;
+
 #[derive(Clone, Debug)]
 pub struct BoxCollision {
     pub x: f32,
@@ -14,5 +16,30 @@ impl BoxCollision {
         let bottom_inside: bool = self.y + self.h <= outer_box.y + outer_box.h;
 
         left_inside && right_inside && top_inside && bottom_inside
+    }
+
+    pub fn collides_with(pa: Position, a: &BoxCollision, pb: Position, b: &BoxCollision) -> bool {
+        let a: BoxCollision = a.to_world_space(pa);
+        let b: BoxCollision = b.to_world_space(pb);
+
+        let self_right: f32 = a.x + a.w;
+        let self_bottom: f32 = a.y + a.h;
+        let other_right: f32 = b.x + b.w;
+        let other_bottom: f32 = b.y + b.h;
+
+        if a.x < other_right && self_right > b.x && b.y < other_bottom && self_bottom > b.y {
+            return true;
+        }
+
+        false
+    }
+
+    pub fn to_world_space(&self, position: Position) -> BoxCollision {
+        BoxCollision {
+            x: position.x + self.x - self.w / 2.0,
+            y: position.y + self.y - self.y / 2.0,
+            w: self.w,
+            h: self.h,
+        }
     }
 }

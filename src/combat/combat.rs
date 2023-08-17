@@ -48,7 +48,27 @@ pub mod combat {
                                     actions.push(action);
                                 }
                             }
+
+                            for body in characters.clone() {
+                                for weapon in characters.clone() {
+                                    if body.id != weapon.id {
+                                        if BoxCollision::collides_with(
+                                            body.position.clone(),
+                                            &body.body_collision,
+                                            weapon.position.clone(),
+                                            &weapon.weapon_collision,
+                                        ) {
+                                            let action: Action = Action::Damage {
+                                                id: body.id,
+                                                damage: 20.0,
+                                            };
+                                            actions.push(action);
+                                        }
+                                    }
+                                }
+                            }
                         }
+                        _ => (),
                     }
                 }
             }
@@ -65,6 +85,11 @@ pub mod combat {
                     Action::Attack { id } => {
                         if id == character.id {
                             character.attack();
+                        }
+                    }
+                    Action::Damage { id , damage } => {
+                        if id == character.id {
+                            character.apply_damage(damage)
                         }
                     }
                 }

@@ -22,6 +22,7 @@ pub struct Character {
     pub attack_timer: u8,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
+    pub weapon_collision: BoxCollision,
     pub character_state: CharacterState,
 }
 
@@ -57,6 +58,12 @@ impl Character {
             attack_timer: 0,
             body_collision,
             foot_collision,
+            weapon_collision: BoxCollision {
+                x: 0.0,
+                y: 0.0,
+                w: 0.0,
+                h: 0.0,
+            },
             character_state: CharacterState::Moving,
         }
     }
@@ -71,12 +78,30 @@ impl Character {
             CharacterState::Attacking => {
                 self.attack_animation.update();
                 self.attack_timer -= 1;
+                if self.attack_timer <= 12 {
+                    let x: f32 = match self.facing {
+                        Facing::Left => -75.0,
+                        Facing::Right => 75.0,
+                    };
+                    self.weapon_collision = BoxCollision {
+                        x,
+                        y: -85.0,
+                        w: 75.0,
+                        h: 60.0,
+                    };
+                }
                 if self.attack_timer <= 0 {
                     self.attack_timer = 0;
                     self.character_state = CharacterState::Moving;
                     self.attack_animation.moved = false;
                     self.attack_animation.counter = 0;
                     self.attack_animation.frame = 0;
+                    self.weapon_collision = BoxCollision {
+                        x: 0.0,
+                        y: 0.0,
+                        w: 0.0,
+                        h: 0.0,
+                    };
 
                     None
                 } else {
@@ -102,6 +127,10 @@ impl Character {
         self.character_state = CharacterState::Attacking;
     }
 
+    pub fn apply_damage(&mut self, damage: f32) {
+        self.current_health -= damage;
+    }
+
     pub fn get_sprite_name(&self) -> String {
         match self.character_state {
             CharacterState::Moving => {
@@ -119,14 +148,10 @@ impl Character {
                     self.attack_animation.frame % self.attack_animation.move_frames;
                 let action_type: String = self.attack_animation.action_type.to_string();
 
-                let s = format!(
+                format!(
                     "{}_{}_{}",
                     self.attack_animation.sprite, action_type, animation_frame
-                );
-
-                println!("Attacking ---- {:?}", s);
-
-                return s;
+                )
             }
         }
     }
@@ -169,19 +194,14 @@ impl Character {
     }
 
     pub fn body_collision_to_world_space(&self) -> BoxCollision {
-        self.box_collision_to_world_space(self.body_collision.clone())
+        self.body_collision.to_world_space(self.position.clone())
     }
 
     pub fn foot_collision_to_world_space(&self) -> BoxCollision {
-        self.box_collision_to_world_space(self.foot_collision.clone())
+        self.foot_collision.to_world_space(self.position.clone())
     }
 
-    fn box_collision_to_world_space(&self, box_collision: BoxCollision) -> BoxCollision {
-        BoxCollision {
-            x: self.position.x + box_collision.x - box_collision.w / 2.0,
-            y: self.position.y + box_collision.y - box_collision.y / 2.0,
-            w: box_collision.w,
-            h: box_collision.h,
-        }
+    pub fn weapon_collision_to_world_space(&self) -> BoxCollision {
+        self.weapon_collision.to_world_space(self.position.clone())
     }
 }
