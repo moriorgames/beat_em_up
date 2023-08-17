@@ -1,5 +1,7 @@
 pub mod character_view {
+    use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::draw_stroke_rectangle;
+    use crate::geometry::size::Size;
     use crate::sprite::sprite_repository::SpriteRepository;
     use crate::world::world::World;
     use ggez::graphics::{Canvas, Color, DrawParam};
@@ -27,7 +29,9 @@ pub mod character_view {
 
         if HITBOX_DEBUG {
             let color: Color = Color::RED;
-            draw_stroke_rectangle(gfx, canvas, &world.position, &world.size, color);
+            let position: Position = Position::new(world.bounds.x, world.bounds.y);
+            let size: Size = Size::new(world.bounds.w, world.bounds.h);
+            draw_stroke_rectangle(gfx, canvas, &position, &size, color);
         }
 
         Ok(())

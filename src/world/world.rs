@@ -1,12 +1,11 @@
-use crate::geometry::{position::Position, size::Size};
+use crate::character::collision::Box;
 
 pub struct World {
-    pub position: Position,
-    pub size: Size,
+    pub bounds: Box,
 }
 
 impl World {
-    pub fn new(position: Position, size: Size) -> Self {
-        World { position, size }
+    pub fn new(bounds: Box) -> Self {
+        World { bounds }
     }
 }

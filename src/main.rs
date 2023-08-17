@@ -13,6 +13,7 @@ use character::character::Character;
 use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
 use character::character_view::character_view::draw_characters;
+use character::collision::Box;
 use combat::combat::combat::process_combat_queue;
 use combat::event::Event;
 use combat::event_queue::EventQueue;
@@ -56,7 +57,13 @@ impl MainState {
             player_id = player.id;
         }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
-        let world: World = World::new(Position::new(5.0, 175.0), Size::new(1900.0, 850.0));
+        let bounds: Box = Box {
+            x: 5.0,
+            y: 175.0,
+            w: 1900.0,
+            h: 850.0,
+        };
+        let world: World = World::new(bounds);
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
 
         Ok(MainState {

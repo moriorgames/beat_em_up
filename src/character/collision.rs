@@ -1,5 +1,3 @@
-use crate::geometry::{position::Position, size::Size};
-
 #[derive(Clone)]
 pub struct Box {
     pub x: f32,
