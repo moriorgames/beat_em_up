@@ -1,8 +1,8 @@
 pub mod character_builder {
     use crate::{
         character::{
-            animation::Animation, box_collision::CollisionBox, character::Character,
-            character_types::CharacterTypes,
+            animation::Animation, character::Character, character_types::CharacterTypes,
+            collision::Box,
         },
         geometry::{position::Position, size::Size},
     };
@@ -16,9 +16,11 @@ pub mod character_builder {
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
         let animation: Animation = create_barbarian_animation();
-        let foot_collision: CollisionBox = CollisionBox {
-            position: Position::new(0.0, 50.0),
-            size: Size::new(size.w - 30.0, 50.0),
+        let foot_collision: Box = Box {
+            x: 0.0,
+            y: 50.0,
+            w: size.w - 30.0,
+            h: 50.0,
         };
         let player: Character = Character::new(
             position,
@@ -37,9 +39,11 @@ pub mod character_builder {
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let animation: Animation = create_orc_animation();
-        let foot_collision: CollisionBox = CollisionBox {
-            position: Position::new(0.0, 50.0),
-            size: Size::new(size.w - 30.0, 50.0),
+        let foot_collision: Box = Box {
+            x: 0.0,
+            y: 50.0,
+            w: size.w - 30.0,
+            h: 50.0,
         };
         let enemy: Character = Character::new(
             position,

@@ -1,6 +1,6 @@
 use super::animation::Animation;
-use super::box_collision::CollisionBox;
 use super::character_types::{CharacterTypes, Facing};
+use super::collision::Box;
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
@@ -17,7 +17,7 @@ pub struct Character {
     pub character_type: CharacterTypes,
     pub facing: Facing,
     pub animation: Animation,
-    pub foot_collision: CollisionBox,
+    pub foot_collision: Box,
 }
 
 impl Character {
@@ -28,7 +28,7 @@ impl Character {
         max_health: f32,
         character_type: CharacterTypes,
         animation: Animation,
-        foot_collision: CollisionBox,
+        foot_collision: Box,
     ) -> Self {
         Character {
             id: Uuid::new_v4(),
@@ -99,13 +99,12 @@ impl Character {
         }
     }
 
-    pub fn foot_collision_to_world_space(&self) -> (Position, Size) {
-        (
-            Position::new(
-                self.position.x + self.foot_collision.position.x,
-                self.position.y + self.foot_collision.position.y,
-            ),
-            self.foot_collision.size.clone(),
-        )
+    pub fn foot_collision_to_world_space(&self) -> Box {
+        Box {
+            x: self.position.x + self.foot_collision.x,
+            y: self.position.y + self.foot_collision.y,
+            w: self.foot_collision.w,
+            h: self.foot_collision.h,
+        }
     }
 }
