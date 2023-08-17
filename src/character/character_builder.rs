@@ -16,6 +16,12 @@ pub mod character_builder {
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
         let animation: Animation = create_barbarian_animation();
+        let body_collision: BoxCollision = BoxCollision {
+            x: 0.0,
+            y: -125.0,
+            w: size.w - 75.0,
+            h: 125.0,
+        };
         let foot_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: 50.0,
@@ -29,6 +35,7 @@ pub mod character_builder {
             max_health,
             character_type,
             animation,
+            body_collision,
             foot_collision,
         );
         characters.push(player);
@@ -39,6 +46,12 @@ pub mod character_builder {
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let animation: Animation = create_orc_animation();
+        let body_collision: BoxCollision = BoxCollision {
+            x: 0.0,
+            y: -125.0,
+            w: size.w - 75.0,
+            h: 145.0,
+        };
         let foot_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: 50.0,
@@ -52,6 +65,7 @@ pub mod character_builder {
             max_health,
             character_type,
             animation,
+            body_collision,
             foot_collision,
         );
         characters.push(enemy);

@@ -59,6 +59,16 @@ pub mod character_view {
             let h: f32 = foot_collision.h;
             let size: Size = Size::new(w, h);
             draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+
+            let body_collision: BoxCollision = character.body_collision_to_world_space();
+            let color: Color = Color::RED;
+            let x: f32 = body_collision.x;
+            let y: f32 = body_collision.y;
+            let position: Position = Position::new(x, y);
+            let w: f32 = body_collision.w;
+            let h: f32 = body_collision.h;
+            let size: Size = Size::new(w, h);
+            draw_stroke_rectangle(gfx, canvas, &position, &size, color);
         }
     }
 
