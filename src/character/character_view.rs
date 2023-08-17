@@ -11,7 +11,7 @@ pub mod character_view {
     use ggez::{Context, GameResult};
 
     const HEALTH_BAR_HEIGHT: f32 = 6.0;
-    const HITBOX_DEBUG: bool = true;
+    const HITBOX_DEBUG: bool = false;
 
     pub fn draw_characters(
         gfx: &mut Context,
