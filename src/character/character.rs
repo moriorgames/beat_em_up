@@ -1,6 +1,6 @@
 use super::animation::Animation;
+use super::box_collision::BoxCollision;
 use super::character_types::{CharacterTypes, Facing};
-use super::collision::Box;
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
@@ -17,7 +17,7 @@ pub struct Character {
     pub character_type: CharacterTypes,
     pub facing: Facing,
     pub animation: Animation,
-    pub foot_collision: Box,
+    pub foot_collision: BoxCollision,
 }
 
 impl Character {
@@ -28,7 +28,7 @@ impl Character {
         max_health: f32,
         character_type: CharacterTypes,
         animation: Animation,
-        foot_collision: Box,
+        foot_collision: BoxCollision,
     ) -> Self {
         Character {
             id: Uuid::new_v4(),
@@ -99,8 +99,27 @@ impl Character {
         }
     }
 
-    pub fn foot_collision_to_world_space(&self) -> Box {
-        Box {
+    pub fn next_foot_collision_to_world_space(&self, direction: Direction) -> BoxCollision {
+        let mut x: f32 = self.position.x;
+        let mut y: f32 = self.position.y;
+        match direction {
+            Direction::Left => x -= self.speed,
+            Direction::Right => x += self.speed,
+            Direction::Up => y -= self.speed,
+            Direction::Down => y += self.speed,
+        }
+
+        let position: Position = Position::new(x, y);
+        BoxCollision {
+            x: position.x + self.foot_collision.x,
+            y: position.y + self.foot_collision.y,
+            w: self.foot_collision.w,
+            h: self.foot_collision.h,
+        }
+    }
+
+    pub fn foot_collision_to_world_space(&self) -> BoxCollision {
+        BoxCollision {
             x: self.position.x + self.foot_collision.x,
             y: self.position.y + self.foot_collision.y,
             w: self.foot_collision.w,

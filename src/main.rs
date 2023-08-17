@@ -9,18 +9,17 @@ mod world;
 
 use std::path::PathBuf;
 
+use character::box_collision::BoxCollision;
 use character::character::Character;
 use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
 use character::character_view::character_view::draw_characters;
-use character::collision::Box;
 use combat::combat::combat::process_combat_queue;
 use combat::event::Event;
 use combat::event_queue::EventQueue;
 use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
-use geometry::size::Size;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -38,7 +37,7 @@ use world::world_view::character_view::draw;
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
 const TARGET_FPS: u32 = 36;
-const DEBUG_FPS: bool = true;
+const DEBUG_FPS: bool = false;
 
 struct MainState {
     event_queue: EventQueue,
@@ -57,7 +56,7 @@ impl MainState {
             player_id = player.id;
         }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
-        let bounds: Box = Box {
+        let bounds: BoxCollision = BoxCollision {
             x: 5.0,
             y: 175.0,
             w: 1900.0,
@@ -98,7 +97,11 @@ impl EventHandler<GameError> for MainState {
                 }
             }
 
-            process_combat_queue(self.event_queue.get_events(), &mut self.characters);
+            process_combat_queue(
+                self.event_queue.get_events(),
+                &mut self.characters,
+                &self.world,
+            );
         }
 
         Ok(())

@@ -1,17 +1,23 @@
 pub mod combat {
     use crate::{
-        character::character::Character,
+        character::{box_collision::BoxCollision, character::Character},
         combat::{
             action::Action,
+            direction::{self, Direction},
             event::Event,
             move_handlers::move_handlers::{down, left, right, up},
         },
+        world::world::World,
     };
     use std::collections::VecDeque;
 
     const EVENT_HANDLERS: [fn(&Event) -> Option<Action>; 4] = [left, right, up, down];
 
-    pub fn process_combat_queue(events: VecDeque<Event>, characters: &mut Vec<Character>) {
+    pub fn process_combat_queue(
+        events: VecDeque<Event>,
+        characters: &mut Vec<Character>,
+        world: &World,
+    ) {
         let mut actions: Vec<Action> = Vec::new();
 
         for character in &mut *characters {
@@ -22,16 +28,11 @@ pub mod combat {
             for handler in &EVENT_HANDLERS {
                 if let Some(action) = handler(event) {
                     match action {
-                        Action::MoveEntity { id, direction: _ } => {
-                            if let Some(main_character) =
-                                characters.iter().find(|&char| char.id == id)
-                            {
-                                let has_collision: bool =
-                                    characters.iter().any(|character: &Character| {
-                                        is_colliding(&main_character, character)
-                                    });
-
-                                if !has_collision {
+                        Action::MoveEntity { id, direction } => {
+                            if let Some(character) = characters.iter().find(|&char| char.id == id) {
+                                let world_space: BoxCollision =
+                                    character.next_foot_collision_to_world_space(direction);
+                                if world_space.is_inside(&world.bounds) {
                                     actions.push(action);
                                 }
                             }
