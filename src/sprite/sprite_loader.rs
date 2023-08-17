@@ -53,6 +53,10 @@ impl SpriteLoader {
             "barbarian_attack_3".to_string(),
             "/barbarian_attack_3.png".to_string(),
         ));
+        sprites.push((
+            "barbarian_attack_4".to_string(),
+            "/barbarian_attack_4.png".to_string(),
+        ));
 
         sprites.push(("orc_move_0".to_string(), "/orc_move_0.png".to_string()));
         sprites.push(("orc_move_1".to_string(), "/orc_move_1.png".to_string()));

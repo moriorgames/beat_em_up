@@ -98,7 +98,7 @@ impl Character {
     }
 
     pub fn attack(&mut self) {
-        self.attack_timer = 22;
+        self.attack_timer = 24;
         self.character_state = CharacterState::Attacking;
     }
 

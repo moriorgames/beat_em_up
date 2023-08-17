@@ -89,8 +89,8 @@ pub mod character_builder {
     fn create_barbarian_attack_animation() -> Animation {
         let sprite: String = "barbarian".to_string();
         let action_type: String = "attack".to_string();
-        let move_frames: u8 = 4;
-        let delay: u8 = 6;
+        let move_frames: u8 = 5;
+        let delay: u8 = 5;
 
         Animation::new(sprite, action_type, move_frames, delay)
     }
