@@ -1,6 +1,9 @@
 pub mod character_builder {
     use crate::{
-        character::{animation::Animation, character::Character, character_types::CharacterTypes},
+        character::{
+            animation::Animation, box_collision::CollisionBox, character::Character,
+            character_types::CharacterTypes,
+        },
         geometry::{position::Position, size::Size},
     };
 
@@ -13,19 +16,20 @@ pub mod character_builder {
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
         let animation: Animation = create_barbarian_animation();
-        let player: Character =
-            Character::new(position, size, speed, max_health, character_type, animation);
+        let foot_collision: CollisionBox = CollisionBox {
+            position: Position::new(0.0, 50.0),
+            size: Size::new(size.w - 30.0, 50.0),
+        };
+        let player: Character = Character::new(
+            position,
+            size,
+            speed,
+            max_health,
+            character_type,
+            animation,
+            foot_collision,
+        );
         characters.push(player);
-
-        let position: Position = Position::new(100.0, 600.0);
-        let size: Size = Size::new(190.0, 190.0);
-        let speed: f32 = 2.9;
-        let max_health: f32 = 800.0;
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let animation: Animation = create_orc_animation();
-        let enemy: Character =
-            Character::new(position, size, speed, max_health, character_type, animation);
-        characters.push(enemy);
 
         let position: Position = Position::new(1400.0, 850.0);
         let size: Size = Size::new(190.0, 190.0);
@@ -33,8 +37,19 @@ pub mod character_builder {
         let max_health: f32 = 800.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let animation: Animation = create_orc_animation();
-        let enemy: Character =
-            Character::new(position, size, speed, max_health, character_type, animation);
+        let foot_collision: CollisionBox = CollisionBox {
+            position: Position::new(0.0, 50.0),
+            size: Size::new(size.w - 30.0, 50.0),
+        };
+        let enemy: Character = Character::new(
+            position,
+            size,
+            speed,
+            max_health,
+            character_type,
+            animation,
+            foot_collision,
+        );
         characters.push(enemy);
 
         characters

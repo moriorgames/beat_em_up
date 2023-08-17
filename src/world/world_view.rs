@@ -4,7 +4,7 @@ pub mod character_view {
     use crate::world::world::World;
     use ggez::graphics::{Canvas, Color, DrawParam};
     use ggez::mint::Point2;
-    use ggez::{GameResult, Context};
+    use ggez::{Context, GameResult};
 
     const HITBOX_DEBUG: bool = true;
 

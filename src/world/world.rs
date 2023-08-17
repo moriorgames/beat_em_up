@@ -6,13 +6,7 @@ pub struct World {
 }
 
 impl World {
-    pub fn new(
-        position: Position,
-        size: Size,
-    ) -> Self {
-        World {
-            position,
-            size,
-        }
+    pub fn new(position: Position, size: Size) -> Self {
+        World { position, size }
     }
 }

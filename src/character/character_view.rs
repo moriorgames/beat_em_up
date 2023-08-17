@@ -1,4 +1,5 @@
 pub mod character_view {
+    use crate::character::box_collision::CollisionBox;
     use crate::character::character::Character;
     use crate::character::character_types::Facing;
     use crate::geometry::position::Position;
@@ -49,12 +50,13 @@ pub mod character_view {
         }
 
         if HITBOX_DEBUG {
-            let color: Color = Color::RED;
-            let x: f32 = character.position.x - character.size.w / 2.0;
-            let y: f32 = character.position.y - character.size.h / 2.0;
+            let (position, size): (Position, Size) = character.foot_collision_to_world_space();
+            let color: Color = Color::GREEN;
+            let x: f32 = position.x - size.w / 2.0;
+            let y: f32 = position.y - size.h / 2.0;
             let position: Position = Position::new(x, y);
-            let w: f32 = character.size.w;
-            let h: f32 = character.size.h;
+            let w: f32 = size.w;
+            let h: f32 = size.h;
             let size: Size = Size::new(w, h);
             draw_stroke_rectangle(gfx, canvas, &position, &size, color);
         }
