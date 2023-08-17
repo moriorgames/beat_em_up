@@ -1,7 +1,9 @@
 pub mod character_view {
+    use std::char;
+
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
-    use crate::character::character_types::Facing;
+    use crate::character::character_types::{Facing, CharacterTypes};
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
@@ -11,7 +13,7 @@ pub mod character_view {
     use ggez::{Context, GameResult};
 
     const HEALTH_BAR_HEIGHT: f32 = 6.0;
-    const HITBOX_DEBUG: bool = false;
+    const HITBOX_DEBUG: bool = true;
 
     pub fn draw_characters(
         gfx: &mut Context,
@@ -21,7 +23,9 @@ pub mod character_view {
     ) -> GameResult {
         for character in characters {
             draw_character(gfx, canvas, character, &sprite_repository);
-            draw_bars(gfx, canvas, character);
+            if character.character_type == CharacterTypes::Enemy {
+                draw_bars(gfx, canvas, character);
+            }
         }
 
         Ok(())

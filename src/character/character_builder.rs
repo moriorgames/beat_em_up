@@ -42,7 +42,7 @@ pub mod character_builder {
         );
         characters.push(player);
 
-        let position: Position = Position::new(1400.0, 850.0);
+        let position: Position = Position::new(100.0, 850.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 3.1;
         let max_health: f32 = 800.0;

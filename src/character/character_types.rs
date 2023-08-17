@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum CharacterTypes {
     Player,
     Enemy,
