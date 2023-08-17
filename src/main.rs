@@ -7,8 +7,6 @@ mod sprite;
 mod window;
 mod world;
 
-use std::path::PathBuf;
-
 use character::character::Character;
 use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
@@ -28,6 +26,7 @@ use ggez::{
 use graphics::{Canvas, Color};
 use player::player_controls::PlayerControls;
 use sprite::sprite_repository::SpriteRepository;
+use std::path::PathBuf;
 use uuid::Uuid;
 use window::window::Window;
 use world::world::World;

@@ -21,4 +21,20 @@ impl Animation {
             moved: false,
         }
     }
+
+    pub fn update(&mut self) {
+        if !self.moved {
+            self.frame += 1;
+            if self.frame > 80 {
+                self.frame = 0;
+            }
+            self.moved = true;
+        }
+
+        if self.counter > self.delay {
+            self.moved = false;
+            self.counter = 0;
+        }
+        self.counter += 1;
+    }
 }

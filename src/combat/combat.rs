@@ -1,8 +1,12 @@
 pub mod combat {
     use crate::{
-        character::{box_collision::BoxCollision, character::Character},
+        character::{
+            box_collision::BoxCollision,
+            character::{Character, CharacterState},
+        },
         combat::{
             action::Action,
+            attack_handlers::attack_handlers::attack,
             event::Event,
             move_handlers::move_handlers::{down, left, right, up},
         },
@@ -10,17 +14,19 @@ pub mod combat {
     };
     use std::collections::VecDeque;
 
-    const EVENT_HANDLERS: [fn(&Event) -> Option<Action>; 4] = [left, right, up, down];
+    const EVENT_HANDLERS: [fn(&Event) -> Option<Action>; 5] = [left, right, up, down, attack];
 
     pub fn process_combat_queue(
-        events: VecDeque<Event>,
+        mut events: VecDeque<Event>,
         characters: &mut Vec<Character>,
         world: &World,
     ) {
         let mut actions: Vec<Action> = Vec::new();
 
         for character in &mut *characters {
-            character.update();
+            if let Some(event) = character.update() {
+                events.push_back(event);
+            }
         }
 
         for event in &events {
@@ -36,7 +42,13 @@ pub mod combat {
                                 }
                             }
                         }
-                        _ => actions.push(action),
+                        Action::Attack { id } => {
+                            if let Some(character) = characters.iter().find(|&char| char.id == id) {
+                                if character.character_state == CharacterState::Moving {
+                                    actions.push(action);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -48,10 +60,13 @@ pub mod combat {
                     Action::MoveEntity { id, direction } => {
                         if id == character.id {
                             character.move_by_direction(direction);
-                            character.update_move_animation();
                         }
                     }
-                    _ => (),
+                    Action::Attack { id } => {
+                        if id == character.id {
+                            character.attack();
+                        }
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 pub mod action;
+pub mod attack_handlers;
 pub mod combat;
 pub mod direction;
 pub mod event;

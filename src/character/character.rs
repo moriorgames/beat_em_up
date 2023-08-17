@@ -2,6 +2,7 @@ use super::animation::Animation;
 use super::box_collision::BoxCollision;
 use super::character_types::{CharacterTypes, Facing};
 use crate::combat::direction::Direction;
+use crate::combat::event::Event;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
 use uuid::Uuid;
@@ -18,8 +19,16 @@ pub struct Character {
     pub facing: Facing,
     pub move_animation: Animation,
     pub attack_animation: Animation,
+    pub attack_timer: u8,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
+    pub character_state: CharacterState,
+}
+
+#[derive(Clone, PartialEq)]
+pub enum CharacterState {
+    Moving,
+    Attacking,
 }
 
 impl Character {
@@ -45,35 +54,81 @@ impl Character {
             facing: Facing::Right,
             move_animation,
             attack_animation,
+            attack_timer: 0,
             body_collision,
             foot_collision,
+            character_state: CharacterState::Moving,
         }
     }
 
-    pub fn update(&mut self) {
-        if self.move_animation.counter > self.move_animation.delay {
-            self.move_animation.moved = false;
-            self.move_animation.counter = 0;
+    pub fn update(&mut self) -> Option<Event> {
+        match self.character_state {
+            CharacterState::Moving => {
+                self.move_animation.update();
+
+                None
+            }
+            CharacterState::Attacking => {
+                self.attack_animation.update();
+                self.attack_timer -= 1;
+                if self.attack_timer <= 0 {
+                    self.attack_timer = 0;
+                    self.character_state = CharacterState::Moving;
+                    self.attack_animation.moved = false;
+                    self.attack_animation.counter = 0;
+                    self.attack_animation.frame = 0;
+
+                    None
+                } else {
+                    Some(Event::Attack { id: self.id })
+                }
+            }
         }
-        self.move_animation.counter += 1;
     }
 
     pub fn move_by_direction(&mut self, direction: Direction) {
-        match direction {
-            Direction::Left => self.move_left(),
-            Direction::Right => self.move_right(),
-            Direction::Up => self.move_up(),
-            Direction::Down => self.move_down(),
+        if self.character_state == CharacterState::Moving {
+            match direction {
+                Direction::Left => self.move_left(),
+                Direction::Right => self.move_right(),
+                Direction::Up => self.move_up(),
+                Direction::Down => self.move_down(),
+            }
         }
     }
 
-    pub fn get_sprite_name(&self) -> String {
-        let animation_frame: u8 = self.move_animation.frame % self.move_animation.move_frames;
+    pub fn attack(&mut self) {
+        self.attack_timer = 22;
+        self.character_state = CharacterState::Attacking;
+    }
 
-        format!(
-            "{}_{}_{}",
-            self.move_animation.sprite, self.move_animation.action_type, animation_frame
-        )
+    pub fn get_sprite_name(&self) -> String {
+        match self.character_state {
+            CharacterState::Moving => {
+                let animation_frame: u8 =
+                    self.move_animation.frame % self.move_animation.move_frames;
+                let action_type: String = self.move_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.move_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::Attacking => {
+                let animation_frame: u8 =
+                    self.attack_animation.frame % self.attack_animation.move_frames;
+                let action_type: String = self.attack_animation.action_type.to_string();
+
+                let s = format!(
+                    "{}_{}_{}",
+                    self.attack_animation.sprite, action_type, animation_frame
+                );
+
+                println!("Attacking ---- {:?}", s);
+
+                return s;
+            }
+        }
     }
 
     fn move_left(&mut self) {
@@ -92,16 +147,6 @@ impl Character {
 
     fn move_down(&mut self) {
         self.position.y += self.speed;
-    }
-
-    pub fn update_move_animation(&mut self) {
-        if !self.move_animation.moved {
-            self.move_animation.frame += 1;
-            if self.move_animation.frame > 80 {
-                self.move_animation.frame = 0;
-            }
-            self.move_animation.moved = true;
-        }
     }
 
     pub fn next_foot_collision_to_world_space(&self, direction: Direction) -> BoxCollision {
