@@ -37,6 +37,22 @@ impl SpriteLoader {
             "barbarian_move_7".to_string(),
             "/barbarian_move_7.png".to_string(),
         ));
+        sprites.push((
+            "barbarian_attack_0".to_string(),
+            "/barbarian_attack_0.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_attack_1".to_string(),
+            "/barbarian_attack_1.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_attack_2".to_string(),
+            "/barbarian_attack_2.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_attack_3".to_string(),
+            "/barbarian_attack_3.png".to_string(),
+        ));
 
         sprites.push(("orc_move_0".to_string(), "/orc_move_0.png".to_string()));
         sprites.push(("orc_move_1".to_string(), "/orc_move_1.png".to_string()));

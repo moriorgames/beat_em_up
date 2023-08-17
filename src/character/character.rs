@@ -65,12 +65,11 @@ impl Character {
     }
 
     pub fn get_sprite_name(&self) -> String {
-        let movement_type: &str = "move";
         let animation_frame: u8 = self.animation.frame % self.animation.move_frames;
 
         format!(
             "{}_{}_{}",
-            self.animation.sprite, movement_type, animation_frame
+            self.animation.sprite, self.animation.action_type, animation_frame
         )
     }
 

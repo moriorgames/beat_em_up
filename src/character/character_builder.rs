@@ -15,7 +15,7 @@ pub mod character_builder {
         let speed: f32 = 5.3;
         let max_health: f32 = 1000.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
-        let animation: Animation = create_barbarian_animation();
+        let animation: Animation = create_barbarian_move_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -73,19 +73,30 @@ pub mod character_builder {
         characters
     }
 
-    fn create_barbarian_animation() -> Animation {
+    fn create_barbarian_move_animation() -> Animation {
         let sprite: String = "barbarian".to_string();
+        let action_type: String = "move".to_string();
         let move_frames: u8 = 8;
         let delay: u8 = 4;
 
-        Animation::new(sprite, move_frames, delay)
+        Animation::new(sprite, action_type, move_frames, delay)
+    }
+
+    fn create_barbarian_attack_animation() -> Animation {
+        let sprite: String = "barbarian".to_string();
+        let action_type: String = "attack".to_string();
+        let move_frames: u8 = 4;
+        let delay: u8 = 6;
+
+        Animation::new(sprite, action_type, move_frames, delay)
     }
 
     fn create_orc_animation() -> Animation {
         let sprite: String = "orc".to_string();
+        let action_type: String = "move".to_string();
         let move_frames: u8 = 6;
         let delay: u8 = 6;
 
-        Animation::new(sprite, move_frames, delay)
+        Animation::new(sprite, action_type, move_frames, delay)
     }
 }
