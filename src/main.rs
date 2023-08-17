@@ -9,7 +9,6 @@ mod world;
 
 use std::path::PathBuf;
 
-use character::box_collision::BoxCollision;
 use character::character::Character;
 use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
@@ -32,6 +31,7 @@ use sprite::sprite_repository::SpriteRepository;
 use uuid::Uuid;
 use window::window::Window;
 use world::world::World;
+use world::world_builder::world_builder;
 use world::world_view::character_view::draw;
 
 const GAME_ID: &str = "Beat 'em up";
@@ -56,13 +56,7 @@ impl MainState {
             player_id = player.id;
         }
         let player_controls: PlayerControls = PlayerControls::new(player_id);
-        let bounds: BoxCollision = BoxCollision {
-            x: 5.0,
-            y: 175.0,
-            w: 1900.0,
-            h: 850.0,
-        };
-        let world: World = World::new(bounds);
+        let world: World = world_builder::build();
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
 
         Ok(MainState {

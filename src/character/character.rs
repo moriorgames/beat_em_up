@@ -111,8 +111,8 @@ impl Character {
 
         let position: Position = Position::new(x, y);
         BoxCollision {
-            x: position.x + self.foot_collision.x,
-            y: position.y + self.foot_collision.y,
+            x: position.x + self.foot_collision.x - self.foot_collision.w / 2.0,
+            y: position.y + self.foot_collision.y - self.foot_collision.y / 2.0,
             w: self.foot_collision.w,
             h: self.foot_collision.h,
         }
@@ -120,8 +120,8 @@ impl Character {
 
     pub fn foot_collision_to_world_space(&self) -> BoxCollision {
         BoxCollision {
-            x: self.position.x + self.foot_collision.x,
-            y: self.position.y + self.foot_collision.y,
+            x: self.position.x + self.foot_collision.x - self.foot_collision.w / 2.0,
+            y: self.position.y + self.foot_collision.y - self.foot_collision.y / 2.0,
             w: self.foot_collision.w,
             h: self.foot_collision.h,
         }

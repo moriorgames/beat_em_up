@@ -52,8 +52,8 @@ pub mod character_view {
         if HITBOX_DEBUG {
             let foot_collision: BoxCollision = character.foot_collision_to_world_space();
             let color: Color = Color::GREEN;
-            let x: f32 = foot_collision.x - foot_collision.w / 2.0;
-            let y: f32 = foot_collision.y - foot_collision.h / 2.0;
+            let x: f32 = foot_collision.x;
+            let y: f32 = foot_collision.y;
             let position: Position = Position::new(x, y);
             let w: f32 = foot_collision.w;
             let h: f32 = foot_collision.h;
