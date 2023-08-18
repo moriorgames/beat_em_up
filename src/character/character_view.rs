@@ -22,9 +22,7 @@ pub mod character_view {
     ) -> GameResult {
         for character in characters {
             draw_character(gfx, canvas, character, &sprite_repository);
-            if character.character_type == CharacterTypes::Enemy {
                 draw_bars(gfx, canvas, character);
-            }
         }
 
         Ok(())
@@ -96,12 +94,12 @@ pub mod character_view {
         let color: Color = Color::RED;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
 
-        let x: f32 = character.position.x - (character.size.w - (HEALTH_BAR_FACTOR)) / 2.0;
-        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
+        let x: f32 = character.position.x - (character.size.w - (HEALTH_BAR_FACTOR)) / 2.0 - 1.5;
+        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT - 1.5;
         let position: Position = Position::new(x, y);
 
-        let w: f32 = character.size.w - (HEALTH_BAR_FACTOR);
-        let h: f32 = HEALTH_BAR_HEIGHT;
+        let w: f32 = character.size.w - (HEALTH_BAR_FACTOR) + 1.5;
+        let h: f32 = HEALTH_BAR_HEIGHT + 1.5;
         let size: Size = Size::new(w, h);
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
