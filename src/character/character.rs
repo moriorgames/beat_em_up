@@ -2,7 +2,6 @@ use super::animation::Animation;
 use super::box_collision::BoxCollision;
 use super::character_types::{CharacterTypes, Facing};
 use crate::combat::direction::Direction;
-use crate::combat::event::Event;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
 use uuid::Uuid;
@@ -28,12 +27,14 @@ pub struct Character {
 
 #[derive(Clone, PartialEq)]
 pub enum CharacterState {
+    Idle,
     Moving,
     Attacking,
 }
 
 impl Character {
     pub fn new(
+        id: Uuid,
         position: Position,
         size: Size,
         speed: f32,
@@ -45,7 +46,7 @@ impl Character {
         foot_collision: BoxCollision,
     ) -> Self {
         Character {
-            id: Uuid::new_v4(),
+            id,
             position,
             size,
             speed,
@@ -64,16 +65,29 @@ impl Character {
                 w: 0.0,
                 h: 0.0,
             },
-            character_state: CharacterState::Moving,
+            character_state: CharacterState::Idle,
         }
     }
 
-    pub fn update(&mut self) -> Option<Event> {
+    pub fn is_idle(&mut self) -> bool {
+        self.character_state == CharacterState::Idle
+    }
+
+    pub fn start_moving(&mut self) {
+        self.character_state = CharacterState::Moving
+    }
+
+    pub fn back_to_idle(&mut self) {
+        self.character_state = CharacterState::Idle;
+    }
+
+    pub fn update(&mut self) {
         match self.character_state {
+            CharacterState::Idle => {
+                self.move_animation.update();
+            }
             CharacterState::Moving => {
                 self.move_animation.update();
-
-                None
             }
             CharacterState::Attacking => {
                 self.attack_animation.update();
@@ -102,10 +116,6 @@ impl Character {
                         w: 0.0,
                         h: 0.0,
                     };
-
-                    None
-                } else {
-                    Some(Event::Attack { id: self.id })
                 }
             }
         }
@@ -118,8 +128,42 @@ impl Character {
                 Direction::Right => self.move_right(),
                 Direction::Up => self.move_up(),
                 Direction::Down => self.move_down(),
+                Direction::UpLeft => {
+                    self.move_up();
+                    self.move_left();
+                }
+                Direction::UpRight => {
+                    self.move_up();
+                    self.move_right();
+                }
+                Direction::DownLeft => {
+                    self.move_down();
+                    self.move_left();
+                }
+                Direction::DownRight => {
+                    self.move_down();
+                    self.move_right();
+                }
             }
         }
+    }
+
+    fn move_left(&mut self) {
+        self.position.x -= self.speed;
+        self.facing = Facing::Left;
+    }
+
+    fn move_right(&mut self) {
+        self.position.x += self.speed;
+        self.facing = Facing::Right;
+    }
+
+    fn move_up(&mut self) {
+        self.position.y -= self.speed;
+    }
+
+    fn move_down(&mut self) {
+        self.position.y += self.speed;
     }
 
     pub fn attack(&mut self) {
@@ -133,6 +177,16 @@ impl Character {
 
     pub fn get_sprite_name(&self) -> String {
         match self.character_state {
+            CharacterState::Idle => {
+                let animation_frame: u8 =
+                    self.move_animation.frame % self.move_animation.move_frames;
+                let action_type: String = self.move_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.move_animation.sprite, action_type, animation_frame
+                )
+            }
             CharacterState::Moving => {
                 let animation_frame: u8 =
                     self.move_animation.frame % self.move_animation.move_frames;
@@ -156,24 +210,6 @@ impl Character {
         }
     }
 
-    fn move_left(&mut self) {
-        self.position.x -= self.speed;
-        self.facing = Facing::Left;
-    }
-
-    fn move_right(&mut self) {
-        self.position.x += self.speed;
-        self.facing = Facing::Right;
-    }
-
-    fn move_up(&mut self) {
-        self.position.y -= self.speed;
-    }
-
-    fn move_down(&mut self) {
-        self.position.y += self.speed;
-    }
-
     pub fn next_foot_collision_to_world_space(&self, direction: Direction) -> BoxCollision {
         let mut x: f32 = self.position.x;
         let mut y: f32 = self.position.y;
@@ -182,6 +218,22 @@ impl Character {
             Direction::Right => x += self.speed,
             Direction::Up => y -= self.speed,
             Direction::Down => y += self.speed,
+            Direction::UpLeft => {
+                y -= self.speed;
+                x -= self.speed;
+            }
+            Direction::UpRight => {
+                y -= self.speed;
+                x += self.speed;
+            }
+            Direction::DownLeft => {
+                y += self.speed;
+                x -= self.speed;
+            }
+            Direction::DownRight => {
+                y += self.speed;
+                x += self.speed;
+            }
         }
 
         let position: Position = Position::new(x, y);

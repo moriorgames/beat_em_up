@@ -1,99 +1,111 @@
-pub mod combat {
-    use crate::{
-        character::{
-            box_collision::BoxCollision,
-            character::{Character, CharacterState},
-        },
-        combat::{
-            action::Action,
-            attack_handlers::attack_handlers::attack,
-            event::Event,
-            move_handlers::move_handlers::{down, left, right, up},
-        },
-        world::world::World,
-    };
-    use std::collections::VecDeque;
+use crate::{
+    character::{box_collision::BoxCollision, character::Character},
+    combat::action::Action,
+    world::world::World,
+};
 
-    const EVENT_HANDLERS: [fn(&Event) -> Option<Action>; 5] = [left, right, up, down, attack];
+pub struct Combat {
+    pub turn: u128,
+    actions: Vec<Action>,
+}
 
-    pub fn process_combat_queue(
-        mut events: VecDeque<Event>,
-        characters: &mut Vec<Character>,
-        world: &World,
-    ) {
-        let mut actions: Vec<Action> = Vec::new();
+impl Combat {
+    pub fn new() -> Self {
+        Self {
+            turn: 0,
+            actions: Vec::new(),
+        }
+    }
+
+    pub fn add_action(&mut self, action: Action) {
+        self.actions.push(action);
+    }
+
+    pub fn process(&mut self, characters: &mut Vec<Character>, world: &World) {
+        self.turn += 1;
+        println!("Turn: {:?}", self.turn);
 
         for character in &mut *characters {
-            if let Some(event) = character.update() {
-                events.push_back(event);
+            character.update();
+        }
+
+        for action in self.actions.clone() {
+            match action {
+                Action::StartMoving { .. } => self.process_start_moving(action, characters),
+                Action::Moving { .. } => self.process_moving(action, characters, world),
+                Action::Attack { .. } => self.process_attack_action(action, characters),
+                _ => {}
             }
         }
 
-        for event in &events {
-            for handler in &EVENT_HANDLERS {
-                if let Some(action) = handler(event) {
-                    match action {
-                        Action::MoveEntity { id, direction } => {
-                            if let Some(character) = characters.iter().find(|&char| char.id == id) {
-                                let world_space: BoxCollision =
-                                    character.next_foot_collision_to_world_space(direction);
-                                if world_space.is_inside(&world.bounds) {
-                                    actions.push(action);
-                                }
-                            }
-                        }
-                        Action::Attack { id } => {
-                            if let Some(character) = characters.iter().find(|&char| char.id == id) {
-                                if character.character_state == CharacterState::Moving {
-                                    actions.push(action);
-                                }
-                            }
+        println!("Quantity Actions: {}", self.actions.len());
 
-                            for body in characters.clone() {
-                                for weapon in characters.clone() {
-                                    if body.id != weapon.id {
-                                        if BoxCollision::collides_with(
-                                            body.position.clone(),
-                                            &body.body_collision,
-                                            weapon.position.clone(),
-                                            &weapon.weapon_collision,
-                                        ) {
-                                            let action: Action = Action::Damage {
-                                                id: body.id,
-                                                damage: 20.0,
-                                            };
-                                            actions.push(action);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        _ => (),
+        self.clean_actions();
+    }
+
+    fn process_start_moving(&mut self, action: Action, characters: &mut Vec<Character>) {
+        if let Action::StartMoving {
+            id,
+            direction,
+            from,
+            to,
+        } = action
+        {
+            if self.turn >= from && self.turn <= to {
+                for character in characters.iter_mut().filter(|c| c.id == id) {
+                    if character.is_idle() {
+                        character.start_moving();
+                        self.actions.push(Action::Moving {
+                            id: character.id,
+                            direction,
+                            from: self.turn,
+                            to: self.turn + 4,
+                        });
                     }
                 }
             }
         }
+    }
 
-        for action in actions {
-            for character in &mut *characters {
-                match action {
-                    Action::MoveEntity { id, direction } => {
-                        if id == character.id {
-                            character.move_by_direction(direction);
-                        }
+    fn process_moving(&mut self, action: Action, characters: &mut Vec<Character>, world: &World) {
+        if let Action::Moving {
+            id,
+            direction,
+            from,
+            to,
+        } = action
+        {
+            if self.turn >= from && self.turn <= to {
+                for character in characters.iter_mut().filter(|c| c.id == id) {
+                    let world_space: BoxCollision =
+                        character.next_foot_collision_to_world_space(direction);
+                    if world_space.is_inside(&world.bounds) {
+                        character.move_by_direction(direction);
                     }
-                    Action::Attack { id } => {
-                        if id == character.id {
-                            character.attack();
-                        }
-                    }
-                    Action::Damage { id, damage } => {
-                        if id == character.id {
-                            character.apply_damage(damage)
-                        }
+                    if self.turn == to {
+                        character.back_to_idle();
                     }
                 }
             }
         }
+    }
+
+    fn process_attack_action(&mut self, action: Action, characters: &mut Vec<Character>) {
+        if let Action::Attack { id, from, to } = action {
+            if self.turn >= from && self.turn <= to {
+                for character in characters.iter_mut().filter(|c| c.id == id) {
+                    character.attack();
+                }
+            }
+        }
+    }
+
+    fn clean_actions(&mut self) {
+        self.actions.retain(|action| match action {
+            Action::StartMoving { to, .. } => self.turn <= *to,
+            Action::Moving { to, .. } => self.turn <= *to,
+            Action::Attack { to, .. } => self.turn <= *to,
+            Action::Damage { to, .. } => self.turn <= *to,
+        });
     }
 }

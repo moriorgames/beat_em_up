@@ -11,9 +11,8 @@ use character::character::Character;
 use character::character_builder::character_builder;
 use character::character_types::CharacterTypes;
 use character::character_view::character_view::draw_characters;
-use combat::combat::combat::process_combat_queue;
-use combat::event::Event;
-use combat::event_queue::EventQueue;
+use combat::action::Action;
+use combat::combat::Combat;
 use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
 use geometry::position::Position;
@@ -39,16 +38,15 @@ const TARGET_FPS: u32 = 40;
 const DEBUG_FPS: bool = false;
 
 struct MainState {
-    event_queue: EventQueue,
     player_controls: PlayerControls,
     world: World,
     characters: Vec<Character>,
     sprite_repository: SpriteRepository,
+    combat: Combat,
 }
 
 impl MainState {
     fn new(ctx: &mut Context) -> GameResult<MainState> {
-        let event_queue: EventQueue = EventQueue::new();
         let mut player_id: Uuid = Uuid::new_v4();
         let characters: Vec<Character> = character_builder::build();
         if let Some(player) = characters.first() {
@@ -57,13 +55,14 @@ impl MainState {
         let player_controls: PlayerControls = PlayerControls::new(player_id);
         let world: World = world_builder::build();
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
+        let combat: Combat = Combat::new();
 
         Ok(MainState {
-            event_queue,
             player_controls,
             world,
             characters,
             sprite_repository,
+            combat,
         })
     }
 }
@@ -71,30 +70,27 @@ impl MainState {
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
-            let player_events: Vec<Event> = self.player_controls.handle_input(ctx);
-            for event in player_events {
-                self.event_queue.push(event);
+            let player_actions: Vec<Action> =
+                self.player_controls.handle_input(ctx, self.combat.turn);
+            for action in player_actions {
+                self.combat.add_action(action)
             }
 
             if let Some(player) = self.characters.first() {
                 match player.character_type {
                     CharacterTypes::Player => {
                         let player_position: Position = player.position.clone();
-                        let enemy_events: Vec<Event> =
-                            update_enemy_behaviour(self.characters.clone(), player_position);
-                        for event in enemy_events {
-                            self.event_queue.push(event);
+                        let enemy_actions: Vec<Action> =
+                            update_enemy_behaviour(self.characters.clone(), player_position, self.combat.turn);
+                        for action in enemy_actions {
+                            self.combat.add_action(action);
                         }
                     }
                     _ => (),
                 }
             }
 
-            process_combat_queue(
-                self.event_queue.get_events(),
-                &mut self.characters,
-                &self.world,
-            );
+            self.combat.process(&mut self.characters, &self.world);
         }
 
         Ok(())

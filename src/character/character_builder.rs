@@ -1,4 +1,6 @@
 pub mod character_builder {
+    use uuid::Uuid;
+
     use crate::{
         character::{
             animation::Animation, box_collision::BoxCollision, character::Character,
@@ -10,7 +12,8 @@ pub mod character_builder {
     pub fn build() -> Vec<Character> {
         let mut characters: Vec<Character> = Vec::new();
 
-        let position: Position = Position::new(600.0, 700.0);
+        let id: Uuid = Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap();
+        let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 5.3;
         let max_health: f32 = 1000.0;
@@ -30,6 +33,7 @@ pub mod character_builder {
             h: 50.0,
         };
         let player: Character = Character::new(
+            id,
             position,
             size,
             speed,
@@ -42,7 +46,8 @@ pub mod character_builder {
         );
         characters.push(player);
 
-        let position: Position = Position::new(100.0, 850.0);
+        let id: Uuid = Uuid::parse_str("00000000-0000-0000-0000-000000000002").unwrap();
+        let position: Position = Position::new(200.0, 850.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 3.1;
         let max_health: f32 = 800.0;
@@ -62,6 +67,7 @@ pub mod character_builder {
             h: 50.0,
         };
         let enemy: Character = Character::new(
+            id,
             position,
             size,
             speed,
