@@ -100,6 +100,16 @@ pub mod character_view {
         let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
         let position: Position = Position::new(x, y);
 
+        let w: f32 = character.size.w - (HEALTH_BAR_FACTOR);
+        let h: f32 = HEALTH_BAR_HEIGHT;
+        let size: Size = Size::new(w, h);
+        let color: Color = Color::BLACK;
+        draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+
+        let x: f32 = character.position.x - (character.size.w - (HEALTH_BAR_FACTOR)) / 2.0;
+        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
+        let position: Position = Position::new(x, y);
+
         let health_percentage: f32 = character.current_health as f32 / character.max_health as f32;
         let w: f32 = character.size.w * health_percentage - (HEALTH_BAR_FACTOR);
         let h: f32 = HEALTH_BAR_HEIGHT;
