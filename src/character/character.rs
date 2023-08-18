@@ -83,6 +83,7 @@ impl Character {
     }
 
     pub fn back_to_idle(&mut self) {
+        self.attack_animation.reset();
         self.character_state = CharacterState::Idle;
     }
 

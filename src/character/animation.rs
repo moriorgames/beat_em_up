@@ -37,4 +37,10 @@ impl Animation {
         }
         self.counter += 1;
     }
+
+    pub fn reset(&mut self) {
+        self.frame = 0;
+        self.counter = 0;
+        self.moved = false;
+    }
 }
