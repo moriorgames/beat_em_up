@@ -22,7 +22,7 @@ pub mod character_view {
             let x: f32 = 0.0;
             let y: f32 = 0.0;
             let dst: Point2<f32> = Point2 { x, y };
-            let scale: Point2<f32> = Point2 { x: 2.0, y: 2.0 };
+            let scale: Point2<f32> = Point2 { x: 2f32, y: 2f32 };
 
             canvas.draw(sprite, DrawParam::new().dest(dst).scale(scale));
         }
