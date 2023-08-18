@@ -22,7 +22,12 @@ pub mod enemy_behavior {
         actions
     }
 
-    fn seek_player(actions: &mut Vec<Action>, character: &Character, player_position: Position, turn: u128,) {
+    fn seek_player(
+        actions: &mut Vec<Action>,
+        character: &Character,
+        player_position: Position,
+        turn: u128,
+    ) {
         let enemy_position: Position = character.position.clone();
         let dir_x: f32 = player_position.x - enemy_position.x;
         let dir_y: f32 = player_position.y - enemy_position.y;

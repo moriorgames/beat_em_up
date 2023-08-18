@@ -80,8 +80,11 @@ impl EventHandler<GameError> for MainState {
                 match player.character_type {
                     CharacterTypes::Player => {
                         let player_position: Position = player.position.clone();
-                        let enemy_actions: Vec<Action> =
-                            update_enemy_behaviour(self.characters.clone(), player_position, self.combat.turn);
+                        let enemy_actions: Vec<Action> = update_enemy_behaviour(
+                            self.characters.clone(),
+                            player_position,
+                            self.combat.turn,
+                        );
                         for action in enemy_actions {
                             self.combat.add_action(action);
                         }
