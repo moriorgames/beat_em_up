@@ -1,7 +1,7 @@
 pub mod character_view {
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
-    use crate::character::character_types::{CharacterTypes, Facing};
+    use crate::character::character_types::Facing;
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
@@ -22,7 +22,7 @@ pub mod character_view {
     ) -> GameResult {
         for character in characters {
             draw_character(gfx, canvas, character, &sprite_repository);
-                draw_bars(gfx, canvas, character);
+            draw_bars(gfx, canvas, character);
         }
 
         Ok(())

@@ -1,4 +1,8 @@
-use crate::{character::{character::Character, box_collision::BoxCollision}, combat::action::Action, world::world::World};
+use crate::{
+    character::{box_collision::BoxCollision, character::Character},
+    combat::action::Action,
+    world::world::World,
+};
 
 pub struct Combat {
     pub turn: u128,
