@@ -1,9 +1,7 @@
 pub mod character_view {
-    use std::char;
-
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
-    use crate::character::character_types::{Facing, CharacterTypes};
+    use crate::character::character_types::{CharacterTypes, Facing};
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::{draw_solid_rectangle, draw_stroke_rectangle};
     use crate::geometry::size::Size;
