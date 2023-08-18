@@ -15,8 +15,14 @@ pub enum Action {
         from: u128,
         to: u128,
     },
-    Attack {
+    StartAttacking {
         id: Uuid,
+        from: u128,
+        to: u128,
+    },
+    Attacking {
+        id: Uuid,
+        damage: f32,
         from: u128,
         to: u128,
     },

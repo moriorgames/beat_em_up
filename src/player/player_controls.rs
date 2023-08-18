@@ -34,6 +34,13 @@ impl PlayerControls {
 
         let mut actions: Vec<Action> = Vec::new();
 
+        if gamepad_intention.attack || keyboard_intention.attack {
+            actions.push(Action::StartAttacking {
+                id: self.player_id,
+                from: turn,
+                to: turn + 2,
+            });
+        }
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
@@ -44,7 +51,6 @@ impl PlayerControls {
                 to: turn + 2,
             });
         }
-
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
@@ -55,7 +61,6 @@ impl PlayerControls {
                 to: turn + 2,
             });
         }
-
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
@@ -66,7 +71,6 @@ impl PlayerControls {
                 to: turn + 2,
             });
         }
-
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
@@ -77,7 +81,6 @@ impl PlayerControls {
                 to: turn + 2,
             });
         }
-
         if gamepad_intention.move_left || keyboard_intention.move_left {
             actions.push(Action::StartMoving {
                 id: self.player_id,
@@ -110,9 +113,6 @@ impl PlayerControls {
                 to: turn + 2,
             });
         }
-        // if gamepad_intention.attack || keyboard_intention.attack {
-        //     actions.push(Action::Attack { id: self.player_id });
-        // }
         if keyboard_intention.quit {
             ctx.request_quit();
         }

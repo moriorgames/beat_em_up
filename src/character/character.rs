@@ -77,6 +77,11 @@ impl Character {
         self.character_state = CharacterState::Moving
     }
 
+    pub fn start_attacking(&mut self) {
+        self.attack_timer = 24;
+        self.character_state = CharacterState::Attacking
+    }
+
     pub fn back_to_idle(&mut self) {
         self.character_state = CharacterState::Idle;
     }
@@ -166,13 +171,13 @@ impl Character {
         self.position.y += self.speed;
     }
 
-    pub fn attack(&mut self) {
-        self.attack_timer = 24;
-        self.character_state = CharacterState::Attacking;
-    }
-
     pub fn apply_damage(&mut self, damage: f32) {
         self.current_health -= damage;
+        let push_x: f32 = match self.facing {
+            Facing::Left => 3.0,
+            Facing::Right => -3.0,
+        };
+        self.position.x += push_x;
     }
 
     pub fn get_sprite_name(&self) -> String {

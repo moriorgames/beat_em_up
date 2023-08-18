@@ -1,4 +1,4 @@
-use crate::{character::character::Character, combat::action::Action, world::world::World};
+use crate::{character::{character::Character, box_collision::BoxCollision}, combat::action::Action, world::world::World};
 
 pub struct Combat {
     pub turn: u128,
@@ -29,8 +29,9 @@ impl Combat {
             match action {
                 Action::StartMoving { .. } => self.process_start_moving(action, characters),
                 Action::Moving { .. } => self.process_moving(action, characters, world),
-                Action::Attack { .. } => self.process_attack_action(action, characters),
-                _ => {}
+                Action::StartAttacking { .. } => self.process_start_attacking(action, characters),
+                Action::Attacking { .. } => self.process_attacking(action, characters),
+                Action::Damage { .. } => self.process_damage(action, characters),
             }
         }
 
@@ -39,11 +40,73 @@ impl Combat {
         self.clean_actions();
     }
 
-    fn process_attack_action(&mut self, action: Action, characters: &mut Vec<Character>) {
-        if let Action::Attack { id, from, to } = action {
+    fn process_start_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
+        if let Action::StartAttacking { id, from, to } = action {
             if self.turn >= from && self.turn <= to {
                 for character in characters.iter_mut().filter(|c| c.id == id) {
-                    character.attack();
+                    if character.is_idle() {
+                        character.start_attacking();
+                        self.actions.push(Action::Attacking {
+                            id: character.id,
+                            damage: 10.0,
+                            from: self.turn,
+                            to: self.turn + 22,
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    fn process_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
+        if let Action::Attacking {
+            id,
+            damage,
+            from,
+            to,
+        } = action
+        {
+            if self.turn >= from && self.turn <= to {
+                let bodies: Vec<Character> = characters.clone();
+                for weapon in characters.iter_mut().filter(|c| c.id == id) {
+                    for body in bodies.iter() {
+                        if weapon.id != body.id {
+                            if BoxCollision::collides_with(
+                                body.position.clone(),
+                                &body.body_collision,
+                                weapon.position.clone(),
+                                &weapon.weapon_collision,
+                            ) {
+                                let action: Action = Action::Damage {
+                                    id: body.id,
+                                    damage: damage,
+                                    from: self.turn + 1,
+                                    to: self.turn + 2,
+                                };
+                                self.actions.push(action);
+                            }
+                        }
+                    }
+
+                    if self.turn == to {
+                        weapon.back_to_idle();
+                    }
+                }
+            }
+        }
+    }
+
+    fn process_damage(&mut self, action: Action, characters: &mut Vec<Character>) {
+        if let Action::Damage {
+            id,
+            damage,
+            from,
+            to,
+        } = action
+        {
+            if self.turn >= from && self.turn <= to {
+                for character in characters.iter_mut().filter(|c| c.id == id) {
+                    character.apply_damage(damage);
                 }
             }
         }
@@ -53,7 +116,8 @@ impl Combat {
         self.actions.retain(|action| match action {
             Action::StartMoving { to, .. } => self.turn <= *to,
             Action::Moving { to, .. } => self.turn <= *to,
-            Action::Attack { to, .. } => self.turn <= *to,
+            Action::StartAttacking { to, .. } => self.turn <= *to,
+            Action::Attacking { to, .. } => self.turn <= *to,
             Action::Damage { to, .. } => self.turn <= *to,
         });
     }

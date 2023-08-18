@@ -8,7 +8,7 @@ pub mod character_view {
     use ggez::mint::Point2;
     use ggez::{Context, GameResult};
 
-    const HITBOX_DEBUG: bool = true;
+    const HITBOX_DEBUG: bool = false;
 
     pub fn draw(
         gfx: &mut Context,
