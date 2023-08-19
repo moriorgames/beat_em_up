@@ -20,7 +20,6 @@ impl Combat {
         {
             if self.turn >= from && self.turn <= to {
                 for character in characters.iter_mut().filter(|c| c.id == id) {
-
                     if self.turn > from && character.is_moving() {
                         let world_space: BoxCollision =
                             character.next_foot_collision_to_world_space(direction);

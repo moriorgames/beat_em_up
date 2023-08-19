@@ -1,4 +1,6 @@
 pub mod character_view {
+    use std::cmp::Ordering;
+
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
     use crate::character::character_types::Facing;
@@ -20,9 +22,17 @@ pub mod character_view {
         characters: &Vec<Character>,
         sprite_repository: &SpriteRepository,
     ) -> GameResult {
-        for character in characters {
-            draw_character(gfx, canvas, character, &sprite_repository);
-            draw_bars(gfx, canvas, character);
+        let mut ordered_characters: Vec<Character> = characters.clone();
+        ordered_characters.sort_by(|a, b| {
+            a.position
+                .y
+                .partial_cmp(&b.position.y)
+                .unwrap_or(Ordering::Equal)
+        });
+
+        for character in ordered_characters {
+            draw_character(gfx, canvas, &character, &sprite_repository);
+            draw_bars(gfx, canvas, &character);
         }
 
         Ok(())
