@@ -53,7 +53,7 @@ pub mod enemy_behavior {
             id,
             direction,
             from: turn + 1,
-            to: turn + 12,
+            to: turn + 20,
         });
     }
 }

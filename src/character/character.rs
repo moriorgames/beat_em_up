@@ -14,6 +14,7 @@ pub struct Character {
     pub speed: f32,
     pub current_health: f32,
     pub max_health: f32,
+    pub has_processed_action: bool,
     pub character_type: CharacterTypes,
     pub facing: Facing,
     pub move_animation: Animation,
@@ -52,6 +53,7 @@ impl Character {
             speed,
             current_health: max_health,
             max_health,
+            has_processed_action: false,
             character_type,
             facing: Facing::Right,
             move_animation,
@@ -92,6 +94,7 @@ impl Character {
     }
 
     pub fn update(&mut self) {
+        self.has_processed_action = false;
         match self.character_state {
             CharacterState::Idle => {
                 self.move_animation.update();
@@ -133,6 +136,7 @@ impl Character {
 
     pub fn move_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Moving {
+            self.has_processed_action = true;
             match direction {
                 Direction::Left => self.move_left(),
                 Direction::Right => self.move_right(),
