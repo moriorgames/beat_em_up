@@ -71,12 +71,16 @@ impl Character {
         }
     }
 
+    pub fn is_idle(&mut self) -> bool {
+        self.character_state == CharacterState::Idle
+    }
+
     pub fn is_moving(&mut self) -> bool {
         self.character_state == CharacterState::Moving
     }
 
-    pub fn is_idle(&mut self) -> bool {
-        self.character_state == CharacterState::Idle
+    pub fn is_attacking(&mut self) -> bool {
+        self.character_state == CharacterState::Attacking
     }
 
     pub fn start_moving(&mut self) {
@@ -131,6 +135,12 @@ impl Character {
                     };
                 }
             }
+        }
+    }
+
+    pub fn attack(&mut self) {
+        if self.character_state == CharacterState::Attacking {
+            self.has_processed_action = true;
         }
     }
 
