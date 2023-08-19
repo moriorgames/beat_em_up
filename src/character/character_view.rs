@@ -22,15 +22,7 @@ pub mod character_view {
         characters: &Vec<Character>,
         sprite_repository: &SpriteRepository,
     ) -> GameResult {
-        let mut ordered_characters: Vec<Character> = characters.clone();
-        ordered_characters.sort_by(|a, b| {
-            a.position
-                .y
-                .partial_cmp(&b.position.y)
-                .unwrap_or(Ordering::Equal)
-        });
-
-        for character in ordered_characters {
+        for character in get_ordered_characters_by_position(characters) {
             draw_character(gfx, canvas, &character, &sprite_repository);
             draw_bars(gfx, canvas, &character);
         }
@@ -124,5 +116,16 @@ pub mod character_view {
         let size: Size = Size::new(w, h);
         let color: Color = Color::YELLOW;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
+    }
+
+    fn get_ordered_characters_by_position(characters: &Vec<Character>) -> Vec<Character> {
+        let mut ordered_characters: Vec<Character> = characters.clone();
+        ordered_characters.sort_by(|a, b| {
+            a.position
+                .y
+                .partial_cmp(&b.position.y)
+                .unwrap_or(Ordering::Equal)
+        });
+        ordered_characters
     }
 }
