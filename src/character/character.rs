@@ -69,6 +69,10 @@ impl Character {
         }
     }
 
+    pub fn is_moving(&mut self) -> bool {
+        self.character_state == CharacterState::Moving
+    }
+
     pub fn is_idle(&mut self) -> bool {
         self.character_state == CharacterState::Idle
     }

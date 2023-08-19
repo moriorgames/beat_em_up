@@ -3,12 +3,6 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug)]
 pub enum Action {
-    StartMoving {
-        id: Uuid,
-        direction: Direction,
-        from: u128,
-        to: u128,
-    },
     Moving {
         id: Uuid,
         direction: Direction,

@@ -31,7 +31,6 @@ impl Combat {
 
         for action in self.actions.clone() {
             match action {
-                Action::StartMoving { .. } => self.process_start_moving(action, characters),
                 Action::Moving { .. } => self.process_moving(action, characters, world),
                 Action::StartAttacking { .. } => self.process_start_attacking(action, characters),
                 Action::Attacking { .. } => self.process_attacking(action, characters),
@@ -118,7 +117,6 @@ impl Combat {
 
     fn clean_actions(&mut self) {
         self.actions.retain(|action| match action {
-            Action::StartMoving { to, .. } => self.turn <= *to,
             Action::Moving { to, .. } => self.turn <= *to,
             Action::StartAttacking { to, .. } => self.turn <= *to,
             Action::Attacking { to, .. } => self.turn <= *to,

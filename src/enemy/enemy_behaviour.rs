@@ -49,11 +49,11 @@ pub mod enemy_behavior {
             _ => return,
         };
 
-        actions.push(Action::StartMoving {
+        actions.push(Action::Moving {
             id,
             direction,
-            from: turn,
-            to: turn + 4,
+            from: turn + 1,
+            to: turn + 12,
         });
     }
 }

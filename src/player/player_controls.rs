@@ -37,79 +37,79 @@ impl PlayerControls {
         if gamepad_intention.attack || keyboard_intention.attack {
             actions.push(Action::StartAttacking {
                 id: self.player_id,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::UpLeft,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::UpRight,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::DownLeft,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::DownRight,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if gamepad_intention.move_left || keyboard_intention.move_left {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::Left,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if gamepad_intention.move_right || keyboard_intention.move_right {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::Right,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if gamepad_intention.move_up || keyboard_intention.move_up {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::Up,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
         if gamepad_intention.move_down || keyboard_intention.move_down {
-            actions.push(Action::StartMoving {
+            actions.push(Action::Moving {
                 id: self.player_id,
                 direction: Direction::Down,
-                from: turn,
+                from: turn + 1,
                 to: turn + 2,
             });
         }
