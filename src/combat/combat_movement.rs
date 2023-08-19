@@ -32,7 +32,7 @@ impl Combat {
                         character.start_moving();
                     }
 
-                    if self.turn == to {
+                    if self.turn == to && character.is_moving() {
                         character.back_to_idle();
                     }
                 }
