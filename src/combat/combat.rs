@@ -1,8 +1,4 @@
-use crate::{
-    character::character::Character,
-    combat::action::Action,
-    world::world::World,
-};
+use crate::{character::character::Character, combat::action::Action, world::world::World};
 
 pub struct Combat {
     pub turn: u128,
@@ -42,8 +38,6 @@ impl Combat {
 
         self.clean_actions();
     }
-
-
 
     fn process_damage(&mut self, action: Action, characters: &mut Vec<Character>) {
         if let Action::Damage {

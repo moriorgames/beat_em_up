@@ -1,7 +1,5 @@
 use super::{action::Action, combat::Combat};
-use crate::{
-    character::{box_collision::BoxCollision, character::Character},
-};
+use crate::character::{box_collision::BoxCollision, character::Character};
 
 impl Combat {
     pub fn process_start_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
