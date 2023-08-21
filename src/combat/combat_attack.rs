@@ -3,12 +3,7 @@ use crate::character::{box_collision::BoxCollision, character::Character};
 
 impl Combat {
     pub fn process_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
-        if let Action::Attacking {
-            id,
-            from,
-            to,
-        } = action
-        {
+        if let Action::Attacking { id, from, to } = action {
             if self.turn >= from && self.turn <= to {
                 let bodies: Vec<Character> = characters.clone();
                 for character in characters.iter_mut().filter(|c| c.id == id) {

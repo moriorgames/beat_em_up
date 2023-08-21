@@ -89,7 +89,7 @@ impl Character {
     pub fn is_attacking(&mut self) -> bool {
         self.character_state == CharacterState::Attacking
     }
-    
+
     pub fn is_damaged(&mut self) -> bool {
         self.character_state == CharacterState::Damaged
     }
@@ -107,7 +107,7 @@ impl Character {
         self.character_state = CharacterState::Damaged;
         self.apply_damage(damage);
     }
-    
+
     pub fn back_to_idle(&mut self) {
         self.attack_animation.reset();
         self.character_state = CharacterState::Idle;
