@@ -205,6 +205,9 @@ impl Character {
 
     fn apply_damage(&mut self, damage: f32) {
         self.current_health -= damage;
+        if self.current_health <= 0.0 {
+            self.current_health = 0.0;
+        }
         let push_x: f32 = match self.facing {
             Facing::Left => 8.0,
             Facing::Right => -8.0,

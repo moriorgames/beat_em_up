@@ -16,7 +16,7 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 5.3;
-        let strength: f32 = 19.0;
+        let strength: f32 = 120.0;
         let armor: f32 = 4.0;
         let max_health: f32 = 100.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
@@ -51,7 +51,7 @@ pub mod character_builder {
         characters.push(player);
 
         let id: Uuid = Uuid::parse_str("00000000-0000-0000-0000-000000000002").unwrap();
-        let position: Position = Position::new(200.0, 850.0);
+        let position: Position = Position::new(950.0, 750.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 3.1;
         let strength: f32 = 15.0;
