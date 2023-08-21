@@ -94,6 +94,8 @@ impl EventHandler<GameError> for MainState {
             }
 
             self.combat.process(&mut self.characters, &self.world);
+
+            self.characters.retain(|character| character.current_health > 0.0);
         }
 
         Ok(())
