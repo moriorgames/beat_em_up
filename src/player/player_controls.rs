@@ -37,7 +37,6 @@ impl PlayerControls {
         if gamepad_intention.attack || keyboard_intention.attack {
             actions.push(Action::Attacking {
                 id: self.player_id,
-                damage: 5.0,
                 from: turn + 1,
                 to: turn + 22,
             });

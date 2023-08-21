@@ -12,6 +12,8 @@ pub struct Character {
     pub position: Position,
     pub size: Size,
     pub speed: f32,
+    pub strength: f32,
+    pub armor: f32,
     pub current_health: f32,
     pub max_health: f32,
     pub has_processed_action: bool,
@@ -40,6 +42,8 @@ impl Character {
         position: Position,
         size: Size,
         speed: f32,
+        strength: f32,
+        armor: f32,
         max_health: f32,
         character_type: CharacterTypes,
         move_animation: Animation,
@@ -52,6 +56,8 @@ impl Character {
             position,
             size,
             speed,
+            strength,
+            armor,
             current_health: max_health,
             max_health,
             has_processed_action: false,
@@ -200,8 +206,8 @@ impl Character {
     fn apply_damage(&mut self, damage: f32) {
         self.current_health -= damage;
         let push_x: f32 = match self.facing {
-            Facing::Left => 3.0,
-            Facing::Right => -3.0,
+            Facing::Left => 8.0,
+            Facing::Right => -8.0,
         };
         self.position.x += push_x;
     }

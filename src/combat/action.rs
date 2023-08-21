@@ -11,7 +11,6 @@ pub enum Action {
     },
     Attacking {
         id: Uuid,
-        damage: f32,
         from: u128,
         to: u128,
     },

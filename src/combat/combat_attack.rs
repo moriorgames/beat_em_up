@@ -5,7 +5,6 @@ impl Combat {
     pub fn process_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
         if let Action::Attacking {
             id,
-            damage,
             from,
             to,
         } = action
@@ -23,6 +22,10 @@ impl Combat {
                                     character.position.clone(),
                                     &character.weapon_collision,
                                 ) {
+                                    let mut damage: f32 = character.strength - body.armor;
+                                    if damage <= 1.0 {
+                                        damage = 1.0;
+                                    }
                                     let action: Action = Action::Damage {
                                         id: body.id,
                                         damage,
