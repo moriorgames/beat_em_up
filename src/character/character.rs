@@ -62,8 +62,8 @@ impl Character {
             body_collision,
             foot_collision,
             weapon_collision: BoxCollision {
-                x: 0.0,
-                y: 0.0,
+                x: 2000.0,
+                y: 2000.0,
                 w: 0.0,
                 h: 0.0,
             },
@@ -95,6 +95,13 @@ impl Character {
     pub fn back_to_idle(&mut self) {
         self.attack_animation.reset();
         self.character_state = CharacterState::Idle;
+        self.attack_timer = 0;
+        self.weapon_collision = BoxCollision {
+            x: 2000.0,
+            y: 2000.0,
+            w: 0.0,
+            h: 0.0,
+        };
     }
 
     pub fn update(&mut self) {
@@ -119,19 +126,6 @@ impl Character {
                         y: -85.0,
                         w: 75.0,
                         h: 60.0,
-                    };
-                }
-                if self.attack_timer <= 0 {
-                    self.attack_timer = 0;
-                    self.character_state = CharacterState::Moving;
-                    self.attack_animation.moved = false;
-                    self.attack_animation.counter = 0;
-                    self.attack_animation.frame = 0;
-                    self.weapon_collision = BoxCollision {
-                        x: 0.0,
-                        y: 0.0,
-                        w: 0.0,
-                        h: 0.0,
                     };
                 }
             }
