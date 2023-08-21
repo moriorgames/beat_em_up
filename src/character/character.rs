@@ -38,7 +38,6 @@ pub enum CharacterState {
 
 impl Character {
     pub fn new(
-        id: Uuid,
         position: Position,
         size: Size,
         speed: f32,
@@ -52,7 +51,7 @@ impl Character {
         foot_collision: BoxCollision,
     ) -> Self {
         Character {
-            id,
+            id: Uuid::new_v4(),
             position,
             size,
             speed,

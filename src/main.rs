@@ -96,6 +96,13 @@ impl EventHandler<GameError> for MainState {
             self.combat.process(&mut self.characters, &self.world);
 
             self.characters.retain(|character| character.current_health > 0.0);
+            if self.combat.turn % 700 == 0 {
+                self.characters.push(character_builder::spawn_second_tower());
+            } else if self.combat.turn % 450 == 0 {
+                self.characters.push(character_builder::spawn_third_tower());
+            } else if self.combat.turn % 200 == 0 {
+                self.characters.push(character_builder::spawn_first_tower());
+            }
         }
 
         Ok(())
