@@ -16,7 +16,7 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 5.3;
-        let max_health: f32 = 1000.0;
+        let max_health: f32 = 100.0;
         let character_type: CharacterTypes = CharacterTypes::Player;
         let move_animation: Animation = create_barbarian_move_animation();
         let attack_animation: Animation = create_barbarian_attack_animation();
@@ -50,7 +50,7 @@ pub mod character_builder {
         let position: Position = Position::new(200.0, 850.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 3.1;
-        let max_health: f32 = 800.0;
+        let max_health: f32 = 100.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();

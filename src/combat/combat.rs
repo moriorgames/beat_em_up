@@ -48,7 +48,13 @@ impl Combat {
         {
             if self.turn >= from && self.turn <= to {
                 for character in characters.iter_mut().filter(|c| c.id == id) {
-                    character.apply_damage(damage);
+                    if self.turn == from && !character.is_damaged() {
+                        character.start_damaged(damage)
+                    }
+
+                    if self.turn == to && character.is_damaged() {
+                        character.back_to_idle()
+                    }
                 }
             }
         }

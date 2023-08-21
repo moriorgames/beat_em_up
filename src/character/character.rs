@@ -31,6 +31,7 @@ pub enum CharacterState {
     Idle,
     Moving,
     Attacking,
+    Damaged,
 }
 
 impl Character {
@@ -82,6 +83,10 @@ impl Character {
     pub fn is_attacking(&mut self) -> bool {
         self.character_state == CharacterState::Attacking
     }
+    
+    pub fn is_damaged(&mut self) -> bool {
+        self.character_state == CharacterState::Damaged
+    }
 
     pub fn start_moving(&mut self) {
         self.character_state = CharacterState::Moving
@@ -92,6 +97,11 @@ impl Character {
         self.character_state = CharacterState::Attacking
     }
 
+    pub fn start_damaged(&mut self, damage: f32) {
+        self.character_state = CharacterState::Damaged;
+        self.apply_damage(damage);
+    }
+    
     pub fn back_to_idle(&mut self) {
         self.attack_animation.reset();
         self.character_state = CharacterState::Idle;
@@ -128,6 +138,9 @@ impl Character {
                         h: 60.0,
                     };
                 }
+            }
+            CharacterState::Damaged => {
+                self.move_animation.update();
             }
         }
     }
@@ -184,7 +197,7 @@ impl Character {
         self.position.y += self.speed;
     }
 
-    pub fn apply_damage(&mut self, damage: f32) {
+    fn apply_damage(&mut self, damage: f32) {
         self.current_health -= damage;
         let push_x: f32 = match self.facing {
             Facing::Left => 3.0,
@@ -223,6 +236,16 @@ impl Character {
                 format!(
                     "{}_{}_{}",
                     self.attack_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::Damaged => {
+                let animation_frame: u8 =
+                    self.move_animation.frame % self.move_animation.move_frames;
+                let action_type: String = self.move_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.move_animation.sprite, action_type, animation_frame
                 )
             }
         }
