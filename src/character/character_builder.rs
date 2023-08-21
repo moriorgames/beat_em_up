@@ -120,9 +120,9 @@ pub mod character_builder {
 
     fn create_orc_attack_animation() -> Animation {
         let sprite: String = "orc".to_string();
-        let action_type: String = "move".to_string();
-        let move_frames: u8 = 6;
-        let delay: u8 = 6;
+        let action_type: String = "attack".to_string();
+        let move_frames: u8 = 5;
+        let delay: u8 = 5;
 
         Animation::new(sprite, action_type, move_frames, delay)
     }

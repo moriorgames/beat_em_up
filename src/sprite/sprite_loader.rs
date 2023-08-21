@@ -65,6 +65,12 @@ impl SpriteLoader {
         sprites.push(("orc_move_4".to_string(), "/orc_move_4.png".to_string()));
         sprites.push(("orc_move_5".to_string(), "/orc_move_5.png".to_string()));
 
+        sprites.push(("orc_attack_0".to_string(), "/orc_attack_0.png".to_string()));
+        sprites.push(("orc_attack_1".to_string(), "/orc_attack_1.png".to_string()));
+        sprites.push(("orc_attack_2".to_string(), "/orc_attack_2.png".to_string()));
+        sprites.push(("orc_attack_3".to_string(), "/orc_attack_3.png".to_string()));
+        sprites.push(("orc_attack_4".to_string(), "/orc_attack_4.png".to_string()));
+
         sprites.push(("world".to_string(), "/world.png".to_string()));
 
         SpriteLoader { sprites }
