@@ -101,6 +101,17 @@ pub mod character_view {
         let color: Color = Color::RED;
         draw_solid_rectangle(gfx, canvas, &position, &size, color);
 
+        let x: f32 = character.position.x - (character.size.w - HEALTH_BAR_WIDTH) / 2.0;
+        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
+        let position: Position = Position::new(x, y);
+
+        let health_percentage: f32 = character.current_health as f32 / HEALTH_BAR_WIDTH as f32;
+        let w: f32 = health_percentage * HEALTH_BAR_WIDTH;
+        let h: f32 = HEALTH_BAR_HEIGHT;
+        let size: Size = Size::new(w, h);
+        let color: Color = Color::YELLOW;
+        draw_solid_rectangle(gfx, canvas, &position, &size, color);
+
         let x: f32 = character.position.x - (character.size.w - HEALTH_BAR_WIDTH) / 2.0 - 1.5;
         let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT - 1.5;
         let position: Position = Position::new(x, y);
@@ -110,17 +121,6 @@ pub mod character_view {
         let size: Size = Size::new(w, h);
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
-
-        let x: f32 = character.position.x - (character.size.w - HEALTH_BAR_WIDTH) / 2.0;
-        let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT;
-        let position: Position = Position::new(x, y);
-
-        let health_percentage: f32 = character.current_health as f32 / character.max_health as f32;
-        let w: f32 = health_percentage * HEALTH_BAR_WIDTH;
-        let h: f32 = HEALTH_BAR_HEIGHT;
-        let size: Size = Size::new(w, h);
-        let color: Color = Color::YELLOW;
-        draw_solid_rectangle(gfx, canvas, &position, &size, color);
     }
 
     fn get_ordered_characters_by_position(characters: &Vec<Character>) -> Vec<Character> {

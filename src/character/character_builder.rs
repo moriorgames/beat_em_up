@@ -56,7 +56,7 @@ pub mod character_builder {
         let speed: f32 = 3.1;
         let strength: f32 = 15.0;
         let armor: f32 = 4.0;
-        let max_health: f32 = 100.0;
+        let max_health: f32 = 80.0;
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
