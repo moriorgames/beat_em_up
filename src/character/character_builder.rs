@@ -16,7 +16,7 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
         let speed: f32 = 5.3;
-        let strength: f32 = 120.0;
+        let strength: f32 = 21.0;
         let armor: f32 = 4.0;
         let max_health: f32 = 100.0;
         let character_type: CharacterTypes = CharacterTypes::Player;

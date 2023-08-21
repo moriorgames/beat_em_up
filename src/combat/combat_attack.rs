@@ -25,7 +25,7 @@ impl Combat {
                                         id: body.id,
                                         damage,
                                         from: self.turn + 1,
-                                        to: self.turn + 25,
+                                        to: self.turn + 12,
                                     };
                                     self.actions.push(action);
                                 }

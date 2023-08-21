@@ -90,7 +90,7 @@ impl Character {
         self.character_state == CharacterState::Attacking
     }
 
-    pub fn is_damaged(&mut self) -> bool {
+    pub fn is_damaged(&self) -> bool {
         self.character_state == CharacterState::Damaged
     }
 

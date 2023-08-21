@@ -49,7 +49,12 @@ pub mod character_view {
                 Facing::Right => Point2 { x: 3f32, y: 3f32 },
             };
 
-            canvas.draw(sprite, DrawParam::new().dest(dst).scale(scale));
+            let mut draw_params: DrawParam = DrawParam::new().dest(dst).scale(scale);
+            if character.is_damaged() {
+                draw_params = draw_params.color(Color::new(1.0, 0.0, 0.0, 1.0));
+            }
+
+            canvas.draw(sprite, draw_params);
         }
 
         if HITBOX_DEBUG {
