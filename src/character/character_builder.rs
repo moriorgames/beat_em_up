@@ -1,6 +1,4 @@
 pub mod character_builder {
-    use uuid::Uuid;
-
     use crate::{
         character::{
             animation::Animation, box_collision::BoxCollision, character::Character,
@@ -125,13 +123,13 @@ pub mod character_builder {
 
     pub fn spawn_first_tower() -> Character {
         let position: Position = Position::new(150.0, 250.0);
-        
+
         spawn_enemy(position)
     }
 
     pub fn spawn_second_tower() -> Character {
         let position: Position = Position::new(1250.0, 250.0);
-        
+
         spawn_enemy(position)
     }
 
@@ -162,7 +160,7 @@ pub mod character_builder {
             w: size.w - 30.0,
             h: 50.0,
         };
-        
+
         Character::new(
             position,
             size,
@@ -175,6 +173,6 @@ pub mod character_builder {
             attack_animation,
             body_collision,
             foot_collision,
-        )        
+        )
     }
 }

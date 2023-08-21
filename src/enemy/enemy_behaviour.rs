@@ -43,7 +43,7 @@ pub mod enemy_behavior {
             let magnitude: f32 = (dir_x * dir_x + dir_y * dir_y).sqrt();
             let normalized_dir_x: f32 = dir_x / magnitude;
             let normalized_dir_y: f32 = dir_y / magnitude;
-    
+
             let id: Uuid = character.id;
             let direction = match (normalized_dir_x, normalized_dir_y) {
                 (x, y) if x > 0.0 && y > 0.0 => Direction::DownRight,
@@ -56,7 +56,7 @@ pub mod enemy_behavior {
                 (_, y) if y < 0.0 => Direction::Up,
                 _ => return,
             };
-    
+
             actions.push(Action::Moving {
                 id,
                 direction,
