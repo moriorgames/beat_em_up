@@ -69,16 +69,17 @@ impl MainState {
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while ctx.time.check_update_time(TARGET_FPS) {
-            let player_actions: Vec<Action> =
-                self.player_controls.handle_input(ctx, self.combat.turn);
-            for action in player_actions {
-                self.combat.add_action(action)
-            }
-
             if let Some(player) = self.characters.first() {
                 match player.character_type {
                     CharacterTypes::Player => {
                         let player: Character = player.clone();
+                        let player_actions: Vec<Action> =
+                            self.player_controls
+                                .handle_input(ctx, &player, self.combat.turn);
+                        for action in player_actions {
+                            self.combat.add_action(action)
+                        }
+
                         let enemy_actions: Vec<Action> = update_enemy_behaviour(
                             self.characters.clone(),
                             &player,

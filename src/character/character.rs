@@ -59,7 +59,7 @@ impl Character {
             position,
             size,
             speed,
-            speed_jumping: speed * 1.7,
+            speed_jumping: speed * 1.5,
             strength,
             armor,
             current_health: max_health,
@@ -83,19 +83,19 @@ impl Character {
         }
     }
 
-    pub fn is_idle(&mut self) -> bool {
+    pub fn is_idle(&self) -> bool {
         self.character_state == CharacterState::Idle
     }
 
-    pub fn is_moving(&mut self) -> bool {
+    pub fn is_moving(&self) -> bool {
         self.character_state == CharacterState::Moving
     }
 
-    pub fn is_jumping(&mut self) -> bool {
+    pub fn is_jumping(&self) -> bool {
         self.character_state == CharacterState::Jumping
     }
 
-    pub fn is_attacking(&mut self) -> bool {
+    pub fn is_attacking(&self) -> bool {
         self.character_state == CharacterState::Attacking
     }
 
