@@ -28,7 +28,7 @@ pub mod rectangle {
         size: &Size,
         color: Color,
     ) {
-        let mode: DrawMode = DrawMode::stroke(1.5);
+        let mode: DrawMode = DrawMode::stroke(2.0);
         let bounds: Rect = Rect::new(position.x, position.y, size.w, size.h);
         let drawable: Mesh = Mesh::new_rectangle(gfx, mode, bounds, color).unwrap();
         let param: DrawParam = DrawParam::new();
