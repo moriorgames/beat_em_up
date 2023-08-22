@@ -59,7 +59,7 @@ impl Character {
             position,
             size,
             speed,
-            speed_jumping: speed * 1.5,
+            speed_jumping: speed * 1.7,
             strength,
             armor,
             current_health: max_health,

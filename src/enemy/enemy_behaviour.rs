@@ -33,7 +33,19 @@ pub mod enemy_behavior {
         let dir_y: f32 = player_position.y - enemy_position.y;
 
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
-        if distance <= 110.0 {
+
+        let uuid_str: String = character.id.hyphenated().to_string();
+        let chars: Vec<char> = uuid_str.replace("-", "").chars().collect();
+        let sum: u32 = chars.iter().filter_map(|c| c.to_digit(16)).sum();
+
+        if turn % sum as u128 == 0 || turn % sum as u128 == 60 {
+            actions.push(Action::Jumping {
+                id: character.id,
+                direction: Direction::Left,
+                from: turn + 1,
+                to: turn + 17,
+            });
+        } else if distance <= 110.0 {
             actions.push(Action::Attacking {
                 id: character.id,
                 from: turn + 1,
