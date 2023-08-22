@@ -163,7 +163,7 @@ pub mod character_builder {
 
     fn spawn_enemy(position: Position) -> Character {
         let size: Size = Size::new(190.0, 190.0);
-        let speed: f32 = 3.1;
+        let speed: f32 = 2.9;
         let strength: f32 = 11.0;
         let armor: f32 = 1.0;
         let max_health: f32 = 80.0;

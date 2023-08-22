@@ -15,7 +15,6 @@ use combat::action::Action;
 use combat::combat::Combat;
 use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
-use geometry::position::Position;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,

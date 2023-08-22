@@ -1,6 +1,9 @@
 pub mod enemy_behavior {
     use crate::{
-        character::{character::Character, character_types::{CharacterTypes, Facing}},
+        character::{
+            character::Character,
+            character_types::{CharacterTypes, Facing},
+        },
         combat::{action::Action, direction::Direction},
         geometry::position::Position,
     };
@@ -35,7 +38,6 @@ pub mod enemy_behavior {
         let enemy_position: Position = character.position.clone();
         let dir_x: f32;
         let dir_y: f32;
-        
 
         if counter > 3 {
             dir_x = match player.facing {
@@ -86,8 +88,7 @@ pub mod enemy_behavior {
                 _ => return,
             };
 
-
-            if counter > 2 && (counter as u128 + turn) % 21 == 0  {
+            if counter > 2 && (counter as u128 + turn) % 21 == 0 {
                 actions.push(Action::Jumping {
                     id,
                     direction: Direction::DownRight,
