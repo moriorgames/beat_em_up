@@ -16,6 +16,7 @@ pub struct PlayerIntention {
     pub move_up: bool,
     pub move_down: bool,
     pub attack: bool,
+    pub jump: bool,
     pub quit: bool,
 }
 
@@ -44,74 +45,146 @@ impl PlayerControls {
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::UpLeft,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::UpLeft,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::UpLeft,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if (gamepad_intention.move_up || keyboard_intention.move_up)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::UpRight,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::UpRight,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::UpRight,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_left || keyboard_intention.move_left)
         {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::DownLeft,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::DownLeft,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::DownLeft,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if (gamepad_intention.move_down || keyboard_intention.move_down)
             && (gamepad_intention.move_right || keyboard_intention.move_right)
         {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::DownRight,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::DownRight,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::DownRight,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if gamepad_intention.move_left || keyboard_intention.move_left {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::Left,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::Left,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::Left,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if gamepad_intention.move_right || keyboard_intention.move_right {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::Right,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::Right,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::Right,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if gamepad_intention.move_up || keyboard_intention.move_up {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::Up,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::Up,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::Up,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if gamepad_intention.move_down || keyboard_intention.move_down {
-            actions.push(Action::Moving {
-                id: self.player_id,
-                direction: Direction::Down,
-                from: turn + 1,
-                to: turn + 2,
-            });
+            if gamepad_intention.jump || keyboard_intention.jump {
+                actions.push(Action::Jumping {
+                    id: self.player_id,
+                    direction: Direction::Down,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id: self.player_id,
+                    direction: Direction::Down,
+                    from: turn + 1,
+                    to: turn + 2,
+                });
+            }
         }
         if keyboard_intention.quit {
             ctx.request_quit();

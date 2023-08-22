@@ -9,6 +9,12 @@ pub enum Action {
         from: u128,
         to: u128,
     },
+    Jumping {
+        id: Uuid,
+        direction: Direction,
+        from: u128,
+        to: u128,
+    },
     Attacking {
         id: Uuid,
         from: u128,

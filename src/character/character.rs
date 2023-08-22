@@ -12,6 +12,7 @@ pub struct Character {
     pub position: Position,
     pub size: Size,
     pub speed: f32,
+    pub speed_jumping: f32,
     pub strength: f32,
     pub armor: f32,
     pub current_health: f32,
@@ -33,6 +34,7 @@ pub struct Character {
 pub enum CharacterState {
     Idle,
     Moving,
+    Jumping,
     Attacking,
     Damaged,
 }
@@ -57,6 +59,7 @@ impl Character {
             position,
             size,
             speed,
+            speed_jumping: speed * 1.5,
             strength,
             armor,
             current_health: max_health,
@@ -88,6 +91,10 @@ impl Character {
         self.character_state == CharacterState::Moving
     }
 
+    pub fn is_jumping(&mut self) -> bool {
+        self.character_state == CharacterState::Jumping
+    }
+
     pub fn is_attacking(&mut self) -> bool {
         self.character_state == CharacterState::Attacking
     }
@@ -98,6 +105,10 @@ impl Character {
 
     pub fn start_moving(&mut self) {
         self.character_state = CharacterState::Moving
+    }
+
+    pub fn start_jumping(&mut self) {
+        self.character_state = CharacterState::Jumping
     }
 
     pub fn start_attacking(&mut self) {
@@ -112,6 +123,7 @@ impl Character {
 
     pub fn back_to_idle(&mut self) {
         self.attack_animation.reset();
+        self.jump_animation.reset();
         self.character_state = CharacterState::Idle;
         self.attack_timer = 0;
         self.weapon_collision = BoxCollision {
@@ -130,6 +142,9 @@ impl Character {
             }
             CharacterState::Moving => {
                 self.move_animation.update();
+            }
+            CharacterState::Jumping => {
+                self.jump_animation.update();
             }
             CharacterState::Attacking => {
                 self.attack_animation.update();
@@ -159,50 +174,78 @@ impl Character {
         }
     }
 
-    pub fn move_by_direction(&mut self, direction: Direction) {
-        if self.character_state == CharacterState::Moving {
+    pub fn jump_by_direction(&mut self, direction: Direction) {
+        if self.character_state == CharacterState::Jumping {
             self.has_processed_action = true;
             match direction {
-                Direction::Left => self.move_left(),
-                Direction::Right => self.move_right(),
-                Direction::Up => self.move_up(),
-                Direction::Down => self.move_down(),
+                Direction::Left => self.move_left(self.speed_jumping),
+                Direction::Right => self.move_right(self.speed_jumping),
+                Direction::Up => self.move_up(self.speed_jumping),
+                Direction::Down => self.move_down(self.speed_jumping),
                 Direction::UpLeft => {
-                    self.move_up();
-                    self.move_left();
+                    self.move_up(self.speed_jumping);
+                    self.move_left(self.speed_jumping);
                 }
                 Direction::UpRight => {
-                    self.move_up();
-                    self.move_right();
+                    self.move_up(self.speed_jumping);
+                    self.move_right(self.speed_jumping);
                 }
                 Direction::DownLeft => {
-                    self.move_down();
-                    self.move_left();
+                    self.move_down(self.speed_jumping);
+                    self.move_left(self.speed_jumping);
                 }
                 Direction::DownRight => {
-                    self.move_down();
-                    self.move_right();
+                    self.move_down(self.speed_jumping);
+                    self.move_right(self.speed_jumping);
                 }
             }
         }
     }
 
-    fn move_left(&mut self) {
-        self.position.x -= self.speed;
+    pub fn move_by_direction(&mut self, direction: Direction) {
+        if self.character_state == CharacterState::Moving {
+            self.has_processed_action = true;
+            match direction {
+                Direction::Left => self.move_left(self.speed),
+                Direction::Right => self.move_right(self.speed),
+                Direction::Up => self.move_up(self.speed),
+                Direction::Down => self.move_down(self.speed),
+                Direction::UpLeft => {
+                    self.move_up(self.speed);
+                    self.move_left(self.speed);
+                }
+                Direction::UpRight => {
+                    self.move_up(self.speed);
+                    self.move_right(self.speed);
+                }
+                Direction::DownLeft => {
+                    self.move_down(self.speed);
+                    self.move_left(self.speed);
+                }
+                Direction::DownRight => {
+                    self.move_down(self.speed);
+                    self.move_right(self.speed);
+                }
+            }
+        }
+    }
+
+    fn move_left(&mut self, speed: f32) {
+        self.position.x -= speed;
         self.facing = Facing::Left;
     }
 
-    fn move_right(&mut self) {
-        self.position.x += self.speed;
+    fn move_right(&mut self, speed: f32) {
+        self.position.x += speed;
         self.facing = Facing::Right;
     }
 
-    fn move_up(&mut self) {
-        self.position.y -= self.speed;
+    fn move_up(&mut self, speed: f32) {
+        self.position.y -= speed;
     }
 
-    fn move_down(&mut self) {
-        self.position.y += self.speed;
+    fn move_down(&mut self, speed: f32) {
+        self.position.y += speed;
     }
 
     fn apply_damage(&mut self, damage: f32) {
@@ -237,6 +280,16 @@ impl Character {
                 format!(
                     "{}_{}_{}",
                     self.move_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::Jumping => {
+                let animation_frame: u8 =
+                    self.jump_animation.frame % self.jump_animation.move_frames;
+                let action_type: String = self.jump_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.jump_animation.sprite, action_type, animation_frame
                 )
             }
             CharacterState::Attacking => {

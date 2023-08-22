@@ -29,6 +29,7 @@ impl Combat {
             match action {
                 Action::Moving { .. } => self.process_moving(action, characters, world),
                 Action::Attacking { .. } => self.process_attacking(action, characters),
+                Action::Jumping { .. } => self.process_jumping(action, characters, world),
                 Action::Damage { .. } => self.process_damage(action, characters),
             }
         }
@@ -64,6 +65,7 @@ impl Combat {
         self.actions.retain(|action| match action {
             Action::Moving { to, .. } => self.turn <= *to,
             Action::Attacking { to, .. } => self.turn <= *to,
+            Action::Jumping { to, .. } => self.turn <= *to,
             Action::Damage { to, .. } => self.turn <= *to,
         });
     }
