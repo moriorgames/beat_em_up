@@ -33,7 +33,7 @@ use world::world_view::character_view::draw;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 40;
+const TARGET_FPS: u32 = 50;
 const DEBUG_FPS: bool = false;
 
 struct MainState {
