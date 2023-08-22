@@ -21,6 +21,7 @@ pub struct Character {
     pub facing: Facing,
     pub move_animation: Animation,
     pub attack_animation: Animation,
+    pub jump_animation: Animation,
     pub attack_timer: u8,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
@@ -47,6 +48,7 @@ impl Character {
         character_type: CharacterTypes,
         move_animation: Animation,
         attack_animation: Animation,
+        jump_animation: Animation,
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
     ) -> Self {
@@ -64,6 +66,7 @@ impl Character {
             facing: Facing::Right,
             move_animation,
             attack_animation,
+            jump_animation,
             attack_timer: 0,
             body_collision,
             foot_collision,

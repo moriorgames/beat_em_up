@@ -57,6 +57,18 @@ impl SpriteLoader {
             "barbarian_attack_4".to_string(),
             "/barbarian_attack_4.png".to_string(),
         ));
+        sprites.push((
+            "barbarian_jump_0".to_string(),
+            "/barbarian_jump_0.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_jump_1".to_string(),
+            "/barbarian_jump_1.png".to_string(),
+        ));
+        sprites.push((
+            "barbarian_jump_2".to_string(),
+            "/barbarian_jump_2.png".to_string(),
+        ));
 
         sprites.push(("orc_move_0".to_string(), "/orc_move_0.png".to_string()));
         sprites.push(("orc_move_1".to_string(), "/orc_move_1.png".to_string()));
@@ -70,6 +82,10 @@ impl SpriteLoader {
         sprites.push(("orc_attack_2".to_string(), "/orc_attack_2.png".to_string()));
         sprites.push(("orc_attack_3".to_string(), "/orc_attack_3.png".to_string()));
         sprites.push(("orc_attack_4".to_string(), "/orc_attack_4.png".to_string()));
+
+        sprites.push(("orc_jump_0".to_string(), "/orc_jump_0.png".to_string()));
+        sprites.push(("orc_jump_1".to_string(), "/orc_jump_1.png".to_string()));
+        sprites.push(("orc_jump_2".to_string(), "/orc_jump_2.png".to_string()));
 
         sprites.push(("world".to_string(), "/world.png".to_string()));
 

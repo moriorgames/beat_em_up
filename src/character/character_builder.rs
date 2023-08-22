@@ -19,6 +19,7 @@ pub mod character_builder {
         let character_type: CharacterTypes = CharacterTypes::Player;
         let move_animation: Animation = create_barbarian_move_animation();
         let attack_animation: Animation = create_barbarian_attack_animation();
+        let jump_animation: Animation = create_barbarian_jump_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -41,6 +42,7 @@ pub mod character_builder {
             character_type,
             move_animation,
             attack_animation,
+            jump_animation,
             body_collision,
             foot_collision,
         );
@@ -55,6 +57,7 @@ pub mod character_builder {
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
+        let jump_animation: Animation = create_orc_jump_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -77,6 +80,7 @@ pub mod character_builder {
             character_type,
             move_animation,
             attack_animation,
+            jump_animation,
             body_collision,
             foot_collision,
         );
@@ -103,6 +107,15 @@ pub mod character_builder {
         Animation::new(sprite, action_type, move_frames, delay)
     }
 
+    fn create_barbarian_jump_animation() -> Animation {
+        let sprite: String = "barbarian".to_string();
+        let action_type: String = "jump".to_string();
+        let move_frames: u8 = 3;
+        let delay: u8 = 7;
+
+        Animation::new(sprite, action_type, move_frames, delay)
+    }
+
     fn create_orc_move_animation() -> Animation {
         let sprite: String = "orc".to_string();
         let action_type: String = "move".to_string();
@@ -117,6 +130,15 @@ pub mod character_builder {
         let action_type: String = "attack".to_string();
         let move_frames: u8 = 5;
         let delay: u8 = 5;
+
+        Animation::new(sprite, action_type, move_frames, delay)
+    }
+
+    fn create_orc_jump_animation() -> Animation {
+        let sprite: String = "orc".to_string();
+        let action_type: String = "jump".to_string();
+        let move_frames: u8 = 3;
+        let delay: u8 = 7;
 
         Animation::new(sprite, action_type, move_frames, delay)
     }
@@ -148,6 +170,7 @@ pub mod character_builder {
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
+        let jump_animation: Animation = create_orc_jump_animation();
         let body_collision: BoxCollision = BoxCollision {
             x: 0.0,
             y: -125.0,
@@ -171,6 +194,7 @@ pub mod character_builder {
             character_type,
             move_animation,
             attack_animation,
+            jump_animation,
             body_collision,
             foot_collision,
         )
