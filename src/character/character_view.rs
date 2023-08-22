@@ -97,8 +97,9 @@ pub mod character_view {
         let w: f32 = HEALTH_BAR_WIDTH;
         let h: f32 = HEALTH_BAR_HEIGHT;
         let size: Size = Size::new(w, h);
-    
-        let (bar_color, background_color, health_percentage) = match character.current_health as u32 {
+
+        let (bar_color, background_color, health_percentage) = match character.current_health as u32
+        {
             0..=100 => {
                 let health_percentage: f32 = character.current_health / 100.0;
                 (Color::RED, Color::BLACK, health_percentage)
@@ -119,9 +120,7 @@ pub mod character_view {
                 let health_percentage: f32 = (character.current_health - 400.0) / 100.0;
                 (Color::WHITE, Color::BLUE, health_percentage)
             }
-            _ => {
-                (Color::WHITE, Color::BLUE, 100.0)
-            },
+            _ => (Color::WHITE, Color::BLUE, 100.0),
         };
 
         let w: f32 = health_percentage * HEALTH_BAR_WIDTH;
@@ -129,7 +128,7 @@ pub mod character_view {
 
         draw_solid_rectangle(gfx, canvas, &position, &size, background_color);
         draw_solid_rectangle(gfx, canvas, &position, &size_health, bar_color);
-    
+
         let x: f32 = character.position.x - (character.size.w - HEALTH_BAR_WIDTH) / 2.0 - 1.0;
         let y: f32 = character.position.y - character.size.h / 2.0 - HEALTH_BAR_HEIGHT - 1.0;
         let position: Position = Position::new(x, y);
@@ -138,7 +137,7 @@ pub mod character_view {
         let size: Size = Size::new(w, h);
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
-    }    
+    }
 
     fn get_ordered_characters_by_position(characters: &Vec<Character>) -> Vec<Character> {
         let mut ordered_characters: Vec<Character> = characters.clone();
