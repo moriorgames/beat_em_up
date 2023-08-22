@@ -79,10 +79,10 @@ impl EventHandler<GameError> for MainState {
             if let Some(player) = self.characters.first() {
                 match player.character_type {
                     CharacterTypes::Player => {
-                        let player_position: Position = player.position.clone();
+                        let player: Character = player.clone();
                         let enemy_actions: Vec<Action> = update_enemy_behaviour(
                             self.characters.clone(),
-                            player_position,
+                            &player,
                             self.combat.turn,
                         );
                         for action in enemy_actions {
@@ -97,13 +97,16 @@ impl EventHandler<GameError> for MainState {
 
             self.characters
                 .retain(|character| character.current_health > 0.0);
-            if self.combat.turn % 700 == 0 {
-                self.characters
-                    .push(character_builder::spawn_second_tower());
-            } else if self.combat.turn % 450 == 0 {
-                self.characters.push(character_builder::spawn_third_tower());
-            } else if self.combat.turn % 200 == 0 {
-                self.characters.push(character_builder::spawn_first_tower());
+
+            if self.characters.len() < 7 {
+                if self.combat.turn % 1033 == 0 {
+                    self.characters
+                        .push(character_builder::spawn_second_tower());
+                } else if self.combat.turn % 617 == 0 {
+                    self.characters.push(character_builder::spawn_third_tower());
+                } else if self.combat.turn % 293 == 0 {
+                    self.characters.push(character_builder::spawn_first_tower());
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 pub mod enemy_behavior {
     use crate::{
-        character::{character::Character, character_types::CharacterTypes},
+        character::{character::Character, character_types::{CharacterTypes, Facing}},
         combat::{action::Action, direction::Direction},
         geometry::position::Position,
     };
@@ -8,14 +8,16 @@ pub mod enemy_behavior {
 
     pub fn update_enemy_behaviour(
         characters: Vec<Character>,
-        player_position: Position,
+        player: &Character,
         turn: u128,
     ) -> Vec<Action> {
         let mut actions: Vec<Action> = Vec::new();
+        let mut counter: u32 = 0;
 
         for character in &characters {
             if let CharacterTypes::Enemy = character.character_type {
-                seek_player(&mut actions, character, player_position.clone(), turn);
+                seek_player(&mut actions, character, player, turn, counter);
+                counter += 1;
             }
         }
 
@@ -25,27 +27,42 @@ pub mod enemy_behavior {
     fn seek_player(
         actions: &mut Vec<Action>,
         character: &Character,
-        player_position: Position,
+        player: &Character,
         turn: u128,
+        counter: u32,
     ) {
+        let player_position: Position = player.position.clone();
         let enemy_position: Position = character.position.clone();
-        let dir_x: f32 = player_position.x - enemy_position.x;
-        let dir_y: f32 = player_position.y - enemy_position.y;
+        let dir_x: f32;
+        let dir_y: f32;
+        
+
+        if counter > 3 {
+            dir_x = match player.facing {
+                Facing::Left => player_position.x - enemy_position.x - 550.0,
+                Facing::Right => player_position.x - enemy_position.x + 550.0,
+            };
+            dir_y = match player.facing {
+                Facing::Left => player_position.y - enemy_position.y - 350.0,
+                Facing::Right => player_position.y - enemy_position.y + 350.0,
+            };
+        } else if counter > 2 {
+            dir_x = match player.facing {
+                Facing::Left => player_position.x - enemy_position.x - 250.0,
+                Facing::Right => player_position.x - enemy_position.x + 250.0,
+            };
+            dir_y = match player.facing {
+                Facing::Left => player_position.y - enemy_position.y - 150.0,
+                Facing::Right => player_position.y - enemy_position.y + 150.0,
+            };
+        } else {
+            dir_x = player_position.x - enemy_position.x;
+            dir_y = player_position.y - enemy_position.y;
+        }
 
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
-        let uuid_str: String = character.id.hyphenated().to_string();
-        let chars: Vec<char> = uuid_str.replace("-", "").chars().collect();
-        let sum: u32 = chars.iter().filter_map(|c| c.to_digit(16)).sum();
-
-        if turn % sum as u128 == 0 || turn % sum as u128 == 60 {
-            actions.push(Action::Jumping {
-                id: character.id,
-                direction: Direction::Left,
-                from: turn + 1,
-                to: turn + 17,
-            });
-        } else if distance <= 110.0 {
+        if distance <= 110.0 {
             actions.push(Action::Attacking {
                 id: character.id,
                 from: turn + 1,
@@ -69,12 +86,22 @@ pub mod enemy_behavior {
                 _ => return,
             };
 
-            actions.push(Action::Moving {
-                id,
-                direction,
-                from: turn + 1,
-                to: turn + 20,
-            });
+
+            if counter > 2 && (counter as u128 + turn) % 21 == 0  {
+                actions.push(Action::Jumping {
+                    id,
+                    direction: Direction::DownRight,
+                    from: turn + 1,
+                    to: turn + 17,
+                });
+            } else {
+                actions.push(Action::Moving {
+                    id,
+                    direction,
+                    from: turn + 1,
+                    to: turn + 20,
+                });
+            }
         }
     }
 }
