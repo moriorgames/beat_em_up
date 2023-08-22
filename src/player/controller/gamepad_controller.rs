@@ -8,6 +8,8 @@ pub struct GamePadController {
     right_pressed: bool,
     up_pressed: bool,
     down_pressed: bool,
+    attack_pressed: bool,
+    jump_pressed: bool,
 }
 
 impl GamePadController {
@@ -19,6 +21,8 @@ impl GamePadController {
             right_pressed: false,
             up_pressed: false,
             down_pressed: false,
+            attack_pressed: false,
+            jump_pressed: false,
         }
     }
 
@@ -37,6 +41,12 @@ impl GamePadController {
                 ButtonChanged(Button::DPadDown, value, _) => {
                     self.down_pressed = value > 0.0;
                 }
+                ButtonChanged(Button::West, value, _) => {
+                    self.attack_pressed = value > 0.0;
+                }
+                ButtonChanged(Button::South, value, _) => {
+                    self.jump_pressed = value > 0.0;
+                }
                 _ => {}
             }
         }
@@ -46,8 +56,8 @@ impl GamePadController {
             move_right: self.right_pressed,
             move_up: self.up_pressed,
             move_down: self.down_pressed,
-            attack: false,
-            jump: false,
+            attack: self.attack_pressed,
+            jump: self.jump_pressed,
             quit: false,
         }
     }
