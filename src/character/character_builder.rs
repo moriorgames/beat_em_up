@@ -102,7 +102,7 @@ pub mod character_builder {
         let sprite: String = "barbarian".to_string();
         let action_type: String = "attack".to_string();
         let move_frames: u8 = 5;
-        let delay: u8 = 5;
+        let delay: u8 = 6;
 
         Animation::new(sprite, action_type, move_frames, delay)
     }
@@ -129,7 +129,7 @@ pub mod character_builder {
         let sprite: String = "orc".to_string();
         let action_type: String = "attack".to_string();
         let move_frames: u8 = 5;
-        let delay: u8 = 5;
+        let delay: u8 = 9;
 
         Animation::new(sprite, action_type, move_frames, delay)
     }

@@ -14,7 +14,7 @@ pub mod character_view {
 
     const HEALTH_BAR_HEIGHT: f32 = 8.0;
     const HEALTH_BAR_WIDTH: f32 = 100.0;
-    const HITBOX_DEBUG: bool = true;
+    const HITBOX_DEBUG: bool = false;
 
     pub fn draw_characters(
         gfx: &mut Context,

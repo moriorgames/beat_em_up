@@ -23,7 +23,9 @@ pub struct Character {
     pub move_animation: Animation,
     pub attack_animation: Animation,
     pub jump_animation: Animation,
+    pub full_attack_timer: u8,
     pub attack_timer: u8,
+    pub attack_timer_hit: u8,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
     pub weapon_collision: BoxCollision,
@@ -54,6 +56,8 @@ impl Character {
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
     ) -> Self {
+        let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
+        let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
         Character {
             id: Uuid::new_v4(),
             position,
@@ -70,7 +74,9 @@ impl Character {
             move_animation,
             attack_animation,
             jump_animation,
+            full_attack_timer,
             attack_timer: 0,
+            attack_timer_hit,
             body_collision,
             foot_collision,
             weapon_collision: BoxCollision {
@@ -112,7 +118,7 @@ impl Character {
     }
 
     pub fn start_attacking(&mut self) {
-        self.attack_timer = 24;
+        self.attack_timer = self.full_attack_timer;
         self.character_state = CharacterState::Attacking
     }
 
@@ -149,7 +155,7 @@ impl Character {
             CharacterState::Attacking => {
                 self.attack_animation.update();
                 self.attack_timer -= 1;
-                if self.attack_timer <= 12 {
+                if self.attack_timer <= self.attack_timer_hit {
                     let x: f32 = match self.facing {
                         Facing::Left => -75.0,
                         Facing::Right => 75.0,

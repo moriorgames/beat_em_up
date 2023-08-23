@@ -53,7 +53,7 @@ impl Combat {
                         character.back_to_idle()
                     }
                     if self.turn == from && !character.is_damaged() {
-                        println!(" ------------ Damage start {}", damage);
+                        println!(" ------------ Action Damage {:?}", action);
                         character.start_damaged(damage)
                     }
                 }

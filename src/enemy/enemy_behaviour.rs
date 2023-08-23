@@ -64,11 +64,11 @@ pub mod enemy_behavior {
 
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
-        if distance <= 135.0 {
+        if distance <= 165.0 {
             actions.push(Action::Attacking {
                 id: character.id,
                 from: turn + 1,
-                to: turn + 22,
+                to: turn + character.full_attack_timer as u128,
             });
         } else {
             let magnitude: f32 = (dir_x * dir_x + dir_y * dir_y).sqrt();

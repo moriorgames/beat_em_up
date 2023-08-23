@@ -46,7 +46,7 @@ impl PlayerControls {
                 actions.push(Action::Attacking {
                     id: self.player_id,
                     from: turn + 1,
-                    to: turn + 22,
+                    to: turn + player.full_attack_timer as u128,
                 });
             }
             if (gamepad_intention.move_up || keyboard_intention.move_up)
