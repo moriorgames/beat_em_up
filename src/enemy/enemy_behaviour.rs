@@ -64,7 +64,7 @@ pub mod enemy_behavior {
 
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
-        if distance <= 110.0 {
+        if distance <= 135.0 {
             actions.push(Action::Attacking {
                 id: character.id,
                 from: turn + 1,
