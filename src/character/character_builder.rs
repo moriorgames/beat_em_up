@@ -13,7 +13,7 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
 
-        let strength: f32 = 5.0;
+        let strength: f32 = 8.0;
         let agility: f32 = 6.0;
         let vitality: f32 = 5.0;
         let resistance: f32 = 5.0;
@@ -123,6 +123,12 @@ pub mod character_builder {
         Animation::new(sprite, action_type, move_frames, delay)
     }
 
+    pub fn spawn_first_tower_orc_lord() -> Character {
+        let position: Position = Position::new(150.0, 250.0);
+
+        spawn_orc_lord(position)
+    }
+
     pub fn spawn_first_tower() -> Character {
         let position: Position = Position::new(150.0, 250.0);
 
@@ -146,8 +152,47 @@ pub mod character_builder {
 
         let strength: f32 = 2.0;
         let agility: f32 = 0.0;
-        let vitality: f32 = 2.0;
+        let vitality: f32 = 1.0;
         let resistance: f32 = 0.0;
+        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+
+        let character_type: CharacterTypes = CharacterTypes::Enemy;
+        let move_animation: Animation = create_orc_move_animation();
+        let attack_animation: Animation = create_orc_attack_animation();
+        let jump_animation: Animation = create_orc_jump_animation();
+        let body_collision: BoxCollision = BoxCollision {
+            x: 0.0,
+            y: -125.0,
+            w: size.w - 75.0,
+            h: 145.0,
+        };
+        let foot_collision: BoxCollision = BoxCollision {
+            x: 0.0,
+            y: 50.0,
+            w: size.w - 30.0,
+            h: 50.0,
+        };
+
+        Character::new(
+            position,
+            size,
+            stats,
+            character_type,
+            move_animation,
+            attack_animation,
+            jump_animation,
+            body_collision,
+            foot_collision,
+        )
+    }
+
+    fn spawn_orc_lord(position: Position) -> Character {
+        let size: Size = Size::new(190.0, 190.0);
+
+        let strength: f32 = 4.0;
+        let agility: f32 = 0.0;
+        let vitality: f32 = 20.0;
+        let resistance: f32 = 1.0;
         let stats: Stats = Stats::new(strength, agility, vitality, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Enemy;

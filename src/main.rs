@@ -98,14 +98,20 @@ impl EventHandler<GameError> for MainState {
             self.characters
                 .retain(|character| character.current_health > 0.0);
 
-            if self.characters.len() < 7 {
-                if self.combat.turn % 1033 == 0 {
-                    self.characters
-                        .push(character_builder::spawn_second_tower());
-                } else if self.combat.turn % 617 == 0 {
-                    self.characters.push(character_builder::spawn_third_tower());
-                } else if self.combat.turn % 293 == 0 {
-                    self.characters.push(character_builder::spawn_first_tower());
+            if self.combat.turn == 3000 {
+                self.characters
+                    .push(character_builder::spawn_first_tower_orc_lord());
+            } else if self.combat.turn > 3000 {
+            } else {
+                if self.characters.len() < 7 {
+                    if self.combat.turn % 1033 == 0 {
+                        self.characters
+                            .push(character_builder::spawn_second_tower());
+                    } else if self.combat.turn % 617 == 0 {
+                        self.characters.push(character_builder::spawn_third_tower());
+                    } else if self.combat.turn % 293 == 0 {
+                        self.characters.push(character_builder::spawn_first_tower());
+                    }
                 }
             }
         }
