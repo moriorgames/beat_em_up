@@ -36,12 +36,18 @@ const AUTHOR: &str = "MoriorGames";
 const TARGET_FPS: u32 = 50;
 const DEBUG_FPS: bool = false;
 
+pub enum GameState {
+    InCombat,
+    LevelUp,
+}
+
 struct MainState {
     player_controls: PlayerControls,
     world: World,
     characters: Vec<Character>,
     sprite_repository: SpriteRepository,
     combat: Combat,
+    current_state: GameState,
 }
 
 impl MainState {
@@ -55,6 +61,7 @@ impl MainState {
         let world: World = world_builder::build();
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
+        let current_state: GameState = GameState::InCombat;
 
         Ok(MainState {
             player_controls,
@@ -62,58 +69,16 @@ impl MainState {
             characters,
             sprite_repository,
             combat,
+            current_state,
         })
     }
 }
 
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
-        while ctx.time.check_update_time(TARGET_FPS) {
-            if let Some(player) = self.characters.first() {
-                match player.character_type {
-                    CharacterTypes::Player => {
-                        let player: Character = player.clone();
-                        let player_actions: Vec<Action> =
-                            self.player_controls
-                                .handle_input(ctx, &player, self.combat.turn);
-                        for action in player_actions {
-                            self.combat.add_action(action)
-                        }
-
-                        let enemy_actions: Vec<Action> = update_enemy_behaviour(
-                            self.characters.clone(),
-                            &player,
-                            self.combat.turn,
-                        );
-                        for action in enemy_actions {
-                            self.combat.add_action(action);
-                        }
-                    }
-                    _ => (),
-                }
-            }
-
-            self.combat.process(&mut self.characters, &self.world);
-
-            self.characters
-                .retain(|character| character.current_health > 0.0);
-
-            if self.combat.turn == 3000 {
-                self.characters
-                    .push(character_builder::spawn_first_tower_orc_lord());
-            } else if self.combat.turn > 3000 {
-            } else {
-                if self.characters.len() < 7 {
-                    if self.combat.turn % 1033 == 0 {
-                        self.characters
-                            .push(character_builder::spawn_second_tower());
-                    } else if self.combat.turn % 617 == 0 {
-                        self.characters.push(character_builder::spawn_third_tower());
-                    } else if self.combat.turn % 293 == 0 {
-                        self.characters.push(character_builder::spawn_first_tower());
-                    }
-                }
-            }
+        match self.current_state {
+            GameState::InCombat => update_in_combat(ctx, self),
+            GameState::LevelUp => update_level_up(),
         }
 
         Ok(())
@@ -125,6 +90,11 @@ impl EventHandler<GameError> for MainState {
         let clear: Color = Color::from([0.4, 0.6, 0.3, 1.0]);
 
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
+
+        match self.current_state {
+            GameState::InCombat => draw_in_combat(ctx, &mut canvas, self),
+            GameState::LevelUp => draw_level_up(),
+        }
 
         let _ = draw(ctx, &mut canvas, &self.world, &self.sprite_repository);
 
@@ -153,3 +123,84 @@ pub fn main() -> GameResult {
     let state: MainState = MainState::new(&mut ctx)?;
     event::run(ctx, event_loop, state)
 }
+
+fn update_in_combat(ctx: &mut Context, main_state: &mut MainState) {
+    while ctx.time.check_update_time(TARGET_FPS) {
+        if let Some(player) = main_state.characters.first() {
+            match player.character_type {
+                CharacterTypes::Player => {
+                    let player: Character = player.clone();
+                    let player_actions: Vec<Action> = main_state.player_controls.handle_input(
+                        ctx,
+                        &player,
+                        main_state.combat.turn,
+                    );
+                    for action in player_actions {
+                        main_state.combat.add_action(action)
+                    }
+
+                    let enemy_actions: Vec<Action> = update_enemy_behaviour(
+                        main_state.characters.clone(),
+                        &player,
+                        main_state.combat.turn,
+                    );
+                    for action in enemy_actions {
+                        main_state.combat.add_action(action);
+                    }
+                }
+                _ => (),
+            }
+        }
+
+        main_state
+            .combat
+            .process(&mut main_state.characters, &main_state.world);
+
+        main_state
+            .characters
+            .retain(|character| character.current_health > 0.0);
+
+        if main_state.combat.turn == 3000 {
+            main_state
+                .characters
+                .push(character_builder::spawn_first_tower_orc_lord());
+        } else if main_state.combat.turn > 3000 {
+        } else {
+            if main_state.characters.len() < 7 {
+                if main_state.combat.turn % 1033 == 0 {
+                    main_state
+                        .characters
+                        .push(character_builder::spawn_second_tower());
+                } else if main_state.combat.turn % 617 == 0 {
+                    main_state
+                        .characters
+                        .push(character_builder::spawn_third_tower());
+                } else if main_state.combat.turn % 293 == 0 {
+                    main_state
+                        .characters
+                        .push(character_builder::spawn_first_tower());
+                }
+            }
+        }
+    }
+}
+
+fn update_level_up() {}
+
+fn draw_in_combat(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainState) {
+    let _ = draw(
+        ctx,
+        canvas,
+        &main_state.world,
+        &main_state.sprite_repository,
+    );
+
+    let _ = draw_characters(
+        ctx,
+        canvas,
+        &main_state.characters,
+        &main_state.sprite_repository,
+    );
+}
+
+fn draw_level_up() {}
