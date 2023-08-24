@@ -1,22 +1,24 @@
 use super::animation::Animation;
 use super::box_collision::BoxCollision;
+use super::character_stats::Stats;
 use super::character_types::{CharacterTypes, Facing};
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
 use uuid::Uuid;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Character {
     pub id: Uuid,
     pub position: Position,
     pub size: Size,
+    pub stats: Stats,
     pub speed: f32,
-    pub speed_jumping: f32,
-    pub strength: f32,
-    pub armor: f32,
+    pub speed_jump: f32,
+    pub damage: f32,
+    pub defense: f32,
     pub current_health: f32,
-    pub max_health: f32,
+    pub health: f32,
     pub has_processed_action: bool,
     pub character_type: CharacterTypes,
     pub facing: Facing,
@@ -32,7 +34,7 @@ pub struct Character {
     pub character_state: CharacterState,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum CharacterState {
     Idle,
     Moving,
@@ -45,10 +47,7 @@ impl Character {
     pub fn new(
         position: Position,
         size: Size,
-        speed: f32,
-        strength: f32,
-        armor: f32,
-        max_health: f32,
+        stats: Stats,
         character_type: CharacterTypes,
         move_animation: Animation,
         attack_animation: Animation,
@@ -58,16 +57,18 @@ impl Character {
     ) -> Self {
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
+        let (speed, speed_jumping, damage, defense, health) = stats.get_calculated_stats();
         Character {
             id: Uuid::new_v4(),
             position,
             size,
+            stats,
             speed,
-            speed_jumping: speed * 1.5,
-            strength,
-            armor,
-            current_health: max_health,
-            max_health,
+            speed_jump: speed * 1.5,
+            damage,
+            defense,
+            current_health: health,
+            health,
             has_processed_action: false,
             character_type,
             facing: Facing::Right,
@@ -184,25 +185,25 @@ impl Character {
         if self.character_state == CharacterState::Jumping {
             self.has_processed_action = true;
             match direction {
-                Direction::Left => self.move_left(self.speed_jumping),
-                Direction::Right => self.move_right(self.speed_jumping),
-                Direction::Up => self.move_up(self.speed_jumping),
-                Direction::Down => self.move_down(self.speed_jumping),
+                Direction::Left => self.move_left(self.speed_jump),
+                Direction::Right => self.move_right(self.speed_jump),
+                Direction::Up => self.move_up(self.speed_jump),
+                Direction::Down => self.move_down(self.speed_jump),
                 Direction::UpLeft => {
-                    self.move_up(self.speed_jumping);
-                    self.move_left(self.speed_jumping);
+                    self.move_up(self.speed_jump);
+                    self.move_left(self.speed_jump);
                 }
                 Direction::UpRight => {
-                    self.move_up(self.speed_jumping);
-                    self.move_right(self.speed_jumping);
+                    self.move_up(self.speed_jump);
+                    self.move_right(self.speed_jump);
                 }
                 Direction::DownLeft => {
-                    self.move_down(self.speed_jumping);
-                    self.move_left(self.speed_jumping);
+                    self.move_down(self.speed_jump);
+                    self.move_left(self.speed_jump);
                 }
                 Direction::DownRight => {
-                    self.move_down(self.speed_jumping);
-                    self.move_right(self.speed_jumping);
+                    self.move_down(self.speed_jump);
+                    self.move_right(self.speed_jump);
                 }
             }
         }

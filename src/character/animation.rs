@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Animation {
     pub sprite: String,
     pub action_type: String,

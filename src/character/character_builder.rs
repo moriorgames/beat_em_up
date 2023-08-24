@@ -2,7 +2,7 @@ pub mod character_builder {
     use crate::{
         character::{
             animation::Animation, box_collision::BoxCollision, character::Character,
-            character_types::CharacterTypes,
+            character_stats::Stats, character_types::CharacterTypes,
         },
         geometry::{position::Position, size::Size},
     };
@@ -12,10 +12,13 @@ pub mod character_builder {
 
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
-        let speed: f32 = 5.3;
-        let strength: f32 = 21.0;
-        let armor: f32 = 4.0;
-        let max_health: f32 = 100.0;
+
+        let strength: f32 = 0.0;
+        let agility: f32 = 0.0;
+        let vitality: f32 = 0.0;
+        let resistance: f32 = 0.0;
+        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+
         let character_type: CharacterTypes = CharacterTypes::Player;
         let move_animation: Animation = create_barbarian_move_animation();
         let attack_animation: Animation = create_barbarian_attack_animation();
@@ -35,10 +38,7 @@ pub mod character_builder {
         let player: Character = Character::new(
             position,
             size,
-            speed,
-            strength,
-            armor,
-            max_health,
+            stats,
             character_type,
             move_animation,
             attack_animation,
@@ -46,14 +46,20 @@ pub mod character_builder {
             body_collision,
             foot_collision,
         );
+
+        println!("player {:?}", player.clone());
+
         characters.push(player);
 
         let position: Position = Position::new(1150.0, 750.0);
         let size: Size = Size::new(190.0, 190.0);
-        let speed: f32 = 2.1;
-        let strength: f32 = 11.0;
-        let armor: f32 = 1.0;
-        let max_health: f32 = 80.0;
+
+        let strength: f32 = 0.0;
+        let agility: f32 = 0.0;
+        let vitality: f32 = 0.0;
+        let resistance: f32 = 0.0;
+        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
@@ -73,10 +79,7 @@ pub mod character_builder {
         let enemy: Character = Character::new(
             position,
             size,
-            speed,
-            strength,
-            armor,
-            max_health,
+            stats,
             character_type,
             move_animation,
             attack_animation,
@@ -163,10 +166,13 @@ pub mod character_builder {
 
     fn spawn_enemy(position: Position) -> Character {
         let size: Size = Size::new(190.0, 190.0);
-        let speed: f32 = 2.1;
-        let strength: f32 = 11.0;
-        let armor: f32 = 1.0;
-        let max_health: f32 = 80.0;
+
+        let strength: f32 = 0.0;
+        let agility: f32 = 0.0;
+        let vitality: f32 = 0.0;
+        let resistance: f32 = 0.0;
+        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
@@ -187,10 +193,7 @@ pub mod character_builder {
         Character::new(
             position,
             size,
-            speed,
-            strength,
-            armor,
-            max_health,
+            stats,
             character_type,
             move_animation,
             attack_animation,

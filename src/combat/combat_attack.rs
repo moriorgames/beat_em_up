@@ -17,7 +17,7 @@ impl Combat {
                                     character.position.clone(),
                                     &character.weapon_collision,
                                 ) {
-                                    let mut damage: f32 = character.strength - body.armor;
+                                    let mut damage: f32 = character.damage - body.defense;
                                     if damage <= 1.0 {
                                         damage = 1.0;
                                     }

@@ -1,10 +1,10 @@
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum CharacterTypes {
     Player,
     Enemy,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Facing {
     Left,
     Right,
