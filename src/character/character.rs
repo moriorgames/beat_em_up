@@ -57,14 +57,14 @@ impl Character {
     ) -> Self {
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
-        let (speed, speed_jumping, damage, defense, health) = stats.get_calculated_stats();
+        let (speed, speed_jump, damage, defense, health) = stats.get_calculated_stats();
         Character {
             id: Uuid::new_v4(),
             position,
             size,
             stats,
             speed,
-            speed_jump: speed * 1.5,
+            speed_jump,
             damage,
             defense,
             current_health: health,

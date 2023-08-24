@@ -32,19 +32,19 @@ impl Stats {
     }
 
     fn calculate_speed(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 0.1)
+        Self::BASE_SPEED + (self.agility * 0.6)
     }
 
     fn calculate_speed_jump(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 0.3)
+        Self::BASE_SPEED + (self.agility * 1.2)
     }
 
     fn calculate_damage(&self) -> f32 {
-        Self::BASE_DAMAGE + (self.strength * 1.5)
+        Self::BASE_DAMAGE + (self.strength * 1.4)
     }
 
     fn calculate_defense(&self) -> f32 {
-        Self::BASE_DEFENSE + (self.agility * 0.2) + (self.resistance * 0.5)
+        Self::BASE_DEFENSE + (self.agility * 0.15) + (self.resistance * 0.45)
     }
 
     fn calculate_max_health(&self) -> f32 {

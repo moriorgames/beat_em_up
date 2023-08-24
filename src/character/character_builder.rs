@@ -13,10 +13,10 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
 
-        let strength: f32 = 0.0;
-        let agility: f32 = 0.0;
-        let vitality: f32 = 0.0;
-        let resistance: f32 = 0.0;
+        let strength: f32 = 5.0;
+        let agility: f32 = 6.0;
+        let vitality: f32 = 5.0;
+        let resistance: f32 = 5.0;
         let stats: Stats = Stats::new(strength, agility, vitality, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Player;
@@ -47,46 +47,23 @@ pub mod character_builder {
             foot_collision,
         );
 
-        println!("player {:?}", player.clone());
+        let debug: Character = player.clone();
+        println!(
+            "- player {:?} speed {}, speed_jump {}, damage {}, defense {}, health {}",
+            debug.stats, debug.speed, debug.speed_jump, debug.damage, debug.defense, debug.health,
+        );
 
         characters.push(player);
 
         let position: Position = Position::new(1150.0, 750.0);
-        let size: Size = Size::new(190.0, 190.0);
+        let enemy: Character = spawn_orc(position);
 
-        let strength: f32 = 0.0;
-        let agility: f32 = 0.0;
-        let vitality: f32 = 0.0;
-        let resistance: f32 = 0.0;
-        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
-
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let move_animation: Animation = create_orc_move_animation();
-        let attack_animation: Animation = create_orc_attack_animation();
-        let jump_animation: Animation = create_orc_jump_animation();
-        let body_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: -125.0,
-            w: size.w - 75.0,
-            h: 145.0,
-        };
-        let foot_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: 50.0,
-            w: size.w - 30.0,
-            h: 50.0,
-        };
-        let enemy: Character = Character::new(
-            position,
-            size,
-            stats,
-            character_type,
-            move_animation,
-            attack_animation,
-            jump_animation,
-            body_collision,
-            foot_collision,
+        let debug: Character = enemy.clone();
+        println!(
+            "-- Enemy {:?} speed {}, speed_jump {}, damage {}, defense {}, health {}",
+            debug.stats, debug.speed, debug.speed_jump, debug.damage, debug.defense, debug.health,
         );
+
         characters.push(enemy);
 
         characters
@@ -149,27 +126,27 @@ pub mod character_builder {
     pub fn spawn_first_tower() -> Character {
         let position: Position = Position::new(150.0, 250.0);
 
-        spawn_enemy(position)
+        spawn_orc(position)
     }
 
     pub fn spawn_second_tower() -> Character {
         let position: Position = Position::new(1250.0, 250.0);
 
-        spawn_enemy(position)
+        spawn_orc(position)
     }
 
     pub fn spawn_third_tower() -> Character {
         let position: Position = Position::new(1650.0, 250.0);
 
-        spawn_enemy(position)
+        spawn_orc(position)
     }
 
-    fn spawn_enemy(position: Position) -> Character {
+    fn spawn_orc(position: Position) -> Character {
         let size: Size = Size::new(190.0, 190.0);
 
-        let strength: f32 = 0.0;
+        let strength: f32 = 2.0;
         let agility: f32 = 0.0;
-        let vitality: f32 = 0.0;
+        let vitality: f32 = 2.0;
         let resistance: f32 = 0.0;
         let stats: Stats = Stats::new(strength, agility, vitality, resistance);
 
