@@ -2,7 +2,7 @@ use crate::{
     sprite::sprite_repository::SpriteRepository, world::world_view::world_view::draw, MainState,
 };
 use ggez::{
-    graphics::{Canvas, Color, DrawParam, Image},
+    graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, Rect},
     mint::Point2,
     Context,
 };
@@ -15,22 +15,17 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
         &main_state.sprite_repository,
     );
 
-    draw_level_up_character(ctx, canvas, &main_state.sprite_repository);
+    draw_level_up_character(canvas, &main_state.sprite_repository);
     draw_fire(
-        ctx,
         canvas,
         &main_state.sprite_repository,
         main_state.level_up.turn,
     );
-    draw_character_stats(ctx);
+    draw_character_stats(ctx, canvas);
     draw_continue_button(ctx);
 }
 
-fn draw_level_up_character(
-    ctx: &mut Context,
-    canvas: &mut Canvas,
-    sprite_repository: &SpriteRepository,
-) {
+fn draw_level_up_character(canvas: &mut Canvas, sprite_repository: &SpriteRepository) {
     let sprite_id: String = "barbarian_level_up".to_string();
     if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
         let x: f32 = 150.0;
@@ -43,12 +38,7 @@ fn draw_level_up_character(
     }
 }
 
-fn draw_fire(
-    ctx: &mut Context,
-    canvas: &mut Canvas,
-    sprite_repository: &SpriteRepository,
-    frame_count: u128,
-) {
+fn draw_fire(canvas: &mut Canvas, sprite_repository: &SpriteRepository, frame_count: u128) {
     let frame_index: u128 = (frame_count / 3) % 8;
     let sprite_id: String = format!("fire_{}", frame_index);
     if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
@@ -68,6 +58,14 @@ fn draw_fire(
     }
 }
 
-fn draw_continue_button(ctx: &mut Context) {}
+fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas) {
+    let mode: DrawMode = DrawMode::fill();
+    let bounds: Rect = Rect::new(800.0, 100.0, 900.0, 800.0);
+    let color: Color = Color::new(0.5, 0.5, 0.5, 1.0);
+    let draw_params: DrawParam = DrawParam::new();
+    let panel: Mesh = Mesh::new_rectangle(ctx, mode, bounds, color).unwrap();
 
-fn draw_character_stats(ctx: &mut Context) {}
+    canvas.draw(&panel, draw_params);
+}
+
+fn draw_continue_button(ctx: &mut Context) {}
