@@ -92,8 +92,15 @@ impl SpriteLoader {
         sprites.push(("orc_jump_2".to_string(), "/orc_jump_2.png".to_string()));
 
         sprites.push(("world".to_string(), "/world.png".to_string()));
+
         sprites.push(("fire_0".to_string(), "/fire_0.png".to_string()));
         sprites.push(("fire_1".to_string(), "/fire_1.png".to_string()));
+        sprites.push(("fire_2".to_string(), "/fire_2.png".to_string()));
+        sprites.push(("fire_3".to_string(), "/fire_3.png".to_string()));
+        sprites.push(("fire_4".to_string(), "/fire_4.png".to_string()));
+        sprites.push(("fire_5".to_string(), "/fire_5.png".to_string()));
+        sprites.push(("fire_6".to_string(), "/fire_6.png".to_string()));
+        sprites.push(("fire_7".to_string(), "/fire_7.png".to_string()));
 
         SpriteLoader { sprites }
     }

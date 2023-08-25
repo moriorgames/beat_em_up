@@ -19,7 +19,7 @@ impl Combat {
 
     pub fn process(&mut self, characters: &mut Vec<Character>, world: &World) {
         self.turn += 1;
-        println!("Turn: {:?}", self.turn);
+        println!("Combat Turn: {:?}", self.turn);
 
         for character in &mut *characters {
             character.update();

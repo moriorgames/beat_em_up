@@ -1,3 +1,4 @@
+mod level_up;
 mod character;
 mod combat;
 mod enemy;
@@ -20,6 +21,7 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
+use level_up::level_up::LevelUp;
 use player::player::Player;
 use player::player_controls::PlayerControls;
 use sprite::sprite_repository::SpriteRepository;
@@ -45,6 +47,7 @@ pub struct MainState {
     characters: Vec<Character>,
     sprite_repository: SpriteRepository,
     combat: Combat,
+    level_up: LevelUp,
     current_state: GameState,
 }
 
@@ -60,6 +63,7 @@ impl MainState {
         characters.push(character_builder::spawn_first_tower());
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
+        let level_up: LevelUp = LevelUp::new();
         let current_state: GameState = GameState::LevelUp;
 
         Ok(MainState {
@@ -69,6 +73,7 @@ impl MainState {
             characters,
             sprite_repository,
             combat,
+            level_up,
             current_state,
         })
     }
@@ -78,7 +83,7 @@ impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         match self.current_state {
             GameState::InCombat => game_update_in_combat::execute(ctx, self),
-            GameState::LevelUp => game_update_level_up::execute(),
+            GameState::LevelUp => game_update_level_up::execute(ctx, self),
         }
 
         Ok(())
