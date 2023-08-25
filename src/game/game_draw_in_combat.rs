@@ -5,7 +5,7 @@ use crate::{
 use ggez::{graphics::Canvas, Context};
 
 pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainState) {
-    let _ = draw(
+    draw(
         ctx,
         canvas,
         &main_state.world,

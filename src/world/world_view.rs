@@ -6,7 +6,7 @@ pub mod world_view {
     use crate::world::world::World;
     use ggez::graphics::{Canvas, Color, DrawParam};
     use ggez::mint::Point2;
-    use ggez::{Context, GameResult};
+    use ggez::Context;
 
     const HITBOX_DEBUG: bool = false;
 
@@ -15,7 +15,7 @@ pub mod world_view {
         canvas: &mut Canvas,
         world: &World,
         sprite_repository: &SpriteRepository,
-    ) -> GameResult {
+    ) {
         let sprite_id: String = "world".to_string();
 
         if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
@@ -33,7 +33,5 @@ pub mod world_view {
             let size: Size = Size::new(world.bounds.w, world.bounds.h);
             draw_stroke_rectangle(gfx, canvas, &position, &size, color);
         }
-
-        Ok(())
     }
 }

@@ -1,8 +1,8 @@
-use crate::{MainState, world::world_view::world_view::draw};
+use crate::{world::world_view::world_view::draw, MainState};
 use ggez::{graphics::Canvas, Context};
 
 pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainState) {
-    let _ = draw(
+    draw(
         ctx,
         canvas,
         &main_state.world,
