@@ -3,8 +3,8 @@ use ggez::conf::{WindowMode, WindowSetup};
 pub struct Window;
 
 impl Window {
-    const WIDTH: f32 = 1920.0;
-    const HEIGHT: f32 = 1080.0;
+    pub const WIDTH: f32 = 1920.0;
+    pub const HEIGHT: f32 = 1080.0;
     const TITLE: &str = "Beat 'em up";
 
     pub fn create_window_setup() -> WindowSetup {

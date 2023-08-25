@@ -1,5 +1,4 @@
 pub mod character_view {
-    use std::cmp::Ordering;
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
     use crate::character::character_types::Facing;
@@ -10,6 +9,7 @@ pub mod character_view {
     use ggez::graphics::{Canvas, Color, DrawParam};
     use ggez::mint::Point2;
     use ggez::{Context, GameResult};
+    use std::cmp::Ordering;
 
     const HEALTH_BAR_HEIGHT: f32 = 8.0;
     const HEALTH_BAR_WIDTH: f32 = 100.0;

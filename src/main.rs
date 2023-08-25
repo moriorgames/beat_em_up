@@ -1,9 +1,9 @@
-mod level_up;
 mod character;
 mod combat;
 mod enemy;
 mod game;
 mod geometry;
+mod level_up;
 mod player;
 mod sprite;
 mod window;
@@ -32,7 +32,7 @@ use world::world_builder::world_builder;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-pub const TARGET_FPS: u32 = 50;
+pub const TARGET_FPS: u32 = 60;
 const DEBUG_FPS: bool = false;
 
 pub enum GameState {

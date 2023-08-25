@@ -102,6 +102,8 @@ impl SpriteLoader {
         sprites.push(("fire_6".to_string(), "/fire_6.png".to_string()));
         sprites.push(("fire_7".to_string(), "/fire_7.png".to_string()));
 
+        sprites.push(("fire_mask".to_string(), "/fire_mask.png".to_string()));
+
         SpriteLoader { sprites }
     }
 
