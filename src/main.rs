@@ -1,6 +1,7 @@
 mod character;
 mod combat;
 mod enemy;
+mod game;
 mod geometry;
 mod player;
 mod sprite;
@@ -9,12 +10,10 @@ mod world;
 
 use character::character::Character;
 use character::character_builder::character_builder;
-use character::character_types::CharacterTypes;
 use character::character_view::character_view::draw_characters;
-use combat::action::Action;
 use combat::combat::Combat;
-use enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour;
 use event::EventHandler;
+use game::game_state_update_in_combat;
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -33,7 +32,7 @@ use world::world_view::character_view::draw;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-const TARGET_FPS: u32 = 50;
+pub const TARGET_FPS: u32 = 50;
 const DEBUG_FPS: bool = false;
 
 pub enum GameState {
@@ -41,7 +40,7 @@ pub enum GameState {
     LevelUp,
 }
 
-struct MainState {
+pub struct MainState {
     player: Player,
     player_controls: PlayerControls,
     world: World,
@@ -80,7 +79,7 @@ impl MainState {
 impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         match self.current_state {
-            GameState::InCombat => update_in_combat(ctx, self),
+            GameState::InCombat => game_state_update_in_combat::execute(ctx, self),
             GameState::LevelUp => update_level_up(),
         }
 
@@ -125,67 +124,6 @@ pub fn main() -> GameResult {
     let (mut ctx, event_loop) = cb.build()?;
     let state: MainState = MainState::new(&mut ctx)?;
     event::run(ctx, event_loop, state)
-}
-
-fn update_in_combat(ctx: &mut Context, main_state: &mut MainState) {
-    while ctx.time.check_update_time(TARGET_FPS) {
-        if let Some(player) = main_state.characters.first() {
-            match player.character_type {
-                CharacterTypes::Player => {
-                    let player: Character = player.clone();
-                    let player_actions: Vec<Action> = main_state.player_controls.handle_input(
-                        ctx,
-                        &player,
-                        main_state.combat.turn,
-                    );
-                    for action in player_actions {
-                        main_state.combat.add_action(action)
-                    }
-
-                    let enemy_actions: Vec<Action> = update_enemy_behaviour(
-                        main_state.characters.clone(),
-                        &player,
-                        main_state.combat.turn,
-                    );
-                    for action in enemy_actions {
-                        main_state.combat.add_action(action);
-                    }
-                }
-                _ => (),
-            }
-        }
-
-        main_state
-            .combat
-            .process(&mut main_state.characters, &main_state.world);
-
-        main_state
-            .characters
-            .retain(|character| character.current_health > 0.0);
-
-        if main_state.combat.turn == 3000 {
-            main_state
-                .characters
-                .push(character_builder::spawn_first_tower_orc_lord());
-        } else if main_state.combat.turn > 3000 {
-        } else {
-            if main_state.characters.len() < 7 {
-                if main_state.combat.turn % 1033 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_second_tower());
-                } else if main_state.combat.turn % 617 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_third_tower());
-                } else if main_state.combat.turn % 293 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_first_tower());
-                }
-            }
-        }
-    }
 }
 
 fn update_level_up() {}
