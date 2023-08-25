@@ -92,6 +92,8 @@ impl SpriteLoader {
         sprites.push(("orc_jump_2".to_string(), "/orc_jump_2.png".to_string()));
 
         sprites.push(("world".to_string(), "/world.png".to_string()));
+        sprites.push(("fire_0".to_string(), "/fire_0.png".to_string()));
+        sprites.push(("fire_1".to_string(), "/fire_1.png".to_string()));
 
         SpriteLoader { sprites }
     }
