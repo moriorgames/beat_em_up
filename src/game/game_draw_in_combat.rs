@@ -1,6 +1,6 @@
 use crate::{
     character::character_view::character_view::draw_characters,
-    world::world_view::character_view::draw, MainState,
+    world::world_view::world_view::draw, MainState,
 };
 use ggez::{graphics::Canvas, Context};
 

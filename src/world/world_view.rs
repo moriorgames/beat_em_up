@@ -1,4 +1,4 @@
-pub mod character_view {
+pub mod world_view {
     use crate::geometry::position::Position;
     use crate::geometry::rectangle::rectangle::draw_stroke_rectangle;
     use crate::geometry::size::Size;

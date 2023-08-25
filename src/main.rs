@@ -10,7 +10,6 @@ mod world;
 
 use character::character::Character;
 use character::character_builder::character_builder;
-use character::character_view::character_view::draw_characters;
 use combat::combat::Combat;
 use event::EventHandler;
 use game::{game_draw_in_combat, game_draw_level_up, game_update_in_combat, game_update_level_up};
@@ -28,7 +27,6 @@ use std::path::PathBuf;
 use window::window::Window;
 use world::world::World;
 use world::world_builder::world_builder;
-use world::world_view::character_view::draw;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
@@ -62,7 +60,7 @@ impl MainState {
         characters.push(character_builder::spawn_first_tower());
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
-        let current_state: GameState = GameState::InCombat;
+        let current_state: GameState = GameState::LevelUp;
 
         Ok(MainState {
             player,
@@ -95,12 +93,9 @@ impl EventHandler<GameError> for MainState {
 
         match self.current_state {
             GameState::InCombat => game_draw_in_combat::execute(ctx, &mut canvas, self),
-            GameState::LevelUp => game_draw_level_up::execute(),
+            GameState::LevelUp => game_draw_level_up::execute(ctx, &mut canvas, self),
         }
 
-        let _ = draw(ctx, &mut canvas, &self.world, &self.sprite_repository);
-
-        let _ = draw_characters(ctx, &mut canvas, &self.characters, &self.sprite_repository);
         canvas.finish(ctx)?;
 
         if DEBUG_FPS {
