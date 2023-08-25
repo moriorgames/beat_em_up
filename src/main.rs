@@ -13,7 +13,10 @@ use character::character_builder::character_builder;
 use character::character_view::character_view::draw_characters;
 use combat::combat::Combat;
 use event::EventHandler;
-use game::game_state_update_in_combat;
+use game::{
+    game_state_draw_in_combat, game_state_draw_level_up, game_state_update_in_combat,
+    game_state_update_level_up,
+};
 use ggez::conf::{WindowMode, WindowSetup};
 use ggez::{
     event,
@@ -80,7 +83,7 @@ impl EventHandler<GameError> for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         match self.current_state {
             GameState::InCombat => game_state_update_in_combat::execute(ctx, self),
-            GameState::LevelUp => update_level_up(),
+            GameState::LevelUp => game_state_update_level_up::execute(),
         }
 
         Ok(())
@@ -94,8 +97,8 @@ impl EventHandler<GameError> for MainState {
         let mut canvas: Canvas = Canvas::from_frame(ctx, clear);
 
         match self.current_state {
-            GameState::InCombat => draw_in_combat(ctx, &mut canvas, self),
-            GameState::LevelUp => draw_level_up(),
+            GameState::InCombat => game_state_draw_in_combat::execute(ctx, &mut canvas, self),
+            GameState::LevelUp => game_state_draw_level_up::execute(),
         }
 
         let _ = draw(ctx, &mut canvas, &self.world, &self.sprite_repository);
@@ -125,23 +128,3 @@ pub fn main() -> GameResult {
     let state: MainState = MainState::new(&mut ctx)?;
     event::run(ctx, event_loop, state)
 }
-
-fn update_level_up() {}
-
-fn draw_in_combat(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainState) {
-    let _ = draw(
-        ctx,
-        canvas,
-        &main_state.world,
-        &main_state.sprite_repository,
-    );
-
-    let _ = draw_characters(
-        ctx,
-        canvas,
-        &main_state.characters,
-        &main_state.sprite_repository,
-    );
-}
-
-fn draw_level_up() {}
