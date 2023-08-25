@@ -69,6 +69,10 @@ impl SpriteLoader {
             "barbarian_jump_2".to_string(),
             "/barbarian_jump_2.png".to_string(),
         ));
+        sprites.push((
+            "barbarian_level_up".to_string(),
+            "/barbarian_level_up.png".to_string(),
+        ));
 
         sprites.push(("orc_move_0".to_string(), "/orc_move_0.png".to_string()));
         sprites.push(("orc_move_1".to_string(), "/orc_move_1.png".to_string()));

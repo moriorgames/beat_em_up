@@ -1,6 +1,5 @@
 pub mod character_view {
     use std::cmp::Ordering;
-
     use crate::character::box_collision::BoxCollision;
     use crate::character::character::Character;
     use crate::character::character_types::Facing;

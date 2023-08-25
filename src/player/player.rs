@@ -1,7 +1,7 @@
 use crate::character::character::Character;
 
 pub struct Player {
-    character: Character,
+    pub character: Character,
     experience: u32,
     level: u32,
 }
