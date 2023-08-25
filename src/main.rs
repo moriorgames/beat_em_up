@@ -22,10 +22,10 @@ use ggez::{
     Context, ContextBuilder, GameError, GameResult,
 };
 use graphics::{Canvas, Color};
+use player::player::Player;
 use player::player_controls::PlayerControls;
 use sprite::sprite_repository::SpriteRepository;
 use std::path::PathBuf;
-use uuid::Uuid;
 use window::window::Window;
 use world::world::World;
 use world::world_builder::world_builder;
@@ -42,6 +42,7 @@ pub enum GameState {
 }
 
 struct MainState {
+    player: Player,
     player_controls: PlayerControls,
     world: World,
     characters: Vec<Character>,
@@ -52,18 +53,20 @@ struct MainState {
 
 impl MainState {
     fn new(ctx: &mut Context) -> GameResult<MainState> {
-        let mut player_id: Uuid = Uuid::new_v4();
-        let characters: Vec<Character> = character_builder::build();
-        if let Some(player) = characters.first() {
-            player_id = player.id;
-        }
-        let player_controls: PlayerControls = PlayerControls::new(player_id);
+        let player_character: Character = character_builder::build_player();
+        let cloned_player_character: Character = player_character.clone();
+        let player: Player = Player::new(player_character);
+        let player_controls: PlayerControls = PlayerControls::new();
         let world: World = world_builder::build();
+        let mut characters: Vec<Character> = Vec::new();
+        characters.push(cloned_player_character);
+        characters.push(character_builder::spawn_first_tower());
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
         let current_state: GameState = GameState::InCombat;
 
         Ok(MainState {
+            player,
             player_controls,
             world,
             characters,

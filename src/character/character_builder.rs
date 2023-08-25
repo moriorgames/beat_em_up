@@ -7,9 +7,7 @@ pub mod character_builder {
         geometry::{position::Position, size::Size},
     };
 
-    pub fn build() -> Vec<Character> {
-        let mut characters: Vec<Character> = Vec::new();
-
+    pub fn build_player() -> Character {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
 
@@ -53,20 +51,7 @@ pub mod character_builder {
             debug.stats, debug.speed, debug.speed_jump, debug.damage, debug.defense, debug.health,
         );
 
-        characters.push(player);
-
-        let position: Position = Position::new(1150.0, 750.0);
-        let enemy: Character = spawn_orc(position);
-
-        let debug: Character = enemy.clone();
-        println!(
-            "-- Enemy {:?} speed {}, speed_jump {}, damage {}, defense {}, health {}",
-            debug.stats, debug.speed, debug.speed_jump, debug.damage, debug.defense, debug.health,
-        );
-
-        characters.push(enemy);
-
-        characters
+        player
     }
 
     fn create_barbarian_move_animation() -> Animation {
