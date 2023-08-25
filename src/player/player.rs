@@ -1,5 +1,6 @@
 use crate::character::character::Character;
 
+#[derive(Clone, Debug)]
 pub struct Player {
     pub character: Character,
     experience: u32,

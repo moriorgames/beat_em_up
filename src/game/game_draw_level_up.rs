@@ -1,8 +1,8 @@
 use crate::{
-    sprite::sprite_repository::SpriteRepository, world::world_view::world_view::draw, MainState,
+    sprite::sprite_repository::SpriteRepository, world::world_view::world_view::draw, MainState, player::player::Player, character::character_stats::Stats,
 };
 use ggez::{
-    graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, Rect},
+    graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, Rect, Text},
     mint::Point2,
     Context,
 };
@@ -21,7 +21,8 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
         &main_state.sprite_repository,
         main_state.level_up.turn,
     );
-    draw_character_stats(ctx, canvas);
+    let mut player: Player = main_state.player.clone();
+    draw_character_stats(ctx, canvas, &mut player);
     draw_continue_button(ctx);
 }
 
@@ -58,7 +59,7 @@ fn draw_fire(canvas: &mut Canvas, sprite_repository: &SpriteRepository, frame_co
     }
 }
 
-fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas) {
+fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas, player: &mut Player) {
     let mode: DrawMode = DrawMode::fill();
     let bounds: Rect = Rect::new(800.0, 100.0, 900.0, 800.0);
     let color: Color = Color::new(0.5, 0.5, 0.5, 1.0);
@@ -66,6 +67,23 @@ fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas) {
     let panel: Mesh = Mesh::new_rectangle(ctx, mode, bounds, color).unwrap();
 
     canvas.draw(&panel, draw_params);
+
+    let left_panel_x: f32 = 820.0;
+    let line_height: f32 = 30.0;
+
+    let stats_before: Stats = player.character.stats.clone();
+    let stats_after: Stats = player.character.stats.clone();
+
+    let stat_labels: Vec<&str> = vec!["Fuerza", "Agilidad", "Vitalidad", "Resistencia"];
+    let stat_values_before: Vec<f32> = vec![stats_before.strength, stats_before.agility, stats_before.vitality, stats_before.resistance];
+    let stat_values_after: Vec<f32> = vec![stats_after.strength, stats_after.agility, stats_after.vitality, stats_after.resistance];
+
+    for (i, label) in stat_labels.iter().enumerate() {
+        let y: f32 = 120.0 + i as f32 * line_height;
+        let text_before: Text = Text::new(format!("{}: {:.0} => {:.0}", label, stat_values_before[i], stat_values_after[i]));
+        let params: DrawParam = DrawParam::new().dest(Point2 { x: left_panel_x, y });
+        canvas.draw(&text_before, params);
+    }
 }
 
 fn draw_continue_button(ctx: &mut Context) {}
