@@ -10,7 +10,7 @@ pub struct LevelUpPanelConfig {
 }
 
 impl LevelUpPanelConfig {
-    const PADDING: f32 = 20.0;
+    const PADDING: f32 = 25.0;
     const PANEL_X: f32 = 800.0;
     const PANEL_Y: f32 = 100.0;
     const PANEL_W: f32 = 900.0;

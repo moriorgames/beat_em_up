@@ -94,7 +94,7 @@ pub fn draw_character_stats(gfx: &mut Context, canvas: &mut Canvas, player: &mut
         ));
         let params: DrawParam = DrawParam::new().dest(Point2 {
             x: left_bot_panel.x + config.padding + 10.0,
-            y: y + 10.0,
+            y: y + 15.0,
         });
         canvas.draw(&text, params);
     }
