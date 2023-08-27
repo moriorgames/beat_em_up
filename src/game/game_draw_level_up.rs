@@ -41,7 +41,7 @@ fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
     canvas.draw(&panel, draw_params);
 }
 
-fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas, player: &mut Player) {
+fn draw_character_stats(gfx: &mut Context, canvas: &mut Canvas, player: &mut Player) {
     let left_panel_x: f32 = 820.0;
     let line_height: f32 = 60.0;
     let rect_width: f32 = 300.0;
@@ -66,8 +66,8 @@ fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas, player: &mut Pla
 
     for (i, label) in stat_labels.iter().enumerate() {
         let y: f32 = 120.0 + i as f32 * line_height;
-        let stat_rect = Mesh::new_rectangle(
-            ctx,
+        let stat_rect: Mesh = Mesh::new_rectangle(
+            gfx,
             DrawMode::stroke(2.0),
             Rect::new(left_panel_x, y, rect_width, rect_height),
             Color::new(1.0, 1.0, 1.0, 0.5),
@@ -75,12 +75,11 @@ fn draw_character_stats(ctx: &mut Context, canvas: &mut Canvas, player: &mut Pla
         .unwrap();
         canvas.draw(&stat_rect, DrawParam::default());
 
-        // Dibuja el texto
-        let text = Text::new(format!(
+        let text: Text = Text::new(format!(
             "{}: {:.0} => {:.0}",
             label, stat_values_before[i], stat_values_after[i]
         ));
-        let params = DrawParam::new().dest(Point2 {
+        let params: DrawParam = DrawParam::new().dest(Point2 {
             x: left_panel_x + 10.0,
             y: y + 5.0,
         });
