@@ -48,28 +48,57 @@ impl LevelUp {
     }
 
     fn increment_selected_stat(&mut self, selected_stat: &String, player: &mut Player) {
-        if player.experience > 0 {
-            match selected_stat.as_str() {
-                "vitality" => {
-                    player.character.stats.vitality += 1.0;
-                    player.experience -= 1;
-                },
-                _ => {}
-            }
-        }
+        self.update_stat(player, selected_stat, 1.0);
     }
 
     fn decrement_selected_stat(&mut self, selected_stat: &String, player: &mut Player) {
-        if player.experience < player.max_experience {
-            match selected_stat.as_str() {
-                "vitality" => {
-                    if player.character.stats.vitality > 0.0 {
-                        player.character.stats.vitality -= 1.0;
-                        player.experience += 1;
-                    }
-                },
-                _ => {}
-            }
-        }
+        self.update_stat(player, selected_stat, -1.0);
     }
+
+    fn update_stat(&mut self, player: &mut Player, stat: &str, value: f32) {
+        if value > 0.0 && player.experience == 0 {
+            return;
+        }
+        if value < 0.0 && player.experience >= player.max_experience {
+            return;
+        }
+        
+        match stat {
+            "vitality" => {
+                if player.character.stats.vitality + value >= 0.0 {
+                    player.character.stats.vitality += value;
+                    player.experience = (player.experience as i32 - value as i32) as u32;
+
+                    return;
+                }
+            },
+            "strength" => {
+                if player.character.stats.strength + value >= 0.0 {
+                    player.character.stats.strength += value;
+                    player.experience = (player.experience as i32 - value as i32) as u32;
+
+                    return;
+                }
+            },
+            "agility" => {
+                if player.character.stats.agility + value >= 0.0 {
+                    player.character.stats.agility += value;
+                    player.experience = (player.experience as i32 - value as i32) as u32;
+
+                    return;
+                }
+            },
+            "resistance" => {
+                if player.character.stats.resistance + value >= 0.0 {
+                    player.character.stats.resistance += value;
+                    player.experience = (player.experience as i32 - value as i32) as u32;
+
+                    return;
+                }
+            },
+            _ => {}
+        }
+
+    }
+    
 }
