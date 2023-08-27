@@ -1,6 +1,6 @@
 use crate::player::level_up_controls::LevelUpIntention;
 use crate::player::player_controls::PlayerIntention;
-use gilrs::EventType::{ButtonChanged, ButtonReleased};
+use gilrs::EventType::{ButtonChanged, ButtonPressed};
 use gilrs::{Button, Event, Gilrs};
 
 pub struct GamePadController {
@@ -72,22 +72,22 @@ impl GamePadController {
         self.jump_pressed = false;
         while let Some(Event { event, .. }) = self.gilrs.next_event() {
             match event {
-                ButtonReleased(Button::DPadLeft, _) => {
+                ButtonPressed(Button::DPadLeft, _) => {
                     self.left_pressed = true;
                 }
-                ButtonReleased(Button::DPadRight, _) => {
+                ButtonPressed(Button::DPadRight, _) => {
                     self.right_pressed = true;
                 }
-                ButtonReleased(Button::DPadUp, _) => {
+                ButtonPressed(Button::DPadUp, _) => {
                     self.up_pressed = true;
                 }
-                ButtonReleased(Button::DPadDown, _) => {
+                ButtonPressed(Button::DPadDown, _) => {
                     self.down_pressed = true;
                 }
-                ButtonReleased(Button::West, _) => {
+                ButtonPressed(Button::West, _) => {
                     self.attack_pressed = true;
                 }
-                ButtonReleased(Button::South, _) => {
+                ButtonPressed(Button::South, _) => {
                     self.attack_pressed = true;
                 }
                 _ => {}
