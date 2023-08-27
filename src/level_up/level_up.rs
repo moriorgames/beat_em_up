@@ -1,4 +1,7 @@
-use crate::player::{level_up_controls::{LevelUpControls, LevelUpIntention}, player::Player};
+use crate::player::{
+    level_up_controls::{LevelUpControls, LevelUpIntention},
+    player::Player,
+};
 use ggez::Context;
 
 pub struct LevelUp {
@@ -11,7 +14,12 @@ pub struct LevelUp {
 impl LevelUp {
     pub fn new() -> Self {
         let level_up_controls: LevelUpControls = LevelUpControls::new();
-        let stat_list: Vec<String> = vec!["vitality".to_string(), "strength".to_string(), "agility".to_string(), "resistance".to_string()];
+        let stat_list: Vec<String> = vec![
+            "vitality".to_string(),
+            "strength".to_string(),
+            "agility".to_string(),
+            "resistance".to_string(),
+        ];
         Self {
             turn: 0,
             level_up_controls,
@@ -25,7 +33,7 @@ impl LevelUp {
         println!("Level up Turn: {:?}", self.turn);
 
         let intention: LevelUpIntention = self.level_up_controls.handle_input(ctx);
-        
+
         if intention.move_up {
             if self.selected_stat_index > 0 {
                 self.selected_stat_index -= 1;
@@ -38,13 +46,17 @@ impl LevelUp {
         }
 
         let selected_stat: &String = &self.stat_list[self.selected_stat_index].clone();
-        
+
         if intention.move_right {
             self.increment_selected_stat(selected_stat, player);
         }
         if intention.move_left {
             self.decrement_selected_stat(selected_stat, player);
         }
+    }
+
+    pub fn get_selected_stat(&mut self) -> &String {
+        &self.stat_list[self.selected_stat_index]
     }
 
     fn increment_selected_stat(&mut self, selected_stat: &String, player: &mut Player) {
@@ -62,7 +74,7 @@ impl LevelUp {
         if value < 0.0 && player.experience >= player.max_experience {
             return;
         }
-        
+
         match stat {
             "vitality" => {
                 if player.character.stats.vitality + value >= 0.0 {
@@ -71,7 +83,7 @@ impl LevelUp {
 
                     return;
                 }
-            },
+            }
             "strength" => {
                 if player.character.stats.strength + value >= 0.0 {
                     player.character.stats.strength += value;
@@ -79,7 +91,7 @@ impl LevelUp {
 
                     return;
                 }
-            },
+            }
             "agility" => {
                 if player.character.stats.agility + value >= 0.0 {
                     player.character.stats.agility += value;
@@ -87,7 +99,7 @@ impl LevelUp {
 
                     return;
                 }
-            },
+            }
             "resistance" => {
                 if player.character.stats.resistance + value >= 0.0 {
                     player.character.stats.resistance += value;
@@ -95,10 +107,8 @@ impl LevelUp {
 
                     return;
                 }
-            },
+            }
             _ => {}
         }
-
     }
-    
 }

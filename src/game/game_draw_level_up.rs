@@ -25,7 +25,12 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
     let mut player: Player = main_state.player.clone();
     draw_background_panel(ctx, canvas);
     draw_character_info(ctx, canvas, &mut player);
-    draw_character_main_stats(ctx, canvas, &mut player);
+    draw_character_main_stats(
+        ctx,
+        canvas,
+        &mut player,
+        main_state.level_up.get_selected_stat(),
+    );
     draw_character_secondary_stats(ctx, canvas, &mut player);
     draw_continue_button(ctx);
 }
