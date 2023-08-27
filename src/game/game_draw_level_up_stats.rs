@@ -58,17 +58,17 @@ pub fn draw_character_stats(gfx: &mut Context, canvas: &mut Canvas, player: &mut
     let stats_before: Stats = player.character.stats.clone();
     let stats_after: Stats = player.character.stats.clone();
 
-    let stat_labels: Vec<&str> = vec!["Fuerza", "Agilidad", "Vitalidad", "Resistencia"];
+    let stat_labels: Vec<&str> = vec!["Vitalidad", "Fuerza", "Agilidad", "Resistencia"];
     let stat_values_before: Vec<f32> = vec![
+        stats_before.vitality,
         stats_before.strength,
         stats_before.agility,
-        stats_before.vitality,
         stats_before.resistance,
     ];
     let stat_values_after: Vec<f32> = vec![
+        stats_after.vitality,
         stats_after.strength,
         stats_after.agility,
-        stats_after.vitality,
         stats_after.resistance,
     ];
 
