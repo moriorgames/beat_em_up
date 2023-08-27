@@ -3,9 +3,9 @@ use ggez::{
     Context,
 };
 
-pub fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
+pub fn draw_background_panel(gfx: &mut Context, canvas: &mut Canvas) {
     let bg_bounds: Rect = Rect::new(800.0, 100.0, 900.0, 800.0);
-    draw_main_panel(ctx, canvas, bg_bounds);
+    draw_main_panel(gfx, canvas, bg_bounds);
 
     let padding: f32 = 20.0;
     let subpanel_width: f32 = (bg_bounds.w - 3.0 * padding) / 2.0;
@@ -21,7 +21,7 @@ pub fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
         subpanel_height,
     );
     let left_panel: Mesh =
-        Mesh::new_rectangle(ctx, border_mode, left_bounds, border_color).unwrap();
+        Mesh::new_rectangle(gfx, border_mode, left_bounds, border_color).unwrap();
     canvas.draw(&left_panel, DrawParam::default());
 
     let right_bounds: Rect = Rect::new(
@@ -31,14 +31,14 @@ pub fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
         subpanel_height,
     );
     let right_panel: Mesh =
-        Mesh::new_rectangle(ctx, border_mode, right_bounds, border_color).unwrap();
+        Mesh::new_rectangle(gfx, border_mode, right_bounds, border_color).unwrap();
     canvas.draw(&right_panel, DrawParam::default());
 }
 
-fn draw_main_panel(ctx: &mut Context, canvas: &mut Canvas, bg_bounds: Rect) {
+fn draw_main_panel(gfx: &mut Context, canvas: &mut Canvas, bg_bounds: Rect) {
     let bg_mode: DrawMode = DrawMode::fill();
     let bg_color: Color = Color::new(0.1, 0.1, 0.1, 1.0);
     let bg_draw_params: DrawParam = DrawParam::new();
-    let bg_panel: Mesh = Mesh::new_rectangle(ctx, bg_mode, bg_bounds, bg_color).unwrap();
+    let bg_panel: Mesh = Mesh::new_rectangle(gfx, bg_mode, bg_bounds, bg_color).unwrap();
     canvas.draw(&bg_panel, bg_draw_params);
 }
