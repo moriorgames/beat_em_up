@@ -1,7 +1,7 @@
 use super::{
-    game_draw_level_up_character::draw_level_up_character,
-    game_draw_level_up_fire::draw_fire,
-    game_draw_level_up_stats::{draw_background_panel, draw_character_stats},
+    game_draw_level_up_character::draw_level_up_character, game_draw_level_up_fire::draw_fire,
+    game_draw_level_up_panel::draw_background_panel,
+    game_draw_level_up_stats::draw_character_stats,
 };
 use crate::{player::player::Player, world::world_view::world_view::draw, MainState};
 use ggez::{graphics::Canvas, Context};
