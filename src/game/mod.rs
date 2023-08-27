@@ -6,3 +6,4 @@ pub mod game_draw_level_up_panel;
 pub mod game_draw_level_up_stats;
 pub mod game_update_in_combat;
 pub mod game_update_level_up;
+pub mod level_up_panel_config;
