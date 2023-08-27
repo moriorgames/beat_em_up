@@ -32,7 +32,4 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
         main_state.level_up.get_selected_stat(),
     );
     draw_character_secondary_stats(ctx, canvas, &mut player);
-    draw_continue_button(ctx);
 }
-
-fn draw_continue_button(ctx: &mut Context) {}

@@ -80,6 +80,7 @@ impl LevelUp {
                 if player.character.stats.vitality + value >= 0.0 {
                     player.character.stats.vitality += value;
                     player.experience = (player.experience as i32 - value as i32) as u32;
+                    player.character.rebuild_stats();
 
                     return;
                 }
@@ -88,6 +89,7 @@ impl LevelUp {
                 if player.character.stats.strength + value >= 0.0 {
                     player.character.stats.strength += value;
                     player.experience = (player.experience as i32 - value as i32) as u32;
+                    player.character.rebuild_stats();
 
                     return;
                 }
@@ -96,6 +98,7 @@ impl LevelUp {
                 if player.character.stats.agility + value >= 0.0 {
                     player.character.stats.agility += value;
                     player.experience = (player.experience as i32 - value as i32) as u32;
+                    player.character.rebuild_stats();
 
                     return;
                 }
@@ -104,6 +107,7 @@ impl LevelUp {
                 if player.character.stats.resistance + value >= 0.0 {
                     player.character.stats.resistance += value;
                     player.experience = (player.experience as i32 - value as i32) as u32;
+                    player.character.rebuild_stats();
 
                     return;
                 }

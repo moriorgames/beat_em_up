@@ -54,13 +54,10 @@ pub struct MainState {
 impl MainState {
     fn new(ctx: &mut Context) -> GameResult<MainState> {
         let player_character: Character = character_builder::build_player();
-        let cloned_player_character: Character = player_character.clone();
         let player: Player = Player::new(player_character);
         let player_controls: PlayerControls = PlayerControls::new();
         let world: World = world_builder::build();
-        let mut characters: Vec<Character> = Vec::new();
-        characters.push(cloned_player_character);
-        characters.push(character_builder::spawn_first_tower());
+        let characters: Vec<Character> = Vec::new();
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
         let level_up: LevelUp = LevelUp::new();

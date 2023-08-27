@@ -90,6 +90,16 @@ impl Character {
         }
     }
 
+    pub fn rebuild_stats(&mut self) {
+        let (health, speed, speed_jump, damage, defense) = self.stats.get_calculated_stats();
+        self.current_health = health;
+        self.health = health;
+        self.speed = speed;
+        self.speed_jump = speed_jump;
+        self.damage = damage;
+        self.defense = defense;
+    }
+
     pub fn is_idle(&self) -> bool {
         self.character_state == CharacterState::Idle
     }
