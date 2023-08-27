@@ -1,9 +1,12 @@
+use super::{
+    game_draw_level_up_character::draw_level_up_character, game_draw_level_up_fire::draw_fire,
+};
 use crate::{
-    character::character_stats::Stats, player::player::Player,
-    sprite::sprite_repository::SpriteRepository, world::world_view::world_view::draw, MainState,
+    character::character_stats::Stats, player::player::Player, world::world_view::world_view::draw,
+    MainState,
 };
 use ggez::{
-    graphics::{Canvas, Color, DrawMode, DrawParam, Image, Mesh, Rect, Text},
+    graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect, Text},
     mint::Point2,
     Context,
 };
@@ -26,39 +29,6 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
     draw_background_panel(ctx, canvas);
     draw_character_stats(ctx, canvas, &mut player);
     draw_continue_button(ctx);
-}
-
-fn draw_level_up_character(canvas: &mut Canvas, sprite_repository: &SpriteRepository) {
-    let sprite_id: String = "barbarian_level_up".to_string();
-    if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
-        let x: f32 = 150.0;
-        let y: f32 = 250.0;
-        let dst: Point2<f32> = Point2 { x, y };
-        let scale: Point2<f32> = Point2 { x: 3f32, y: 3f32 };
-
-        let draw_params: DrawParam = DrawParam::new().dest(dst).scale(scale);
-        canvas.draw(sprite, draw_params);
-    }
-}
-
-fn draw_fire(canvas: &mut Canvas, sprite_repository: &SpriteRepository, frame_count: u128) {
-    let frame_index: u128 = (frame_count / 3) % 8;
-    let sprite_id: String = format!("fire_{}", frame_index);
-    if let Some(sprite) = sprite_repository.get_sprite(&sprite_id) {
-        let x: f32 = 340.0;
-        let y: f32 = 300.0;
-        let dst: Point2<f32> = Point2 { x, y };
-        let scale: Point2<f32> = Point2 { x: 2f32, y: 2f32 };
-
-        let draw_params: DrawParam = DrawParam::new().dest(dst).scale(scale);
-        canvas.draw(sprite, draw_params);
-
-        let dst: Point2<f32> = Point2 { x: 0.0, y: 0.0 };
-        let color: Color = Color::new(1.0, 1.0, 1.0, 0.80);
-        let mask_image: &Image = sprite_repository.get_sprite("fire_mask").unwrap();
-        let draw_params: DrawParam = DrawParam::new().dest(dst).scale(scale).color(color);
-        canvas.draw(mask_image, draw_params);
-    }
 }
 
 fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
