@@ -10,9 +10,7 @@ pub fn draw_character_main_stats(gfx: &mut Context, canvas: &mut Canvas, player:
     let config: LevelUpPanelConfig = LevelUpPanelConfig::new();
     let left_bot_panel: Rect = config.left_bot_subpanel;
 
-    let line_height: f32 = 60.0;
     let rect_width: f32 = left_bot_panel.w - config.padding * 2.0;
-    let rect_height: f32 = 40.0;
 
     let stats: Stats = player.character.stats.clone();
     let stat_labels: Vec<&str> = vec!["Vitalidad", "Fuerza", "Agilidad", "Resistencia"];
@@ -24,7 +22,8 @@ pub fn draw_character_main_stats(gfx: &mut Context, canvas: &mut Canvas, player:
     ];
 
     for (i, label) in stat_labels.iter().enumerate() {
-        let y: f32 = left_bot_panel.y + config.padding + i as f32 * line_height;
+        let y: f32 =
+            left_bot_panel.y + config.padding + i as f32 * LevelUpPanelConfig::ROW_LINE_HEIGHT;
         let stat_rect: Mesh = Mesh::new_rectangle(
             gfx,
             DrawMode::stroke(2.0),
@@ -32,7 +31,7 @@ pub fn draw_character_main_stats(gfx: &mut Context, canvas: &mut Canvas, player:
                 left_bot_panel.x + config.padding,
                 y,
                 rect_width,
-                rect_height,
+                LevelUpPanelConfig::ROW_HEIGHT,
             ),
             Color::new(1.0, 1.0, 1.0, 0.5),
         )

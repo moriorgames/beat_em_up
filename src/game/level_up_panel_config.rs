@@ -15,7 +15,9 @@ impl LevelUpPanelConfig {
     const PANEL_Y: f32 = 100.0;
     const PANEL_W: f32 = 900.0;
     const PANEL_H: f32 = 800.0;
-    const TOP_SUBPANEL_HEIGHT: f32 = 100.0;
+    pub const TOP_SUBPANEL_HEIGHT: f32 = 100.0;
+    pub const ROW_LINE_HEIGHT: f32 = 60.0;
+    pub const ROW_HEIGHT: f32 = 40.0;
 
     pub fn new() -> Self {
         let padding: f32 = Self::PADDING;
@@ -41,9 +43,9 @@ impl LevelUpPanelConfig {
 
         let left_bot_subpanel: Rect = Rect::new(
             left_subpanel.x,
-            left_subpanel.y + Self::TOP_SUBPANEL_HEIGHT + padding,
+            left_subpanel.y + Self::ROW_LINE_HEIGHT * 2.0,
             subpanel_width,
-            subpanel_height - Self::TOP_SUBPANEL_HEIGHT - padding,
+            subpanel_height - Self::ROW_LINE_HEIGHT * 2.0 - padding,
         );
 
         let right_subpanel: Rect = Rect::new(

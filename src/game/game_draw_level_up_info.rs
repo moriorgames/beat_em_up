@@ -19,19 +19,19 @@ pub fn draw_character_info(gfx: &mut Context, canvas: &mut Canvas, player: &mut 
 
     let level_params: DrawParam = DrawParam::new().dest(Point2 {
         x: left_top_panel.x + config.padding,
-        y: top_info_y,
+        y: top_info_y + config.padding,
     });
 
     canvas.draw(&text_level, level_params);
 
     let points_params: DrawParam = DrawParam::new().dest(Point2 {
         x: left_top_panel.x + config.padding,
-        y: top_info_y + config.padding * 2.0,
+        y: top_info_y + LevelUpPanelConfig::ROW_LINE_HEIGHT,
     });
 
     canvas.draw(&text_points, points_params);
 
-    let line_y: f32 = top_info_y + config.padding * 4.0;
+    let line_y: f32 = top_info_y + LevelUpPanelConfig::TOP_SUBPANEL_HEIGHT;
     let line: Mesh = Mesh::new_line(
         gfx,
         &[
