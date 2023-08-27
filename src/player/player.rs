@@ -5,6 +5,7 @@ pub struct Player {
     pub character: Character,
     pub level: u32,
     pub experience: u32,
+    pub max_experience: u32,
 }
 
 impl Player {
@@ -12,7 +13,8 @@ impl Player {
         Self {
             character,
             level: 1,
-            experience: 0,
+            experience: 2,
+            max_experience: 2,
         }
     }
 }

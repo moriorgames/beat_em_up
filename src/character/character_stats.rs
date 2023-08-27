@@ -1,8 +1,8 @@
 #[derive(Clone, Debug)]
 pub struct Stats {
+    pub vitality: f32,
     pub strength: f32,
     pub agility: f32,
-    pub vitality: f32,
     pub resistance: f32,
 }
 
