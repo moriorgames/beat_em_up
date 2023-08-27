@@ -6,13 +6,25 @@ use ggez::{
 };
 
 pub fn draw_background_panel(ctx: &mut Context, canvas: &mut Canvas) {
-    let mode: DrawMode = DrawMode::fill();
-    let bounds: Rect = Rect::new(800.0, 100.0, 900.0, 800.0);
-    let color: Color = Color::new(0.5, 0.5, 0.5, 1.0);
-    let draw_params: DrawParam = DrawParam::new();
-    let panel: Mesh = Mesh::new_rectangle(ctx, mode, bounds, color).unwrap();
+    let bg_mode: DrawMode = DrawMode::fill();
+    let bg_bounds: Rect = Rect::new(800.0, 100.0, 900.0, 800.0);
+    let bg_color: Color = Color::new(0.1, 0.1, 0.1, 1.0);
+    let bg_draw_params: DrawParam = DrawParam::new();
+    let bg_panel: Mesh = Mesh::new_rectangle(ctx, bg_mode, bg_bounds, bg_color).unwrap();
+    canvas.draw(&bg_panel, bg_draw_params);
 
-    canvas.draw(&panel, draw_params);
+    let border_mode: DrawMode = DrawMode::stroke(2.0);
+    let border_color: Color = Color::new(0.7, 0.7, 0.7, 1.0);
+
+    let left_bounds: Rect = Rect::new(820.0, 120.0, 400.0, 760.0);
+    let left_panel: Mesh =
+        Mesh::new_rectangle(ctx, border_mode, left_bounds, border_color).unwrap();
+    canvas.draw(&left_panel, DrawParam::default());
+
+    let right_bounds: Rect = Rect::new(1240.0, 120.0, 400.0, 760.0);
+    let right_panel: Mesh =
+        Mesh::new_rectangle(ctx, border_mode, right_bounds, border_color).unwrap();
+    canvas.draw(&right_panel, DrawParam::default());
 }
 
 pub fn draw_character_stats(gfx: &mut Context, canvas: &mut Canvas, player: &mut Player) {
