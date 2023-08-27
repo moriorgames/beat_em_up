@@ -11,11 +11,11 @@ pub mod character_builder {
         let position: Position = Position::new(800.0, 700.0);
         let size: Size = Size::new(190.0, 190.0);
 
+        let vitality: f32 = 5.0;
         let strength: f32 = 8.0;
         let agility: f32 = 6.0;
-        let vitality: f32 = 5.0;
         let resistance: f32 = 5.0;
-        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+        let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Player;
         let move_animation: Animation = create_barbarian_move_animation();
@@ -135,11 +135,11 @@ pub mod character_builder {
     fn spawn_orc(position: Position) -> Character {
         let size: Size = Size::new(190.0, 190.0);
 
+        let vitality: f32 = 1.0;
         let strength: f32 = 2.0;
         let agility: f32 = 0.0;
-        let vitality: f32 = 1.0;
         let resistance: f32 = 0.0;
-        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+        let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
@@ -174,11 +174,11 @@ pub mod character_builder {
     fn spawn_orc_lord(position: Position) -> Character {
         let size: Size = Size::new(190.0, 190.0);
 
+        let vitality: f32 = 20.0;
         let strength: f32 = 4.0;
         let agility: f32 = 0.0;
-        let vitality: f32 = 20.0;
         let resistance: f32 = 1.0;
-        let stats: Stats = Stats::new(strength, agility, vitality, resistance);
+        let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();

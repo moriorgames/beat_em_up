@@ -13,12 +13,12 @@ pub struct Character {
     pub position: Position,
     pub size: Size,
     pub stats: Stats,
+    pub current_health: f32,
+    pub health: f32,
     pub speed: f32,
     pub speed_jump: f32,
     pub damage: f32,
     pub defense: f32,
-    pub current_health: f32,
-    pub health: f32,
     pub has_processed_action: bool,
     pub character_type: CharacterTypes,
     pub facing: Facing,
@@ -57,18 +57,18 @@ impl Character {
     ) -> Self {
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
-        let (speed, speed_jump, damage, defense, health) = stats.get_calculated_stats();
+        let (health, speed, speed_jump, damage, defense) = stats.get_calculated_stats();
         Character {
             id: Uuid::new_v4(),
             position,
             size,
             stats,
+            current_health: health,
+            health,
             speed,
             speed_jump,
             damage,
             defense,
-            current_health: health,
-            health,
             has_processed_action: false,
             character_type,
             facing: Facing::Right,

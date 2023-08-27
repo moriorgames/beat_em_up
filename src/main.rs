@@ -64,7 +64,7 @@ impl MainState {
         let sprite_repository: SpriteRepository = SpriteRepository::new(ctx);
         let combat: Combat = Combat::new();
         let level_up: LevelUp = LevelUp::new();
-        let current_state: GameState = GameState::LevelUp;
+        let current_state: GameState = GameState::InCombat;
 
         Ok(MainState {
             player,
