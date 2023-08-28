@@ -9,7 +9,7 @@ pub mod character_builder {
 
     pub fn build_player() -> Character {
         let position: Position = Position::new(800.0, 700.0);
-        let size: Size = Size::new(190.0, 190.0);
+        let size: Size = Size::new(210.0, 210.0);
 
         let vitality: f32 = 5.0;
         let strength: f32 = 8.0;
@@ -22,9 +22,9 @@ pub mod character_builder {
         let attack_animation: Animation = create_barbarian_attack_animation();
         let jump_animation: Animation = create_barbarian_jump_animation();
         let body_collision: BoxCollision = BoxCollision {
-            x: 0.0,
+            x: 10.0,
             y: -125.0,
-            w: size.w - 75.0,
+            w: size.w - 100.0,
             h: 125.0,
         };
         let foot_collision: BoxCollision = BoxCollision {

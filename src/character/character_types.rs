@@ -4,7 +4,7 @@ pub enum CharacterTypes {
     Enemy,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Facing {
     Left,
     Right,

@@ -249,11 +249,17 @@ impl Character {
 
     fn move_left(&mut self, speed: f32) {
         self.position.x -= speed;
+        if self.facing == Facing::Right {
+            self.body_collision.x *= -1.0;
+        }
         self.facing = Facing::Left;
     }
 
     fn move_right(&mut self, speed: f32) {
         self.position.x += speed;
+        if self.facing == Facing::Left {
+            self.body_collision.x *= -1.0;
+        }
         self.facing = Facing::Right;
     }
 

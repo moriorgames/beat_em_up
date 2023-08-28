@@ -33,8 +33,6 @@ impl LevelUp {
 
     pub fn process(&mut self, ctx: &mut Context, player: &mut Player) {
         self.turn += 1;
-        println!("Level up Turn: {:?}", self.turn);
-
         let intention: LevelUpIntention = self.level_up_controls.handle_input(ctx);
 
         if intention.move_up {
