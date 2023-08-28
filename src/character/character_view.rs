@@ -77,15 +77,16 @@ pub mod character_view {
             let size: Size = Size::new(w, h);
             draw_stroke_rectangle(gfx, canvas, &position, &size, color);
 
-            let weapon_collision: BoxCollision = character.weapon_collision_to_world_space();
-            let color: Color = Color::BLACK;
-            let x: f32 = weapon_collision.x;
-            let y: f32 = weapon_collision.y;
-            let position: Position = Position::new(x, y);
-            let w: f32 = weapon_collision.w;
-            let h: f32 = weapon_collision.h;
-            let size: Size = Size::new(w, h);
-            draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+            if let Some(weapon_collision) = character.weapon_collision_to_world_space() {
+                let color: Color = Color::BLACK;
+                let x: f32 = weapon_collision.x;
+                let y: f32 = weapon_collision.y;
+                let position: Position = Position::new(x, y);
+                let w: f32 = weapon_collision.w;
+                let h: f32 = weapon_collision.h;
+                let size: Size = Size::new(w, h);
+                draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+            }
         }
     }
 

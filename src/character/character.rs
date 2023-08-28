@@ -30,7 +30,8 @@ pub struct Character {
     pub attack_timer_hit: u8,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
-    pub weapon_collision: BoxCollision,
+    pub weapon_collision_template: BoxCollision,
+    pub weapon_collision: Option<BoxCollision>,
     pub character_state: CharacterState,
 }
 
@@ -54,6 +55,7 @@ impl Character {
         jump_animation: Animation,
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
+        weapon_collision_template: BoxCollision,
     ) -> Self {
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
@@ -80,12 +82,8 @@ impl Character {
             attack_timer_hit,
             body_collision,
             foot_collision,
-            weapon_collision: BoxCollision {
-                x: 2000.0,
-                y: 2000.0,
-                w: 0.0,
-                h: 0.0,
-            },
+            weapon_collision_template,
+            weapon_collision: None,
             character_state: CharacterState::Idle,
         }
     }
@@ -143,12 +141,7 @@ impl Character {
         self.jump_animation.reset();
         self.character_state = CharacterState::Idle;
         self.attack_timer = 0;
-        self.weapon_collision = BoxCollision {
-            x: 2000.0,
-            y: 2000.0,
-            w: 0.0,
-            h: 0.0,
-        };
+        self.weapon_collision = None;
     }
 
     pub fn update(&mut self) {
@@ -167,18 +160,19 @@ impl Character {
                 self.attack_animation.update();
                 self.attack_timer -= 1;
                 if self.attack_timer <= self.attack_timer_hit {
-                    let x: f32 = match self.facing {
-                        Facing::Left => -75.0,
-                        Facing::Right => 75.0,
+                    let x_offset: f32 = match self.facing {
+                        Facing::Left => -self.weapon_collision_template.x,
+                        Facing::Right => self.weapon_collision_template.x,
                     };
-                    self.weapon_collision = BoxCollision {
-                        x,
-                        y: -85.0,
-                        w: 75.0,
-                        h: 60.0,
-                    };
+                    self.weapon_collision = Some(BoxCollision {
+                        x: x_offset,
+                        y: self.weapon_collision_template.y,
+                        w: self.weapon_collision_template.w,
+                        h: self.weapon_collision_template.h,
+                    });
                 }
             }
+
             CharacterState::Damaged => {
                 self.move_animation.update();
             }
@@ -381,7 +375,8 @@ impl Character {
         self.foot_collision.to_world_space(self.position.clone())
     }
 
-    pub fn weapon_collision_to_world_space(&self) -> BoxCollision {
-        self.weapon_collision.to_world_space(self.position.clone())
+    pub fn weapon_collision_to_world_space(&self) -> Option<BoxCollision> {
+        let weapon_collision: Option<BoxCollision> = self.weapon_collision.clone();
+        weapon_collision.map(|collision| collision.to_world_space(self.position.clone()))
     }
 }

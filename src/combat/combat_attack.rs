@@ -10,24 +10,26 @@ impl Combat {
                     if self.is_able_to_attack_on_current_turn(self.turn, from, character) {
                         character.attack();
                         for body in bodies.iter() {
-                            if character.id != body.id {
-                                if BoxCollision::collides_with(
-                                    body.position.clone(),
-                                    &body.body_collision,
-                                    character.position.clone(),
-                                    &character.weapon_collision,
-                                ) {
-                                    let mut damage: f32 = character.damage - body.defense;
-                                    if damage <= 1.0 {
-                                        damage = 1.0;
+                            if let Some(weapon_collision) = character.weapon_collision.clone() {
+                                if character.id != body.id {
+                                    if BoxCollision::collides_with(
+                                        body.position.clone(),
+                                        &body.body_collision,
+                                        character.position.clone(),
+                                        &weapon_collision,
+                                    ) {
+                                        let mut damage: f32 = character.damage - body.defense;
+                                        if damage <= 1.0 {
+                                            damage = 1.0;
+                                        }
+                                        let action: Action = Action::Damage {
+                                            id: body.id,
+                                            damage,
+                                            from: self.turn + 1,
+                                            to: self.turn + character.attack_timer_hit as u128 + 1,
+                                        };
+                                        self.actions.push(action);
                                     }
-                                    let action: Action = Action::Damage {
-                                        id: body.id,
-                                        damage,
-                                        from: self.turn + 1,
-                                        to: self.turn + character.attack_timer_hit as u128 + 1,
-                                    };
-                                    self.actions.push(action);
                                 }
                             }
                         }

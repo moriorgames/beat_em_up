@@ -1,8 +1,26 @@
 pub mod character_builder {
     use crate::{
         character::{
-            animation::Animation, box_collision::BoxCollision, character::Character,
-            character_stats::Stats, character_types::CharacterTypes,
+            animation::Animation,
+            animations_builder::{
+                barbarian_animations::{
+                    create_barbarian_attack_animation, create_barbarian_jump_animation,
+                    create_barbarian_move_animation,
+                },
+                orc_animations::{
+                    create_orc_attack_animation, create_orc_jump_animation,
+                    create_orc_move_animation,
+                },
+            },
+            box_collision::BoxCollision,
+            character::Character,
+            character_stats::Stats,
+            character_types::CharacterTypes,
+            collisions_builder::{
+                create_barbarian_body_collision, create_barbarian_weapon_collision,
+                create_generic_foot_collision, create_orc_body_collision,
+                create_orc_weapon_collision_template,
+            },
         },
         geometry::{position::Position, size::Size},
     };
@@ -21,18 +39,9 @@ pub mod character_builder {
         let move_animation: Animation = create_barbarian_move_animation();
         let attack_animation: Animation = create_barbarian_attack_animation();
         let jump_animation: Animation = create_barbarian_jump_animation();
-        let body_collision: BoxCollision = BoxCollision {
-            x: 10.0,
-            y: -125.0,
-            w: size.w - 100.0,
-            h: 125.0,
-        };
-        let foot_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: 50.0,
-            w: size.w - 30.0,
-            h: 50.0,
-        };
+        let body_collision: BoxCollision = create_barbarian_body_collision(size.w);
+        let foot_collision: BoxCollision = create_generic_foot_collision();
+        let weapon_collision_template: BoxCollision = create_barbarian_weapon_collision();
         let player: Character = Character::new(
             position,
             size,
@@ -43,6 +52,7 @@ pub mod character_builder {
             jump_animation,
             body_collision,
             foot_collision,
+            weapon_collision_template,
         );
 
         let debug: Character = player.clone();
@@ -52,60 +62,6 @@ pub mod character_builder {
         );
 
         player
-    }
-
-    fn create_barbarian_move_animation() -> Animation {
-        let sprite: String = "barbarian".to_string();
-        let action_type: String = "move".to_string();
-        let move_frames: u8 = 8;
-        let delay: u8 = 4;
-
-        Animation::new(sprite, action_type, move_frames, delay)
-    }
-
-    fn create_barbarian_attack_animation() -> Animation {
-        let sprite: String = "barbarian".to_string();
-        let action_type: String = "attack".to_string();
-        let move_frames: u8 = 5;
-        let delay: u8 = 6;
-
-        Animation::new(sprite, action_type, move_frames, delay)
-    }
-
-    fn create_barbarian_jump_animation() -> Animation {
-        let sprite: String = "barbarian".to_string();
-        let action_type: String = "jump".to_string();
-        let move_frames: u8 = 3;
-        let delay: u8 = 7;
-
-        Animation::new(sprite, action_type, move_frames, delay)
-    }
-
-    fn create_orc_move_animation() -> Animation {
-        let sprite: String = "orc".to_string();
-        let action_type: String = "move".to_string();
-        let move_frames: u8 = 6;
-        let delay: u8 = 6;
-
-        Animation::new(sprite, action_type, move_frames, delay)
-    }
-
-    fn create_orc_attack_animation() -> Animation {
-        let sprite: String = "orc".to_string();
-        let action_type: String = "attack".to_string();
-        let move_frames: u8 = 5;
-        let delay: u8 = 9;
-
-        Animation::new(sprite, action_type, move_frames, delay)
-    }
-
-    fn create_orc_jump_animation() -> Animation {
-        let sprite: String = "orc".to_string();
-        let action_type: String = "jump".to_string();
-        let move_frames: u8 = 3;
-        let delay: u8 = 7;
-
-        Animation::new(sprite, action_type, move_frames, delay)
     }
 
     pub fn spawn_first_tower_orc_lord() -> Character {
@@ -133,7 +89,7 @@ pub mod character_builder {
     }
 
     fn spawn_orc(position: Position) -> Character {
-        let size: Size = Size::new(190.0, 190.0);
+        let size: Size = Size::new(210.0, 210.0);
 
         let vitality: f32 = 1.0;
         let strength: f32 = 2.0;
@@ -145,18 +101,9 @@ pub mod character_builder {
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
         let jump_animation: Animation = create_orc_jump_animation();
-        let body_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: -125.0,
-            w: size.w - 75.0,
-            h: 145.0,
-        };
-        let foot_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: 50.0,
-            w: size.w - 30.0,
-            h: 50.0,
-        };
+        let body_collision: BoxCollision = create_orc_body_collision(size.w);
+        let foot_collision: BoxCollision = create_generic_foot_collision();
+        let weapon_collision_template: BoxCollision = create_orc_weapon_collision_template();
 
         Character::new(
             position,
@@ -168,11 +115,12 @@ pub mod character_builder {
             jump_animation,
             body_collision,
             foot_collision,
+            weapon_collision_template,
         )
     }
 
     fn spawn_orc_lord(position: Position) -> Character {
-        let size: Size = Size::new(190.0, 190.0);
+        let size: Size = Size::new(210.0, 210.0);
 
         let vitality: f32 = 20.0;
         let strength: f32 = 4.0;
@@ -180,22 +128,13 @@ pub mod character_builder {
         let resistance: f32 = 1.0;
         let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
+        let character_type: CharacterTypes = CharacterTypes::Player;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
         let jump_animation: Animation = create_orc_jump_animation();
-        let body_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: -125.0,
-            w: size.w - 75.0,
-            h: 145.0,
-        };
-        let foot_collision: BoxCollision = BoxCollision {
-            x: 0.0,
-            y: 50.0,
-            w: size.w - 30.0,
-            h: 50.0,
-        };
+        let body_collision: BoxCollision = create_orc_body_collision(size.w);
+        let foot_collision: BoxCollision = create_generic_foot_collision();
+        let weapon_collision_template: BoxCollision = create_orc_weapon_collision_template();
 
         Character::new(
             position,
@@ -207,6 +146,7 @@ pub mod character_builder {
             jump_animation,
             body_collision,
             foot_collision,
+            weapon_collision_template,
         )
     }
 }

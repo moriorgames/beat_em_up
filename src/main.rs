@@ -32,7 +32,7 @@ use world::world_builder::world_builder;
 
 const GAME_ID: &str = "Beat 'em up";
 const AUTHOR: &str = "MoriorGames";
-pub const TARGET_FPS: u32 = 60;
+pub const TARGET_FPS: u32 = 50;
 const DEBUG_FPS: bool = false;
 
 #[derive(Debug)]
