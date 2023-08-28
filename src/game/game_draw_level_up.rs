@@ -1,5 +1,6 @@
 use super::{
-    game_draw_level_up_character::draw_level_up_character, game_draw_level_up_fire::draw_fire,
+    game_draw_level_up_character::draw_level_up_character,
+    game_draw_level_up_confirm::draw_confirm_button, game_draw_level_up_fire::draw_fire,
     game_draw_level_up_info::draw_character_info,
     game_draw_level_up_main_stats::draw_character_main_stats,
     game_draw_level_up_panel::draw_background_panel,
@@ -32,4 +33,5 @@ pub fn execute(ctx: &mut Context, canvas: &mut Canvas, main_state: &mut MainStat
         main_state.level_up.get_selected_stat(),
     );
     draw_character_secondary_stats(ctx, canvas, &mut player);
+    draw_confirm_button(ctx, canvas, main_state.level_up.get_selected_stat());
 }

@@ -1,6 +1,7 @@
 pub mod game_draw_in_combat;
 pub mod game_draw_level_up;
 pub mod game_draw_level_up_character;
+pub mod game_draw_level_up_confirm;
 pub mod game_draw_level_up_fire;
 pub mod game_draw_level_up_info;
 pub mod game_draw_level_up_main_stats;

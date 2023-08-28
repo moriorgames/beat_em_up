@@ -7,6 +7,7 @@ use ggez::Context;
 pub struct LevelUp {
     pub turn: u128,
     pub level_up_controls: LevelUpControls,
+    pub confirmed: bool,
     selected_stat_index: usize,
     stat_list: Vec<String>,
 }
@@ -19,10 +20,12 @@ impl LevelUp {
             "strength".to_string(),
             "agility".to_string(),
             "resistance".to_string(),
+            "confirm".to_string(),
         ];
         Self {
             turn: 0,
             level_up_controls,
+            confirmed: false,
             selected_stat_index: 0,
             stat_list,
         }
@@ -47,10 +50,11 @@ impl LevelUp {
 
         let selected_stat: &String = &self.stat_list[self.selected_stat_index].clone();
 
-        if intention.move_right {
+        if selected_stat == "confirm" && intention.confirm {
+            self.confirm_stats(player);
+        } else if intention.move_right {
             self.increment_selected_stat(selected_stat, player);
-        }
-        if intention.move_left {
+        } else if intention.move_left {
             self.decrement_selected_stat(selected_stat, player);
         }
     }
@@ -113,6 +117,12 @@ impl LevelUp {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn confirm_stats(&mut self, player: &mut Player) {
+        if player.experience == 0 {
+            self.confirmed = true;
         }
     }
 }

@@ -4,7 +4,7 @@ use crate::{
     },
     combat::action::Action,
     enemy::enemy_behaviour::enemy_behavior::update_enemy_behaviour,
-    MainState, TARGET_FPS, GameState,
+    GameState, MainState, TARGET_FPS,
 };
 use ggez::Context;
 
