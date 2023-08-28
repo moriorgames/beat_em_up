@@ -35,6 +35,7 @@ const AUTHOR: &str = "MoriorGames";
 pub const TARGET_FPS: u32 = 60;
 const DEBUG_FPS: bool = false;
 
+#[derive(Debug)]
 pub enum GameState {
     InCombat,
     LevelUp,

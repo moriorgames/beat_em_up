@@ -10,9 +10,6 @@ use ggez::Context;
 
 pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
     while ctx.time.check_update_time(TARGET_FPS) {
-
-        println!(" pub fn execute(ctx: &mut Context, main_state: &mut MainState)  ");
-
         if let Some(player) = main_state.characters.first() {
             match player.character_type {
                 CharacterTypes::Player => {
