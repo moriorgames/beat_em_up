@@ -128,7 +128,7 @@ pub mod character_builder {
         let resistance: f32 = 1.0;
         let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
-        let character_type: CharacterTypes = CharacterTypes::Player;
+        let character_type: CharacterTypes = CharacterTypes::Enemy;
         let move_animation: Animation = create_orc_move_animation();
         let attack_animation: Animation = create_orc_attack_animation();
         let jump_animation: Animation = create_orc_jump_animation();

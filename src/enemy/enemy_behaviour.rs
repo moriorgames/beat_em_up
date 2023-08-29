@@ -65,11 +65,13 @@ pub mod enemy_behavior {
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
         if distance <= 165.0 {
-            actions.push(Action::Attacking {
-                id: character.id,
-                from: turn + 1,
-                to: turn + character.full_attack_timer as u128,
-            });
+            if character.is_idle() {
+                actions.push(Action::Attacking {
+                    id: character.id,
+                    from: turn + 1,
+                    to: turn + character.full_attack_timer as u128,
+                });
+            }
         } else {
             let magnitude: f32 = (dir_x * dir_x + dir_y * dir_y).sqrt();
             let normalized_dir_x: f32 = dir_x / magnitude;
