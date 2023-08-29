@@ -30,8 +30,8 @@ pub mod character_builder {
         let size: Size = Size::new(210.0, 210.0);
 
         let vitality: f32 = 5.0;
-        let strength: f32 = 8.0;
-        let agility: f32 = 6.0;
+        let strength: f32 = 5.0;
+        let agility: f32 = 5.0;
         let resistance: f32 = 5.0;
         let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
@@ -93,8 +93,8 @@ pub mod character_builder {
 
         let vitality: f32 = 1.0;
         let strength: f32 = 2.0;
-        let agility: f32 = 0.0;
-        let resistance: f32 = 0.0;
+        let agility: f32 = 1.0;
+        let resistance: f32 = 1.0;
         let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Enemy;

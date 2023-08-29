@@ -59,7 +59,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::UpLeft,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -78,7 +78,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::UpRight,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -97,7 +97,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::DownLeft,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -116,7 +116,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::DownRight,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -133,7 +133,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::Left,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -150,7 +150,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::Right,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -167,7 +167,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::Up,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
@@ -184,7 +184,7 @@ impl PlayerControls {
                         id: player.id,
                         direction: Direction::Down,
                         from: turn + 1,
-                        to: turn + 4,
+                        to: turn + 6,
                     });
                 }
             }
