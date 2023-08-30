@@ -48,6 +48,9 @@ impl Stats {
     }
 
     fn calculate_defense(&self) -> f32 {
-        Self::BASE_DEFENSE + (self.strength * 0.15) + (self.agility * 0.15) + (self.resistance * 0.5)
+        Self::BASE_DEFENSE
+            + (self.strength * 0.15)
+            + (self.agility * 0.15)
+            + (self.resistance * 0.5)
     }
 }
