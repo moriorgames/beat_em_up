@@ -8,10 +8,7 @@ impl Combat {
         if let Action::Attacking { id, from, to } = action {
             if self.turn >= from && self.turn <= to {
                 let bodies: Vec<Character> = characters.clone();
-                for character in characters
-                    .iter_mut()
-                    .filter(|c: &&mut Character| c.id == id && !c.action_processed)
-                {
+                for character in characters.iter_mut().filter(|c| c.id == id) {
                     if self.is_able_to_attack_on_current_turn(self.turn, from, character) {
                         character.attack();
                         for body in bodies.iter() {
@@ -53,11 +50,11 @@ impl Combat {
         from: u128,
         character: &mut Character,
     ) -> bool {
-        turn > from && character.is_attacking()
+        turn > from && character.is_attacking() && !character.action_processed
     }
 
     fn attack_with_buffer(&mut self, turn: u128, from: u128, character: &mut Character) {
-        if (turn >= from || turn <= from + 1)
+        if (turn == from || turn == from + 1)
             && character
                 .character_state
                 .can_transition_to(&CharacterState::Attacking)

@@ -37,7 +37,7 @@ impl PlayerControls {
         if intention.attack {
             actions.push(Action::Attacking {
                 id: player.id,
-                from: turn + 1,
+                from: turn + 2,
                 to: turn + player.full_attack_timer as u128,
             });
         }

@@ -25,8 +25,8 @@ impl Combat {
             // println!("Action: {:?}", action.clone());
 
             match action {
-                Action::Moving { .. } => self.process_moving(action, characters, world),
                 Action::Attacking { .. } => self.process_attacking(action, characters),
+                Action::Moving { .. } => self.process_moving(action, characters, world),
                 Action::Jumping { .. } => self.process_jumping(action, characters, world),
                 Action::Damage { .. } => self.process_damage(action, characters),
             }

@@ -54,6 +54,10 @@ impl Character {
         foot_collision: BoxCollision,
         weapon_collision_template: BoxCollision,
     ) -> Self {
+        // let id: Uuid = match character_type {
+        //     CharacterTypes::Player => Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap(),
+        //     _ => Uuid::new_v4(),
+        // };
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
@@ -140,7 +144,6 @@ impl Character {
     }
 
     pub fn update(&mut self) {
-        println!("self.character_state {:?}", self.character_state);
         self.action_processed = false;
         match self.character_state {
             CharacterState::Idle => {

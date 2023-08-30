@@ -13,7 +13,7 @@ pub fn create_orc_attack_animation() -> Animation {
     let sprite: String = "orc".to_string();
     let action_type: String = "attack".to_string();
     let move_frames: u8 = 5;
-    let delay: u8 = 9;
+    let delay: u8 = 11;
 
     Animation::new(sprite, action_type, move_frames, delay)
 }
