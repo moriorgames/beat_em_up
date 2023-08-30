@@ -7,9 +7,9 @@ pub struct Stats {
 }
 
 impl Stats {
-    const BASE_HEALTH: f32 = 40.0;
+    const BASE_HEALTH: f32 = 50.0;
     const BASE_SPEED: f32 = 1.0;
-    const BASE_DAMAGE: f32 = 10.0;
+    const BASE_DAMAGE: f32 = 15.0;
     const BASE_DEFENSE: f32 = 0.0;
 
     pub fn new(vitality: f32, strength: f32, agility: f32, resistance: f32) -> Self {

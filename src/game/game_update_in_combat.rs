@@ -44,7 +44,7 @@ pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
             .characters
             .retain(|character| character.current_health > 0.0);
 
-        if main_state.combat.turn > 2500 && main_state.characters.len() <= 1 {
+        if main_state.combat.turn > 1500 && main_state.characters.len() <= 1 {
             main_state.characters.clear();
             main_state.level_up.turn = 0;
             main_state.player.level += 1;
@@ -52,11 +52,11 @@ pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
             main_state.current_state = GameState::LevelUp;
         }
 
-        if main_state.combat.turn == 2000 {
+        if main_state.combat.turn == 1500 {
             main_state
                 .characters
                 .push(character_builder::spawn_first_tower_orc_lord());
-        } else if main_state.combat.turn > 2000 {
+        } else if main_state.combat.turn > 1500 {
         } else {
             if main_state.characters.len() < 7 {
                 if main_state.combat.turn % 1033 == 0 {
