@@ -52,27 +52,32 @@ pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
             main_state.current_state = GameState::LevelUp;
         }
 
-        if main_state.combat.turn == 1500 {
+        if main_state.combat.turn == 50 {
+            main_state
+                .characters
+                .push(character_builder::spawn_first_tower());
+        }
+        if main_state.combat.turn == 500 {
+            main_state
+                .characters
+                .push(character_builder::spawn_second_tower());
+        }
+        if main_state.combat.turn == 900 {
+            main_state
+            .characters
+            .push(character_builder::spawn_first_tower());
+            main_state
+                .characters
+                .push(character_builder::spawn_third_tower());
+        }
+
+        if main_state.combat.turn == 1400 {
             main_state
                 .characters
                 .push(character_builder::spawn_first_tower_orc_lord());
-        } else if main_state.combat.turn > 1500 {
-        } else {
-            if main_state.characters.len() < 7 {
-                if main_state.combat.turn % 1033 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_second_tower());
-                } else if main_state.combat.turn % 617 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_third_tower());
-                } else if main_state.combat.turn % 293 == 0 {
-                    main_state
-                        .characters
-                        .push(character_builder::spawn_first_tower());
-                }
-            }
+            main_state
+            .characters
+            .push(character_builder::spawn_third_tower());
         }
     }
 }

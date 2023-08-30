@@ -8,7 +8,7 @@ pub struct Stats {
 
 impl Stats {
     const BASE_HEALTH: f32 = 50.0;
-    const BASE_SPEED: f32 = 1.0;
+    const BASE_SPEED: f32 = 0.9;
     const BASE_DAMAGE: f32 = 15.0;
     const BASE_DEFENSE: f32 = 0.0;
 
@@ -36,11 +36,11 @@ impl Stats {
     }
 
     fn calculate_speed(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 0.6)
+        Self::BASE_SPEED + (self.agility * 0.5)
     }
 
     fn calculate_speed_jump(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 1.2)
+        Self::BASE_SPEED + self.agility
     }
 
     fn calculate_damage(&self) -> f32 {
