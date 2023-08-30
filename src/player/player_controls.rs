@@ -16,7 +16,6 @@ pub struct PlayerIntention {
     pub move_down: bool,
     pub attack: bool,
     pub jump: bool,
-    pub quit: bool,
 }
 
 impl PlayerControls {
@@ -34,7 +33,7 @@ impl PlayerControls {
         let mut actions: Vec<Action> = Vec::new();
 
         let intention: PlayerIntention = self.get_intention(ctx);
-    
+
         if player.is_idle() {
             if intention.attack {
                 actions.push(Action::Attacking {
@@ -43,18 +42,27 @@ impl PlayerControls {
                     to: turn + player.full_attack_timer as u128,
                 });
             }
-    
+
             let directions: [(Direction, bool); 8] = [
                 (Direction::UpLeft, intention.move_up && intention.move_left),
-                (Direction::UpRight, intention.move_up && intention.move_right),
-                (Direction::DownLeft, intention.move_down && intention.move_left),
-                (Direction::DownRight, intention.move_down && intention.move_right),
+                (
+                    Direction::UpRight,
+                    intention.move_up && intention.move_right,
+                ),
+                (
+                    Direction::DownLeft,
+                    intention.move_down && intention.move_left,
+                ),
+                (
+                    Direction::DownRight,
+                    intention.move_down && intention.move_right,
+                ),
                 (Direction::Left, intention.move_left),
                 (Direction::Right, intention.move_right),
                 (Direction::Up, intention.move_up),
                 (Direction::Down, intention.move_down),
             ];
-    
+
             for &(direction, condition) in directions.iter() {
                 if condition {
                     let action = if intention.jump {
@@ -76,21 +84,14 @@ impl PlayerControls {
                 }
             }
         }
-    
-        if intention.quit {
-            ctx.request_quit();
-        }
-    
-        actions
-    }    
 
-    fn get_intention(
-        &mut self,
-        ctx: &mut Context,
-    ) -> PlayerIntention {
+        actions
+    }
+
+    fn get_intention(&mut self, ctx: &mut Context) -> PlayerIntention {
         let keyboard_intention: PlayerIntention = keyboard_controller::input(ctx);
         let gamepad_intention: PlayerIntention = self.gamepad_controller.input();
-        
+
         PlayerIntention {
             move_left: keyboard_intention.move_left || gamepad_intention.move_left,
             move_right: keyboard_intention.move_right || gamepad_intention.move_right,
@@ -98,8 +99,6 @@ impl PlayerControls {
             move_down: keyboard_intention.move_down || gamepad_intention.move_down,
             attack: keyboard_intention.attack || gamepad_intention.attack,
             jump: keyboard_intention.jump || gamepad_intention.jump,
-            quit: keyboard_intention.quit
         }
     }
-
 }

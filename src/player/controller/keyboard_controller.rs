@@ -11,7 +11,6 @@ pub mod keyboard_controller {
             move_down: pressed_keys.contains(&KeyCode::Down),
             attack: pressed_keys.contains(&KeyCode::A),
             jump: pressed_keys.contains(&KeyCode::S),
-            quit: pressed_keys.contains(&KeyCode::Escape),
         }
     }
 
@@ -22,7 +21,6 @@ pub mod keyboard_controller {
             move_up: ctx.keyboard.is_key_just_released(KeyCode::Up),
             move_down: ctx.keyboard.is_key_just_released(KeyCode::Down),
             confirm: ctx.keyboard.is_key_just_released(KeyCode::A),
-            quit: ctx.keyboard.is_key_just_released(KeyCode::Escape),
         }
     }
 }

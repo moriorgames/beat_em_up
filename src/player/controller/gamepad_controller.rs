@@ -59,7 +59,6 @@ impl GamePadController {
             move_down: self.down_pressed,
             attack: self.attack_pressed,
             jump: self.jump_pressed,
-            quit: false,
         }
     }
 
@@ -100,7 +99,6 @@ impl GamePadController {
             move_up: self.up_pressed,
             move_down: self.down_pressed,
             confirm: self.attack_pressed,
-            quit: false,
         }
     }
 }

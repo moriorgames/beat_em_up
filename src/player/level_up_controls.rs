@@ -13,7 +13,6 @@ pub struct LevelUpIntention {
     pub move_up: bool,
     pub move_down: bool,
     pub confirm: bool,
-    pub quit: bool,
 }
 
 impl LevelUpControls {
@@ -31,7 +30,6 @@ impl LevelUpControls {
         let mut move_up: bool = false;
         let mut move_down: bool = false;
         let mut confirm: bool = false;
-        let mut quit: bool = false;
 
         if keyboard_intention.move_left || gamepad_intention.move_left {
             move_left = true;
@@ -48,9 +46,6 @@ impl LevelUpControls {
         if keyboard_intention.confirm || gamepad_intention.confirm {
             confirm = true;
         }
-        if keyboard_intention.quit || gamepad_intention.quit {
-            quit = true;
-        }
 
         LevelUpIntention {
             move_left,
@@ -58,7 +53,6 @@ impl LevelUpControls {
             move_up,
             move_down,
             confirm,
-            quit,
         }
     }
 }
