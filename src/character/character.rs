@@ -1,7 +1,7 @@
 use super::animation::Animation;
 use super::box_collision::BoxCollision;
-use super::character_stats::Stats;
 use super::character_types::{CharacterTypes, Facing};
+use super::stats::Stats;
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;

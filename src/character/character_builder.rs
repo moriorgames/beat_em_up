@@ -14,13 +14,13 @@ pub mod character_builder {
             },
             box_collision::BoxCollision,
             character::Character,
-            character_stats::Stats,
             character_types::CharacterTypes,
             collisions_builder::{
                 create_barbarian_body_collision, create_barbarian_weapon_collision,
                 create_generic_foot_collision, create_orc_body_collision,
                 create_orc_weapon_collision_template,
             },
+            stats::Stats,
         },
         geometry::{position::Position, size::Size},
     };

@@ -1,5 +1,5 @@
 use super::level_up_panel_config::LevelUpPanelConfig;
-use crate::{character::character_stats::Stats, player::player::Player};
+use crate::{character::stats::Stats, player::player::Player};
 use ggez::{
     graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, Rect, Text},
     mint::Point2,
