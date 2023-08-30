@@ -22,37 +22,19 @@ impl LevelUpControls {
     }
 
     pub fn handle_input(&mut self, ctx: &mut Context) -> LevelUpIntention {
+        self.get_level_up_intention(ctx)
+    }
+
+    fn get_level_up_intention(&mut self, ctx: &mut Context) -> LevelUpIntention {
         let keyboard_intention: LevelUpIntention = keyboard_controller::level_up(ctx);
         let gamepad_intention: LevelUpIntention = self.gamepad_controller.level_up();
 
-        let mut move_left: bool = false;
-        let mut move_right: bool = false;
-        let mut move_up: bool = false;
-        let mut move_down: bool = false;
-        let mut confirm: bool = false;
-
-        if keyboard_intention.move_left || gamepad_intention.move_left {
-            move_left = true;
-        }
-        if keyboard_intention.move_right || gamepad_intention.move_right {
-            move_right = true;
-        }
-        if keyboard_intention.move_up || gamepad_intention.move_up {
-            move_up = true;
-        }
-        if keyboard_intention.move_down || gamepad_intention.move_down {
-            move_down = true;
-        }
-        if keyboard_intention.confirm || gamepad_intention.confirm {
-            confirm = true;
-        }
-
         LevelUpIntention {
-            move_left,
-            move_right,
-            move_up,
-            move_down,
-            confirm,
+            move_left: keyboard_intention.move_left || gamepad_intention.move_left,
+            move_right: keyboard_intention.move_right || gamepad_intention.move_right,
+            move_up: keyboard_intention.move_up || gamepad_intention.move_up,
+            move_down: keyboard_intention.move_down || gamepad_intention.move_down,
+            confirm: keyboard_intention.confirm || gamepad_intention.confirm,
         }
     }
 }
