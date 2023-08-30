@@ -1,5 +1,6 @@
 use super::animation::Animation;
 use super::box_collision::BoxCollision;
+use super::character_state::CharacterState;
 use super::character_types::{CharacterTypes, Facing};
 use super::stats::Stats;
 use crate::combat::direction::Direction;
@@ -33,15 +34,6 @@ pub struct Character {
     pub weapon_collision_template: BoxCollision,
     pub weapon_collision: Option<BoxCollision>,
     pub character_state: CharacterState,
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum CharacterState {
-    Idle,
-    Moving,
-    Jumping,
-    Attacking,
-    Damaged,
 }
 
 impl Character {
