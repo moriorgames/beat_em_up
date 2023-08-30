@@ -34,54 +34,52 @@ impl PlayerControls {
 
         let intention: PlayerIntention = self.get_intention(ctx);
 
-        if player.is_idle() {
-            if intention.attack {
-                actions.push(Action::Attacking {
-                    id: player.id,
-                    from: turn + 1,
-                    to: turn + player.full_attack_timer as u128,
-                });
-            }
+        if intention.attack {
+            actions.push(Action::Attacking {
+                id: player.id,
+                from: turn + 1,
+                to: turn + player.full_attack_timer as u128,
+            });
+        }
 
-            let directions: [(Direction, bool); 8] = [
-                (Direction::UpLeft, intention.move_up && intention.move_left),
-                (
-                    Direction::UpRight,
-                    intention.move_up && intention.move_right,
-                ),
-                (
-                    Direction::DownLeft,
-                    intention.move_down && intention.move_left,
-                ),
-                (
-                    Direction::DownRight,
-                    intention.move_down && intention.move_right,
-                ),
-                (Direction::Left, intention.move_left),
-                (Direction::Right, intention.move_right),
-                (Direction::Up, intention.move_up),
-                (Direction::Down, intention.move_down),
-            ];
+        let directions: [(Direction, bool); 8] = [
+            (Direction::UpLeft, intention.move_up && intention.move_left),
+            (
+                Direction::UpRight,
+                intention.move_up && intention.move_right,
+            ),
+            (
+                Direction::DownLeft,
+                intention.move_down && intention.move_left,
+            ),
+            (
+                Direction::DownRight,
+                intention.move_down && intention.move_right,
+            ),
+            (Direction::Left, intention.move_left),
+            (Direction::Right, intention.move_right),
+            (Direction::Up, intention.move_up),
+            (Direction::Down, intention.move_down),
+        ];
 
-            for &(direction, condition) in directions.iter() {
-                if condition {
-                    let action = if intention.jump {
-                        Action::Jumping {
-                            id: player.id,
-                            direction,
-                            from: turn + 1,
-                            to: turn + 17,
-                        }
-                    } else {
-                        Action::Moving {
-                            id: player.id,
-                            direction,
-                            from: turn + 1,
-                            to: turn + 6,
-                        }
-                    };
-                    actions.push(action);
-                }
+        for &(direction, condition) in directions.iter() {
+            if condition {
+                let action = if intention.jump {
+                    Action::Jumping {
+                        id: player.id,
+                        direction,
+                        from: turn + 1,
+                        to: turn + 17,
+                    }
+                } else {
+                    Action::Moving {
+                        id: player.id,
+                        direction,
+                        from: turn + 1,
+                        to: turn + 6,
+                    }
+                };
+                actions.push(action);
             }
         }
 

@@ -3,6 +3,7 @@ use super::box_collision::BoxCollision;
 use super::character_state::CharacterState;
 use super::character_types::{CharacterTypes, Facing};
 use super::stats::Stats;
+use crate::combat::action::DAMAGE_DELAY;
 use crate::combat::direction::Direction;
 use crate::geometry::position::Position;
 use crate::geometry::size::Size;
@@ -20,15 +21,19 @@ pub struct Character {
     pub speed_jump: f32,
     pub damage: f32,
     pub defense: f32,
-    pub has_processed_action: bool,
+    pub action_processed: bool,
     pub character_type: CharacterTypes,
     pub facing: Facing,
     pub move_animation: Animation,
     pub attack_animation: Animation,
     pub jump_animation: Animation,
+    pub full_jump_timer: u8,
+    pub jump_timer: u8,
     pub full_attack_timer: u8,
     pub attack_timer: u8,
     pub attack_timer_hit: u8,
+    pub damage_timer: u8,
+    pub damage_processed: bool,
     pub body_collision: BoxCollision,
     pub foot_collision: BoxCollision,
     pub weapon_collision_template: BoxCollision,
@@ -49,6 +54,7 @@ impl Character {
         foot_collision: BoxCollision,
         weapon_collision_template: BoxCollision,
     ) -> Self {
+        let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
         let (health, speed, speed_jump, damage, defense) = stats.get_calculated_stats();
@@ -63,15 +69,19 @@ impl Character {
             speed_jump,
             damage,
             defense,
-            has_processed_action: false,
+            action_processed: false,
             character_type,
             facing: Facing::Right,
             move_animation,
             attack_animation,
             jump_animation,
+            full_jump_timer,
+            jump_timer: 0,
             full_attack_timer,
             attack_timer: 0,
             attack_timer_hit,
+            damage_timer: 0,
+            damage_processed: false,
             body_collision,
             foot_collision,
             weapon_collision_template,
@@ -106,26 +116,19 @@ impl Character {
         self.character_state == CharacterState::Attacking
     }
 
-    pub fn is_damaged(&self) -> bool {
-        self.character_state == CharacterState::Damaged
-    }
-
     pub fn start_moving(&mut self) {
         self.character_state = CharacterState::Moving
     }
 
     pub fn start_jumping(&mut self) {
+        self.jump_timer = self.full_jump_timer;
+        self.action_processed = true;
         self.character_state = CharacterState::Jumping
     }
 
     pub fn start_attacking(&mut self) {
         self.attack_timer = self.full_attack_timer;
         self.character_state = CharacterState::Attacking
-    }
-
-    pub fn start_damaged(&mut self, damage: f32) {
-        self.character_state = CharacterState::Damaged;
-        self.apply_damage(damage);
     }
 
     pub fn back_to_idle(&mut self) {
@@ -137,7 +140,8 @@ impl Character {
     }
 
     pub fn update(&mut self) {
-        self.has_processed_action = false;
+        println!("self.character_state {:?}", self.character_state);
+        self.action_processed = false;
         match self.character_state {
             CharacterState::Idle => {
                 self.move_animation.update();
@@ -147,39 +151,47 @@ impl Character {
             }
             CharacterState::Jumping => {
                 self.jump_animation.update();
+                if self.jump_timer >= 1 {
+                    self.jump_timer -= 1;
+                } else {
+                    self.back_to_idle()
+                }
             }
             CharacterState::Attacking => {
                 self.attack_animation.update();
-                self.attack_timer -= 1;
-                if self.attack_timer <= self.attack_timer_hit {
-                    let x_offset: f32 = match self.facing {
-                        Facing::Left => -self.weapon_collision_template.x,
-                        Facing::Right => self.weapon_collision_template.x,
-                    };
-                    self.weapon_collision = Some(BoxCollision {
-                        x: x_offset,
-                        y: self.weapon_collision_template.y,
-                        w: self.weapon_collision_template.w,
-                        h: self.weapon_collision_template.h,
-                    });
+                if self.attack_timer >= 1 {
+                    self.attack_timer -= 1;
+                    if self.attack_timer <= self.attack_timer_hit {
+                        let x_offset: f32 = match self.facing {
+                            Facing::Left => -self.weapon_collision_template.x,
+                            Facing::Right => self.weapon_collision_template.x,
+                        };
+                        self.weapon_collision = Some(BoxCollision {
+                            x: x_offset,
+                            y: self.weapon_collision_template.y,
+                            w: self.weapon_collision_template.w,
+                            h: self.weapon_collision_template.h,
+                        });
+                    }
+                } else {
+                    self.back_to_idle()
                 }
             }
-
-            CharacterState::Damaged => {
-                self.move_animation.update();
-            }
+        }
+        if self.damage_timer >= 1 {
+            self.damage_timer -= 1;
         }
     }
 
     pub fn attack(&mut self) {
         if self.character_state == CharacterState::Attacking {
-            self.has_processed_action = true;
+            self.action_processed = true;
         }
     }
 
     pub fn jump_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Jumping {
-            self.has_processed_action = true;
+            self.action_processed = true;
             match direction {
                 Direction::Left => self.move_left(self.speed_jump),
                 Direction::Right => self.move_right(self.speed_jump),
@@ -207,7 +219,7 @@ impl Character {
 
     pub fn move_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Moving {
-            self.has_processed_action = true;
+            self.action_processed = true;
             match direction {
                 Direction::Left => self.move_left(self.speed),
                 Direction::Right => self.move_right(self.speed),
@@ -257,14 +269,19 @@ impl Character {
         self.position.y += speed;
     }
 
+    pub fn start_damaged(&mut self, damage: f32) {
+        self.damage_timer = DAMAGE_DELAY;
+        self.apply_damage(damage);
+    }
+
     fn apply_damage(&mut self, damage: f32) {
         self.current_health -= damage;
         if self.current_health <= 0.0 {
             self.current_health = 0.0;
         }
         let push_x: f32 = match self.facing {
-            Facing::Left => 8.0,
-            Facing::Right => -8.0,
+            Facing::Left => 1.5,
+            Facing::Right => -1.5,
         };
         self.position.x += push_x;
     }
@@ -309,16 +326,6 @@ impl Character {
                 format!(
                     "{}_{}_{}",
                     self.attack_animation.sprite, action_type, animation_frame
-                )
-            }
-            CharacterState::Damaged => {
-                let animation_frame: u8 =
-                    self.move_animation.frame % self.move_animation.move_frames;
-                let action_type: String = self.move_animation.action_type.to_string();
-
-                format!(
-                    "{}_{}_{}",
-                    self.move_animation.sprite, action_type, animation_frame
                 )
             }
         }

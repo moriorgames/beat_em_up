@@ -1,6 +1,8 @@
 use super::{action::Action, combat::Combat};
 use crate::{
-    character::{box_collision::BoxCollision, character::Character},
+    character::{
+        box_collision::BoxCollision, character::Character, character_state::CharacterState,
+    },
     world::world::World,
 };
 
@@ -46,6 +48,10 @@ impl Combat {
         from: u128,
         character: &mut Character,
     ) -> bool {
-        turn > from && character.is_moving() && !character.has_processed_action
+        turn > from
+            && character
+                .character_state
+                .can_transition_to(&CharacterState::Moving)
+            && !character.action_processed
     }
 }

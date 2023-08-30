@@ -1,6 +1,8 @@
 use super::direction::Direction;
 use uuid::Uuid;
 
+pub const DAMAGE_DELAY: u8 = 4;
+
 #[derive(Clone, Debug)]
 pub enum Action {
     Moving {
@@ -24,6 +26,5 @@ pub enum Action {
         id: Uuid,
         damage: f32,
         from: u128,
-        to: u128,
     },
 }

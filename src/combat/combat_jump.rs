@@ -1,6 +1,8 @@
 use super::{action::Action, combat::Combat};
 use crate::{
-    character::{box_collision::BoxCollision, character::Character},
+    character::{
+        box_collision::BoxCollision, character::Character, character_state::CharacterState,
+    },
     world::world::World,
 };
 
@@ -19,7 +21,10 @@ impl Combat {
         } = action
         {
             if self.turn >= from && self.turn <= to {
-                for character in characters.iter_mut().filter(|c| c.id == id) {
+                for character in characters
+                    .iter_mut()
+                    .filter(|c: &&mut Character| c.id == id && !c.action_processed)
+                {
                     if self.is_able_to_jump_on_current_turn(self.turn, from, character) {
                         let world_space: BoxCollision =
                             character.next_foot_collision_to_world_space(direction);
@@ -28,13 +33,7 @@ impl Combat {
                         }
                     }
 
-                    if self.turn == from && character.is_idle() {
-                        character.start_jumping();
-                    }
-
-                    if self.turn == to && character.is_jumping() {
-                        character.back_to_idle();
-                    }
+                    self.jump_with_buffer(self.turn, from, character);
                 }
             }
         }
@@ -46,6 +45,17 @@ impl Combat {
         from: u128,
         character: &mut Character,
     ) -> bool {
-        turn > from && character.is_jumping() && !character.has_processed_action
+        turn > from && character.is_jumping()
+    }
+
+    fn jump_with_buffer(&mut self, turn: u128, from: u128, character: &mut Character) {
+        if turn == from
+            && character
+                .character_state
+                .can_transition_to(&CharacterState::Jumping)
+            && !character.action_processed
+        {
+            character.start_jumping();
+        }
     }
 }

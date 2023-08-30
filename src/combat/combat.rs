@@ -13,10 +13,6 @@ impl Combat {
         }
     }
 
-    pub fn add_action(&mut self, action: Action) {
-        self.actions.push(action);
-    }
-
     pub fn process(&mut self, characters: &mut Vec<Character>, world: &World) {
         self.turn += 1;
         println!("Combat Turn: {:?}", self.turn);
@@ -26,6 +22,8 @@ impl Combat {
         }
 
         for action in self.actions.clone() {
+            // println!("Action: {:?}", action.clone());
+
             match action {
                 Action::Moving { .. } => self.process_moving(action, characters, world),
                 Action::Attacking { .. } => self.process_attacking(action, characters),
@@ -39,26 +37,8 @@ impl Combat {
         self.clean_actions();
     }
 
-    fn process_damage(&mut self, action: Action, characters: &mut Vec<Character>) {
-        if let Action::Damage {
-            id,
-            damage,
-            from,
-            to,
-        } = action
-        {
-            if self.turn >= from && self.turn <= to {
-                for character in characters.iter_mut().filter(|c| c.id == id) {
-                    if self.turn == to && character.is_damaged() {
-                        character.back_to_idle()
-                    }
-                    if self.turn == from && !character.is_damaged() {
-                        println!(" ------------ Action Damage {:?}", action);
-                        character.start_damaged(damage)
-                    }
-                }
-            }
-        }
+    pub fn add_action(&mut self, action: Action) {
+        self.actions.push(action);
     }
 
     fn clean_actions(&mut self) {
@@ -66,7 +46,7 @@ impl Combat {
             Action::Moving { to, .. } => self.turn <= *to,
             Action::Attacking { to, .. } => self.turn <= *to,
             Action::Jumping { to, .. } => self.turn <= *to,
-            Action::Damage { to, .. } => self.turn <= *to,
+            Action::Damage { from, .. } => self.turn < *from,
         });
     }
 }

@@ -1,12 +1,17 @@
 use super::{action::Action, combat::Combat};
-use crate::character::{box_collision::BoxCollision, character::Character};
+use crate::character::{
+    box_collision::BoxCollision, character::Character, character_state::CharacterState,
+};
 
 impl Combat {
     pub fn process_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
         if let Action::Attacking { id, from, to } = action {
             if self.turn >= from && self.turn <= to {
                 let bodies: Vec<Character> = characters.clone();
-                for character in characters.iter_mut().filter(|c| c.id == id) {
+                for character in characters
+                    .iter_mut()
+                    .filter(|c: &&mut Character| c.id == id && !c.action_processed)
+                {
                     if self.is_able_to_attack_on_current_turn(self.turn, from, character) {
                         character.attack();
                         for body in bodies.iter() {
@@ -18,7 +23,9 @@ impl Combat {
                                         character.position.clone(),
                                         &weapon_collision,
                                     ) {
-                                        let mut damage: f32 = character.damage - body.defense;
+                                        let spread_damage: f32 = character.attack_timer_hit as f32;
+                                        let mut damage: f32 =
+                                            (character.damage - body.defense) / spread_damage;
                                         if damage <= 1.0 {
                                             damage = 1.0;
                                         }
@@ -26,7 +33,6 @@ impl Combat {
                                             id: body.id,
                                             damage,
                                             from: self.turn + 1,
-                                            to: self.turn + character.attack_timer_hit as u128 + 1,
                                         };
                                         self.actions.push(action);
                                     }
@@ -35,13 +41,7 @@ impl Combat {
                         }
                     }
 
-                    if self.turn == from && character.is_idle() {
-                        character.start_attacking();
-                    }
-
-                    if self.turn == to && character.is_attacking() {
-                        character.back_to_idle();
-                    }
+                    self.attack_with_buffer(self.turn, from, character);
                 }
             }
         }
@@ -53,6 +53,16 @@ impl Combat {
         from: u128,
         character: &mut Character,
     ) -> bool {
-        turn > from && character.is_attacking() && !character.has_processed_action
+        turn > from && character.is_attacking()
+    }
+
+    fn attack_with_buffer(&mut self, turn: u128, from: u128, character: &mut Character) {
+        if (turn >= from || turn <= from + 1)
+            && character
+                .character_state
+                .can_transition_to(&CharacterState::Attacking)
+        {
+            character.start_attacking();
+        }
     }
 }

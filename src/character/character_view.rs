@@ -49,7 +49,7 @@ pub mod character_view {
             };
 
             let mut draw_params: DrawParam = DrawParam::new().dest(dst).scale(scale);
-            if character.is_damaged() {
+            if character.damage_timer > 1 {
                 draw_params = draw_params.color(Color::new(1.0, 0.0, 0.0, 1.0));
             }
 
