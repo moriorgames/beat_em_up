@@ -312,6 +312,14 @@ impl Character {
         self.position.x += push_x;
     }
 
+    pub fn reduce_stamina(&mut self, amount: f32) {
+        self.current_stamina = (self.current_stamina - amount).max(0.0);
+    }
+
+    pub fn regenerate_stamina(&mut self, amount: f32) {
+        self.current_stamina = (self.current_stamina + amount).min(self.stamina);
+    }
+
     pub fn get_sprite_name(&self) -> String {
         match self.character_state {
             CharacterState::Idle | CharacterState::Moving => {

@@ -14,6 +14,8 @@ pub mod character_view {
     const HEALTH_BAR_HEIGHT: f32 = 8.0;
     const HEALTH_BAR_WIDTH: f32 = 100.0;
     const HITBOX_DEBUG: bool = false;
+    const GAP_BETWEEN_BARS: f32 = 1.0;
+    const STAMINA_BAR_HEIGHT: f32 = 4.0;
 
     pub fn draw_characters(
         gfx: &mut Context,
@@ -137,6 +139,26 @@ pub mod character_view {
         let size: Size = Size::new(w, h);
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
+    
+        let stamina_y: f32 = y + (HEALTH_BAR_HEIGHT + STAMINA_BAR_HEIGHT + GAP_BETWEEN_BARS); // GAP_BETWEEN_BARS es la distancia entre las dos barras
+        let stamina_position: Position = Position::new(x, stamina_y);
+
+        let stamina_percentage: f32 = character.current_stamina / character.stamina;
+        let stamina_width: f32 = stamina_percentage * character.stamina; // STAMINA_BAR_WIDTH debería estar definido
+        let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT); // STAMINA_BAR_HEIGHT debería estar definido
+
+        // Dibujar la barra de estamina
+        draw_solid_rectangle(gfx, canvas, &stamina_position, &Size::new(character.stamina, STAMINA_BAR_HEIGHT), Color::BLACK); // Fondo negro
+        draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::GREEN); // Barra verde
+
+        const DIVISION_SIZE: f32 = 20.0; // Cada 20 píxeles dibujar una línea
+        for i in (0..character.stamina as i32).step_by(DIVISION_SIZE as usize) {
+            let division_x = x + i as f32;
+            let division_y = stamina_y;
+            let division_position = Position::new(division_x, division_y);
+            let division_size = Size::new(2.0, STAMINA_BAR_HEIGHT); // 1.0 es el ancho de la línea
+            draw_solid_rectangle(gfx, canvas, &division_position, &division_size, Color::BLACK); // Línea blanca
+        }
     }
 
     fn get_ordered_characters_by_position(characters: &Vec<Character>) -> Vec<Character> {
