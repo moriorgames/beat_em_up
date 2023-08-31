@@ -140,23 +140,20 @@ pub mod character_view {
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
     
-        let stamina_y: f32 = y + (HEALTH_BAR_HEIGHT + STAMINA_BAR_HEIGHT + GAP_BETWEEN_BARS);
-        let stamina_position: Position = Position::new(x, stamina_y);
-
-        let stamina_percentage: f32 = character.current_stamina / character.stamina;
-        let stamina_width: f32 = stamina_percentage * character.stamina;
-        let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT);
-
-        draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::GREEN);
-        draw_stroke_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::BLACK);
-
+        const ACTION_POINT_WIDTH: f32 = 8.0;
+        const ACTION_POINT_HEIGHT: f32 = 5.0;
         const DIVISION_SIZE: f32 = 20.0;
+
+        let stamina_y: f32 = y + (HEALTH_BAR_HEIGHT + STAMINA_BAR_HEIGHT + GAP_BETWEEN_BARS);
+        let stamina_x: f32 = x;
         for i in (0..character.stamina as i32).step_by(DIVISION_SIZE as usize) {
-            let division_x: f32 = x + i as f32;
-            let division_y: f32 = stamina_y;
-            let division_position: Position = Position::new(division_x, division_y);
-            let division_size: Size = Size::new(3.0, STAMINA_BAR_HEIGHT);
-            draw_solid_rectangle(gfx, canvas, &division_position, &division_size, Color::BLACK);
+            let point_x: f32 = stamina_x + i as f32;
+            let point_y: f32 = stamina_y;
+            let point_position: Position = Position::new(point_x, point_y);
+            let point_size: Size = Size::new(ACTION_POINT_WIDTH, ACTION_POINT_HEIGHT);
+            let color: Color = Color::new(1.0, 1.0, 1.0, 0.7);
+
+            draw_solid_rectangle(gfx, canvas, &point_position, &point_size, color);
         }
     }
 
