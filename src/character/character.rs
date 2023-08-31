@@ -146,10 +146,7 @@ impl Character {
     pub fn update(&mut self) {
         self.action_processed = false;
         match self.character_state {
-            CharacterState::Idle => {
-                self.move_animation.update();
-            }
-            CharacterState::Moving => {
+            CharacterState::Idle | CharacterState::Moving => {
                 self.move_animation.update();
             }
             CharacterState::Jumping => {
@@ -291,17 +288,7 @@ impl Character {
 
     pub fn get_sprite_name(&self) -> String {
         match self.character_state {
-            CharacterState::Idle => {
-                let animation_frame: u8 =
-                    self.move_animation.frame % self.move_animation.move_frames;
-                let action_type: String = self.move_animation.action_type.to_string();
-
-                format!(
-                    "{}_{}_{}",
-                    self.move_animation.sprite, action_type, animation_frame
-                )
-            }
-            CharacterState::Moving => {
+            CharacterState::Idle | CharacterState::Moving => {
                 let animation_frame: u8 =
                     self.move_animation.frame % self.move_animation.move_frames;
                 let action_type: String = self.move_animation.action_type.to_string();
