@@ -11,6 +11,7 @@ impl Stats {
     const BASE_SPEED: f32 = 0.9;
     const BASE_DAMAGE: f32 = 15.0;
     const BASE_DEFENSE: f32 = 0.0;
+    const BASE_STAMINA: f32 = 20.0;
 
     pub fn new(vitality: f32, strength: f32, agility: f32, resistance: f32) -> Self {
         Stats {
@@ -21,13 +22,14 @@ impl Stats {
         }
     }
 
-    pub fn get_calculated_stats(&self) -> (f32, f32, f32, f32, f32) {
+    pub fn get_calculated_stats(&self) -> (f32, f32, f32, f32, f32, f32) {
         (
             self.calculate_health(),
             self.calculate_speed(),
             self.calculate_speed_jump(),
             self.calculate_damage(),
             self.calculate_defense(),
+            self.calculate_stamina(),
         )
     }
 
@@ -52,5 +54,9 @@ impl Stats {
             + (self.strength * 0.15)
             + (self.agility * 0.15)
             + (self.resistance * 0.5)
+    }
+
+    fn calculate_stamina(&self) -> f32 {
+        Self::BASE_STAMINA + (self.resistance * 2.0)
     }
 }

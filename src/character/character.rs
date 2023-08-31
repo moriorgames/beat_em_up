@@ -21,6 +21,8 @@ pub struct Character {
     pub speed_jump: f32,
     pub damage: f32,
     pub defense: f32,
+    pub current_stamina: f32,
+    pub stamina: f32,
     pub action_processed: bool,
     pub character_type: CharacterTypes,
     pub facing: Facing,
@@ -61,7 +63,7 @@ impl Character {
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
-        let (health, speed, speed_jump, damage, defense) = stats.get_calculated_stats();
+        let (health, speed, speed_jump, damage, defense, stamina) = stats.get_calculated_stats();
         Character {
             id: Uuid::new_v4(),
             position,
@@ -73,6 +75,8 @@ impl Character {
             speed_jump,
             damage,
             defense,
+            current_stamina: stamina,
+            stamina,
             action_processed: false,
             character_type,
             facing: Facing::Right,
@@ -95,13 +99,15 @@ impl Character {
     }
 
     pub fn rebuild_stats(&mut self) {
-        let (health, speed, speed_jump, damage, defense) = self.stats.get_calculated_stats();
+        let (health, speed, speed_jump, damage, defense, stamina) = self.stats.get_calculated_stats();
         self.current_health = health;
         self.health = health;
         self.speed = speed;
         self.speed_jump = speed_jump;
         self.damage = damage;
         self.defense = defense;
+        self.current_stamina = stamina;
+        self.stamina = stamina;
     }
 
     pub fn is_idle(&self) -> bool {
