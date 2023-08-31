@@ -148,14 +148,15 @@ pub mod character_view {
         let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT);
 
         draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::GREEN);
+        draw_stroke_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::BLACK);
 
-        const DIVISION_SIZE: f32 = 20.0; // Cada 20 píxeles dibujar una línea
+        const DIVISION_SIZE: f32 = 20.0;
         for i in (0..character.stamina as i32).step_by(DIVISION_SIZE as usize) {
-            let division_x = x + i as f32;
-            let division_y = stamina_y;
-            let division_position = Position::new(division_x, division_y);
-            let division_size = Size::new(2.0, STAMINA_BAR_HEIGHT); // 1.0 es el ancho de la línea
-            draw_solid_rectangle(gfx, canvas, &division_position, &division_size, Color::BLACK); // Línea blanca
+            let division_x: f32 = x + i as f32;
+            let division_y: f32 = stamina_y;
+            let division_position: Position = Position::new(division_x, division_y);
+            let division_size: Size = Size::new(3.0, STAMINA_BAR_HEIGHT);
+            draw_solid_rectangle(gfx, canvas, &division_position, &division_size, Color::BLACK);
         }
     }
 
