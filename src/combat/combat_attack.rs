@@ -50,7 +50,10 @@ impl Combat {
         from: u128,
         character: &mut Character,
     ) -> bool {
-        turn > from && character.is_attacking() && !character.action_processed
+        turn > from
+            && character.is_attacking()
+            && !character.action_processed
+            && character.current_stamina >= 0.0
     }
 
     fn attack_with_buffer(&mut self, turn: u128, from: u128, character: &mut Character) {
@@ -58,6 +61,7 @@ impl Combat {
             && character
                 .character_state
                 .can_transition_to(&CharacterState::Attacking)
+            && character.current_stamina >= 10.0
         {
             character.start_attacking();
         }

@@ -11,7 +11,8 @@ impl Stats {
     const BASE_SPEED: f32 = 0.9;
     const BASE_DAMAGE: f32 = 15.0;
     const BASE_DEFENSE: f32 = 0.0;
-    const BASE_STAMINA: f32 = 20.0;
+    const BASE_STAMINA: f32 = 35.0;
+    pub const STAMINA_COST: f32 = 15.0;
 
     pub fn new(vitality: f32, strength: f32, agility: f32, resistance: f32) -> Self {
         Stats {

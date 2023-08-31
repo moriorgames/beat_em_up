@@ -66,6 +66,7 @@ impl Combat {
                 .character_state
                 .can_transition_to(&CharacterState::Jumping)
             && !character.action_processed
+            && character.current_stamina >= 10.0
         {
             match action {
                 Action::Jump {

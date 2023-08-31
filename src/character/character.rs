@@ -56,16 +56,18 @@ impl Character {
         foot_collision: BoxCollision,
         weapon_collision_template: BoxCollision,
     ) -> Self {
-        // let id: Uuid = match character_type {
-        //     CharacterTypes::Player => Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap(),
-        //     _ => Uuid::new_v4(),
-        // };
+        let id: Uuid = match character_type {
+            CharacterTypes::Player => {
+                Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap()
+            }
+            _ => Uuid::new_v4(),
+        };
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
         let (health, speed, speed_jump, damage, defense, stamina) = stats.get_calculated_stats();
         Character {
-            id: Uuid::new_v4(),
+            id,
             position,
             size,
             stats,
@@ -99,7 +101,8 @@ impl Character {
     }
 
     pub fn rebuild_stats(&mut self) {
-        let (health, speed, speed_jump, damage, defense, stamina) = self.stats.get_calculated_stats();
+        let (health, speed, speed_jump, damage, defense, stamina) =
+            self.stats.get_calculated_stats();
         self.current_health = health;
         self.health = health;
         self.speed = speed;
@@ -137,18 +140,21 @@ impl Character {
     pub fn start_jumping(&mut self) {
         self.jump_timer = self.full_jump_timer;
         self.action_processed = true;
-        self.character_state = CharacterState::Jumping
+        self.character_state = CharacterState::Jumping;
+        self.reduce_stamina(Stats::STAMINA_COST);
     }
 
     pub fn start_back_jumping(&mut self) {
         self.jump_timer = self.full_jump_timer;
         self.action_processed = true;
-        self.character_state = CharacterState::BackJumping
+        self.character_state = CharacterState::BackJumping;
+        self.reduce_stamina(Stats::STAMINA_COST);
     }
 
     pub fn start_attacking(&mut self) {
         self.attack_timer = self.full_attack_timer;
-        self.character_state = CharacterState::Attacking
+        self.character_state = CharacterState::Attacking;
+        self.reduce_stamina(Stats::STAMINA_COST);
     }
 
     pub fn back_to_idle(&mut self) {
@@ -161,6 +167,7 @@ impl Character {
 
     pub fn update(&mut self) {
         self.action_processed = false;
+        self.regenerate_stamina();
         match self.character_state {
             CharacterState::Idle | CharacterState::Moving => {
                 self.move_animation.update();
@@ -313,11 +320,11 @@ impl Character {
     }
 
     pub fn reduce_stamina(&mut self, amount: f32) {
-        self.current_stamina = (self.current_stamina - amount).max(0.0);
+        self.current_stamina = (self.current_stamina - amount).max(-Stats::STAMINA_COST);
     }
 
-    pub fn regenerate_stamina(&mut self, amount: f32) {
-        self.current_stamina = (self.current_stamina + amount).min(self.stamina);
+    pub fn regenerate_stamina(&mut self) {
+        self.current_stamina = (self.current_stamina + 0.1).min(self.stamina);
     }
 
     pub fn get_sprite_name(&self) -> String {

@@ -123,9 +123,9 @@ pub mod character_builder {
         let size: Size = Size::new(210.0, 210.0);
 
         let vitality: f32 = 20.0;
-        let strength: f32 = 4.0;
+        let strength: f32 = 8.0;
         let agility: f32 = 0.0;
-        let resistance: f32 = 1.0;
+        let resistance: f32 = 10.0;
         let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 
         let character_type: CharacterTypes = CharacterTypes::Enemy;

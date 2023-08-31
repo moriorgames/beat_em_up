@@ -57,21 +57,12 @@ pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
                 .characters
                 .push(character_builder::spawn_first_tower());
         }
-        if main_state.combat.turn == 500 {
+        if main_state.combat.turn == 600 {
             main_state
                 .characters
                 .push(character_builder::spawn_second_tower());
         }
-        if main_state.combat.turn == 900 {
-            main_state
-                .characters
-                .push(character_builder::spawn_first_tower());
-            main_state
-                .characters
-                .push(character_builder::spawn_third_tower());
-        }
-
-        if main_state.combat.turn == 1400 {
+        if main_state.combat.turn == 1200 {
             main_state
                 .characters
                 .push(character_builder::spawn_first_tower_orc_lord());
