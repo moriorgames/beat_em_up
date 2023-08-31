@@ -1,6 +1,7 @@
 use super::controller::gamepad_controller::GamePadController;
 use super::controller::keyboard_controller::keyboard_controller;
 use crate::character::character::Character;
+use crate::character::character_types::Facing;
 use crate::combat::action::Action;
 use crate::combat::direction::Direction;
 use ggez::Context;
@@ -81,6 +82,25 @@ impl PlayerControls {
                 };
                 actions.push(action);
             }
+        }
+
+        if intention.jump
+            && !intention.move_up
+            && !intention.move_down
+            && !intention.move_left
+            && !intention.move_right
+        {
+            let opposite_direction = match player.facing {
+                Facing::Left => Direction::Right,
+                Facing::Right => Direction::Left,
+            };
+
+            actions.push(Action::BackJump {
+                id: player.id,
+                direction: opposite_direction,
+                from: turn + 1,
+                to: turn + 17,
+            });
         }
 
         actions

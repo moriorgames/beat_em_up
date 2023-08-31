@@ -22,6 +22,12 @@ pub enum Action {
         from: u128,
         to: u128,
     },
+    BackJump {
+        id: Uuid,
+        direction: Direction,
+        from: u128,
+        to: u128,
+    },
     Damage {
         id: Uuid,
         damage: f32,

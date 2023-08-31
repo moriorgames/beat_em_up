@@ -18,6 +18,12 @@ impl Combat {
             direction,
             from,
             to,
+        }
+        | Action::BackJump {
+            id,
+            direction,
+            from,
+            to,
         } = action
         {
             if self.turn >= from && self.turn <= to {
