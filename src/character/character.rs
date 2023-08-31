@@ -116,6 +116,10 @@ impl Character {
         self.character_state == CharacterState::Jumping
     }
 
+    pub fn is_back_jumping(&self) -> bool {
+        self.character_state == CharacterState::BackJumping
+    }
+
     pub fn is_attacking(&self) -> bool {
         self.character_state == CharacterState::Attacking
     }
@@ -128,6 +132,12 @@ impl Character {
         self.jump_timer = self.full_jump_timer;
         self.action_processed = true;
         self.character_state = CharacterState::Jumping
+    }
+
+    pub fn start_back_jumping(&mut self) {
+        self.jump_timer = self.full_jump_timer;
+        self.action_processed = true;
+        self.character_state = CharacterState::BackJumping
     }
 
     pub fn start_attacking(&mut self) {
@@ -149,7 +159,7 @@ impl Character {
             CharacterState::Idle | CharacterState::Moving => {
                 self.move_animation.update();
             }
-            CharacterState::Jumping => {
+            CharacterState::Jumping | CharacterState::BackJumping => {
                 self.jump_animation.update();
                 if self.jump_timer >= 1 {
                     self.jump_timer -= 1;
@@ -190,7 +200,9 @@ impl Character {
     }
 
     pub fn jump_by_direction(&mut self, direction: Direction) {
-        if self.character_state == CharacterState::Jumping {
+        if self.character_state == CharacterState::Jumping
+            || self.character_state == CharacterState::BackJumping
+        {
             self.action_processed = true;
             match direction {
                 Direction::Left => self.move_left(self.speed_jump),
@@ -212,6 +224,14 @@ impl Character {
                 Direction::DownRight => {
                     self.move_down(self.speed_jump);
                     self.move_right(self.speed_jump);
+                }
+            }
+
+            if self.character_state == CharacterState::BackJumping {
+                if self.facing == Facing::Left {
+                    self.facing = Facing::Right;
+                } else {
+                    self.facing = Facing::Left;
                 }
             }
         }
@@ -298,7 +318,7 @@ impl Character {
                     self.move_animation.sprite, action_type, animation_frame
                 )
             }
-            CharacterState::Jumping => {
+            CharacterState::Jumping | CharacterState::BackJumping => {
                 let animation_frame: u8 =
                     self.jump_animation.frame % self.jump_animation.move_frames;
                 let action_type: String = self.jump_animation.action_type.to_string();
