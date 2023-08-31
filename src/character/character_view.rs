@@ -140,16 +140,14 @@ pub mod character_view {
         let color: Color = Color::BLACK;
         draw_stroke_rectangle(gfx, canvas, &position, &size, color);
     
-        let stamina_y: f32 = y + (HEALTH_BAR_HEIGHT + STAMINA_BAR_HEIGHT + GAP_BETWEEN_BARS); // GAP_BETWEEN_BARS es la distancia entre las dos barras
+        let stamina_y: f32 = y + (HEALTH_BAR_HEIGHT + STAMINA_BAR_HEIGHT + GAP_BETWEEN_BARS);
         let stamina_position: Position = Position::new(x, stamina_y);
 
         let stamina_percentage: f32 = character.current_stamina / character.stamina;
-        let stamina_width: f32 = stamina_percentage * character.stamina; // STAMINA_BAR_WIDTH debería estar definido
-        let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT); // STAMINA_BAR_HEIGHT debería estar definido
+        let stamina_width: f32 = stamina_percentage * character.stamina;
+        let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT);
 
-        // Dibujar la barra de estamina
-        draw_solid_rectangle(gfx, canvas, &stamina_position, &Size::new(character.stamina, STAMINA_BAR_HEIGHT), Color::BLACK); // Fondo negro
-        draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::GREEN); // Barra verde
+        draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, Color::GREEN);
 
         const DIVISION_SIZE: f32 = 20.0; // Cada 20 píxeles dibujar una línea
         for i in (0..character.stamina as i32).step_by(DIVISION_SIZE as usize) {
