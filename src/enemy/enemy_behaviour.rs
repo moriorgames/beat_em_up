@@ -66,7 +66,7 @@ pub mod enemy_behavior {
 
         if distance <= 175.0 {
             if character.is_idle() {
-                actions.push(Action::Attacking {
+                actions.push(Action::Attack {
                     id: character.id,
                     from: turn + 1,
                     to: turn + character.full_attack_timer as u128,
@@ -91,14 +91,14 @@ pub mod enemy_behavior {
             };
 
             if counter > 2 && (counter as u128 + turn) % 21 == 0 {
-                actions.push(Action::Jumping {
+                actions.push(Action::Jump {
                     id,
                     direction: Direction::DownRight,
                     from: turn + 1,
                     to: turn + 17,
                 });
             } else {
-                actions.push(Action::Moving {
+                actions.push(Action::Move {
                     id,
                     direction,
                     from: turn + 1,

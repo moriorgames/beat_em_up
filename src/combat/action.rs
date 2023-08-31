@@ -5,20 +5,20 @@ pub const DAMAGE_DELAY: u8 = 4;
 
 #[derive(Clone, Debug)]
 pub enum Action {
-    Moving {
+    Attack {
+        id: Uuid,
+        from: u128,
+        to: u128,
+    },
+    Move {
         id: Uuid,
         direction: Direction,
         from: u128,
         to: u128,
     },
-    Jumping {
+    Jump {
         id: Uuid,
         direction: Direction,
-        from: u128,
-        to: u128,
-    },
-    Attacking {
-        id: Uuid,
         from: u128,
         to: u128,
     },

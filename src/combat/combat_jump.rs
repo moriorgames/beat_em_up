@@ -13,7 +13,7 @@ impl Combat {
         characters: &mut Vec<Character>,
         world: &World,
     ) {
-        if let Action::Jumping {
+        if let Action::Jump {
             id,
             direction,
             from,

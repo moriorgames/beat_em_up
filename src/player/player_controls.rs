@@ -35,7 +35,7 @@ impl PlayerControls {
         let intention: PlayerIntention = self.get_intention(ctx);
 
         if intention.attack {
-            actions.push(Action::Attacking {
+            actions.push(Action::Attack {
                 id: player.id,
                 from: turn + 2,
                 to: turn + player.full_attack_timer as u128,
@@ -65,14 +65,14 @@ impl PlayerControls {
         for &(direction, condition) in directions.iter() {
             if condition {
                 let action = if intention.jump {
-                    Action::Jumping {
+                    Action::Jump {
                         id: player.id,
                         direction,
                         from: turn + 1,
                         to: turn + 17,
                     }
                 } else {
-                    Action::Moving {
+                    Action::Move {
                         id: player.id,
                         direction,
                         from: turn + 1,
