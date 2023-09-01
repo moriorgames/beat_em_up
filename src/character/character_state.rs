@@ -5,6 +5,7 @@ pub enum CharacterState {
     Jumping,
     BackJumping,
     Attacking,
+    CounterAttacking,
 }
 
 impl CharacterState {
@@ -13,6 +14,7 @@ impl CharacterState {
             CharacterState::Idle => true,
             CharacterState::Moving => true,
             CharacterState::Attacking => matches!(next_state, CharacterState::Idle),
+            CharacterState::CounterAttacking => matches!(next_state, CharacterState::Idle),
             CharacterState::Jumping => matches!(next_state, CharacterState::Idle),
             CharacterState::BackJumping => matches!(next_state, CharacterState::Idle),
         }

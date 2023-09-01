@@ -36,8 +36,13 @@ impl PlayerControls {
         let intention: PlayerIntention = self.get_intention(ctx);
 
         if intention.attack {
-            actions.push(Action::Attack {
+            let counter_attack_direction: Direction = match player.facing {
+                Facing::Left => Direction::Left,
+                Facing::Right => Direction::Right,
+            };
+            actions.push(Action::CounterAttack {
                 id: player.id,
+                direction: counter_attack_direction,
                 from: turn + 2,
                 to: turn + player.full_attack_timer as u128,
             });

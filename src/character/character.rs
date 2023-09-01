@@ -113,50 +113,6 @@ impl Character {
         self.stamina = stamina;
     }
 
-    pub fn is_idle(&self) -> bool {
-        self.character_state == CharacterState::Idle
-    }
-
-    pub fn is_moving(&self) -> bool {
-        self.character_state == CharacterState::Moving
-    }
-
-    pub fn is_jumping(&self) -> bool {
-        self.character_state == CharacterState::Jumping
-    }
-
-    pub fn is_back_jumping(&self) -> bool {
-        self.character_state == CharacterState::BackJumping
-    }
-
-    pub fn is_attacking(&self) -> bool {
-        self.character_state == CharacterState::Attacking
-    }
-
-    pub fn start_moving(&mut self) {
-        self.character_state = CharacterState::Moving
-    }
-
-    pub fn start_jumping(&mut self) {
-        self.jump_timer = self.full_jump_timer;
-        self.action_processed = true;
-        self.character_state = CharacterState::Jumping;
-        self.reduce_stamina(Stats::STAMINA_COST);
-    }
-
-    pub fn start_back_jumping(&mut self) {
-        self.jump_timer = self.full_jump_timer;
-        self.action_processed = true;
-        self.character_state = CharacterState::BackJumping;
-        self.reduce_stamina(Stats::STAMINA_COST);
-    }
-
-    pub fn start_attacking(&mut self) {
-        self.attack_timer = self.full_attack_timer;
-        self.character_state = CharacterState::Attacking;
-        self.reduce_stamina(Stats::STAMINA_COST);
-    }
-
     pub fn back_to_idle(&mut self) {
         self.attack_animation.reset();
         self.jump_animation.reset();
@@ -180,7 +136,7 @@ impl Character {
                     self.back_to_idle()
                 }
             }
-            CharacterState::Attacking => {
+            CharacterState::Attacking | CharacterState::CounterAttacking => {
                 self.attack_animation.update();
                 if self.attack_timer >= 1 {
                     self.attack_timer -= 1;
@@ -215,6 +171,7 @@ impl Character {
     pub fn jump_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Jumping
             || self.character_state == CharacterState::BackJumping
+            || self.character_state == CharacterState::CounterAttacking
         {
             self.action_processed = true;
             match direction {
@@ -349,7 +306,7 @@ impl Character {
                     self.jump_animation.sprite, action_type, animation_frame
                 )
             }
-            CharacterState::Attacking => {
+            CharacterState::Attacking | CharacterState::CounterAttacking => {
                 let animation_frame: u8 =
                     self.attack_animation.frame % self.attack_animation.move_frames;
                 let action_type: String = self.attack_animation.action_type.to_string();
