@@ -306,10 +306,20 @@ impl Character {
                     self.jump_animation.sprite, action_type, animation_frame
                 )
             }
-            CharacterState::Attacking | CharacterState::CounterAttacking => {
+            CharacterState::Attacking => {
                 let animation_frame: u8 =
                     self.attack_animation.frame % self.attack_animation.move_frames;
                 let action_type: String = self.attack_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.attack_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::CounterAttacking => {
+                let animation_frame: u8 =
+                    self.attack_animation.frame % self.attack_animation.move_frames;
+                let action_type: String = "counter_attack".to_string();
 
                 format!(
                     "{}_{}_{}",

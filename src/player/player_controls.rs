@@ -36,6 +36,14 @@ impl PlayerControls {
         let intention: PlayerIntention = self.get_intention(ctx);
 
         if intention.attack {
+            actions.push(Action::Attack {
+                id: player.id,
+                from: turn + 2,
+                to: turn + player.full_attack_timer as u128,
+            });
+        }
+
+        if player.is_back_jumping() && intention.attack {
             let counter_attack_direction: Direction = match player.facing {
                 Facing::Left => Direction::Left,
                 Facing::Right => Direction::Right,
@@ -43,8 +51,8 @@ impl PlayerControls {
             actions.push(Action::CounterAttack {
                 id: player.id,
                 direction: counter_attack_direction,
-                from: turn + 2,
-                to: turn + player.full_attack_timer as u128,
+                from: turn + 3,
+                to: turn + player.full_attack_timer as u128 + 1,
             });
         }
 
