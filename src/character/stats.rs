@@ -7,9 +7,10 @@ pub struct Stats {
 }
 
 impl Stats {
-    const BASE_HEALTH: f32 = 50.0;
-    const BASE_SPEED: f32 = 1.0;
-    const BASE_DAMAGE: f32 = 15.0;
+    const BASE_HEALTH: f32 = 100.0;
+    const BASE_SPEED: f32 = 1.5;
+    const BASE_JUMP: f32 = 2.5;
+    const BASE_DAMAGE: f32 = 30.0;
     const BASE_DEFENSE: f32 = 0.0;
     const BASE_STAMINA: f32 = 40.0;
     pub const STAMINA_COST: f32 = 15.0;
@@ -35,26 +36,26 @@ impl Stats {
     }
 
     fn calculate_health(&self) -> f32 {
-        Self::BASE_HEALTH + self.vitality * 5.0
+        Self::BASE_HEALTH + self.vitality * 15.0
     }
 
     fn calculate_speed(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 0.3)
+        Self::BASE_SPEED + (self.agility * 0.1)
     }
 
     fn calculate_speed_jump(&self) -> f32 {
-        Self::BASE_SPEED + (self.agility * 0.7)
+        Self::BASE_JUMP + (self.agility * 0.2)
     }
 
     fn calculate_damage(&self) -> f32 {
-        Self::BASE_DAMAGE + (self.strength * 1.5)
+        Self::BASE_DAMAGE + (self.strength * 5.0)
     }
 
     fn calculate_defense(&self) -> f32 {
         Self::BASE_DEFENSE
-            + (self.strength * 0.15)
-            + (self.agility * 0.15)
-            + (self.resistance * 0.5)
+            + (self.strength * 0.5)
+            + (self.agility * 0.5)
+            + self.resistance
     }
 
     fn calculate_stamina(&self) -> f32 {
