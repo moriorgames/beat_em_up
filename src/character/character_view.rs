@@ -100,30 +100,34 @@ pub mod character_view {
         let w: f32 = HEALTH_BAR_WIDTH;
         let h: f32 = HEALTH_BAR_HEIGHT;
         let size: Size = Size::new(w, h);
-        let health_factor: f32 = 200.0;
+        let health_factor: f32 = 250.0;
         let (bar_color, background_color, health_percentage) = match character.current_health as u32
-        {    
-            0..=200 => {
+        {
+            0..=250 => {
                 let health_percentage: f32 = character.current_health / health_factor;
                 (Color::RED, Color::BLACK, health_percentage)
             }
-            0..=400 => {
-                let health_percentage: f32 = (character.current_health - health_factor) / health_factor;
+            0..=500 => {
+                let health_percentage: f32 =
+                    (character.current_health - health_factor) / health_factor;
                 (Color::YELLOW, Color::RED, health_percentage)
             }
-            0..=600 => {
-                let health_percentage: f32 = (character.current_health - health_factor*2.0) / health_factor;
+            0..=750 => {
+                let health_percentage: f32 =
+                    (character.current_health - health_factor * 2.0) / health_factor;
                 (Color::GREEN, Color::YELLOW, health_percentage)
             }
-            0..=800 => {
-                let health_percentage: f32 = (character.current_health - health_factor*3.0) / health_factor;
+            0..=1000 => {
+                let health_percentage: f32 =
+                    (character.current_health - health_factor * 3.0) / health_factor;
                 (Color::BLUE, Color::GREEN, health_percentage)
             }
-            0..=1000 => {
-                let health_percentage: f32 = (character.current_health - health_factor*4.0) / health_factor;
+            0..=1250 => {
+                let health_percentage: f32 =
+                    (character.current_health - health_factor * 4.0) / health_factor;
                 (Color::WHITE, Color::BLUE, health_percentage)
             }
-            _ => (Color::WHITE, Color::BLUE, 100.0),
+            _ => (Color::WHITE, Color::BLUE, 1.0),
         };
 
         let w: f32 = health_percentage * HEALTH_BAR_WIDTH;

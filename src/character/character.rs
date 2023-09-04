@@ -207,6 +207,8 @@ impl Character {
         }
     }
 
+    const DIAGONAL_SPEED_FACTOR: f32 = 0.7071; // 1 / sqrt(2)
+
     pub fn move_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Moving {
             self.action_processed = true;
@@ -216,20 +218,20 @@ impl Character {
                 Direction::Up => self.move_up(self.speed),
                 Direction::Down => self.move_down(self.speed),
                 Direction::UpLeft => {
-                    self.move_up(self.speed);
-                    self.move_left(self.speed);
+                    self.move_up(self.speed * Self::DIAGONAL_SPEED_FACTOR);
+                    self.move_left(self.speed * Self::DIAGONAL_SPEED_FACTOR);
                 }
                 Direction::UpRight => {
-                    self.move_up(self.speed);
-                    self.move_right(self.speed);
+                    self.move_up(self.speed * Self::DIAGONAL_SPEED_FACTOR);
+                    self.move_right(self.speed * Self::DIAGONAL_SPEED_FACTOR);
                 }
                 Direction::DownLeft => {
-                    self.move_down(self.speed);
-                    self.move_left(self.speed);
+                    self.move_down(self.speed * Self::DIAGONAL_SPEED_FACTOR);
+                    self.move_left(self.speed * Self::DIAGONAL_SPEED_FACTOR);
                 }
                 Direction::DownRight => {
-                    self.move_down(self.speed);
-                    self.move_right(self.speed);
+                    self.move_down(self.speed * Self::DIAGONAL_SPEED_FACTOR);
+                    self.move_right(self.speed * Self::DIAGONAL_SPEED_FACTOR);
                 }
             }
         }
