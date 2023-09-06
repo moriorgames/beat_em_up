@@ -1,21 +1,13 @@
 pub mod character_builder {
     use crate::{
         character::{
-            animation::Animation,
-            animations_builder::orc_animations::{
-                create_orc_attack_animation, create_orc_jump_animation, create_orc_move_animation,
-            },
-            box_collision::BoxCollision,
             character::Character,
-            character_types::CharacterTypes,
-            characters_builder::barbarian_builder::build_barbarian,
-            collisions_builder::{
-                create_generic_foot_collision, create_orc_body_collision,
-                create_orc_weapon_collision_template,
+            characters_builder::{
+                barbarian_builder::build_barbarian, orc_builder::build_orc,
+                orc_lord_builder::build_orc_lord,
             },
-            stats::Stats,
         },
-        geometry::{position::Position, size::Size},
+        geometry::position::Position,
     };
 
     pub fn build_player() -> Character {
@@ -32,86 +24,24 @@ pub mod character_builder {
     pub fn spawn_first_tower_orc_lord() -> Character {
         let position: Position = Position::new(150.0, 250.0);
 
-        spawn_orc_lord(position)
+        build_orc_lord(position)
     }
 
     pub fn spawn_first_tower() -> Character {
         let position: Position = Position::new(150.0, 250.0);
 
-        spawn_orc(position)
+        build_orc(position)
     }
 
     pub fn spawn_second_tower() -> Character {
         let position: Position = Position::new(1250.0, 250.0);
 
-        spawn_orc(position)
+        build_orc(position)
     }
 
     pub fn spawn_third_tower() -> Character {
         let position: Position = Position::new(1650.0, 250.0);
 
-        spawn_orc(position)
-    }
-
-    fn spawn_orc(position: Position) -> Character {
-        let size: Size = Size::new(210.0, 210.0);
-
-        let vitality: f32 = 5.0;
-        let strength: f32 = 5.0;
-        let agility: f32 = 5.0;
-        let resistance: f32 = 5.0;
-        let stats: Stats = Stats::new(vitality, strength, agility, resistance);
-
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let move_animation: Animation = create_orc_move_animation();
-        let attack_animation: Animation = create_orc_attack_animation();
-        let jump_animation: Animation = create_orc_jump_animation();
-        let body_collision: BoxCollision = create_orc_body_collision(size.w);
-        let foot_collision: BoxCollision = create_generic_foot_collision();
-        let weapon_collision_template: BoxCollision = create_orc_weapon_collision_template();
-
-        Character::new(
-            position,
-            size,
-            stats,
-            character_type,
-            move_animation,
-            attack_animation,
-            jump_animation,
-            body_collision,
-            foot_collision,
-            weapon_collision_template,
-        )
-    }
-
-    fn spawn_orc_lord(position: Position) -> Character {
-        let size: Size = Size::new(210.0, 210.0);
-
-        let vitality: f32 = 20.0;
-        let strength: f32 = 20.0;
-        let agility: f32 = 5.0;
-        let resistance: f32 = 20.0;
-        let stats: Stats = Stats::new(vitality, strength, agility, resistance);
-
-        let character_type: CharacterTypes = CharacterTypes::Enemy;
-        let move_animation: Animation = create_orc_move_animation();
-        let attack_animation: Animation = create_orc_attack_animation();
-        let jump_animation: Animation = create_orc_jump_animation();
-        let body_collision: BoxCollision = create_orc_body_collision(size.w);
-        let foot_collision: BoxCollision = create_generic_foot_collision();
-        let weapon_collision_template: BoxCollision = create_orc_weapon_collision_template();
-
-        Character::new(
-            position,
-            size,
-            stats,
-            character_type,
-            move_animation,
-            attack_animation,
-            jump_animation,
-            body_collision,
-            foot_collision,
-            weapon_collision_template,
-        )
+        build_orc(position)
     }
 }
