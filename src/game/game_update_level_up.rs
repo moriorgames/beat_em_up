@@ -7,7 +7,7 @@ pub fn execute(ctx: &mut Context, main_state: &mut MainState) {
     main_state.level_up.process(ctx, &mut main_state.player);
 
     if main_state.level_up.confirmed {
-    // if true {
+        // if true {
         main_state.characters.clear();
         main_state.combat.turn = 0;
         main_state.level_up.confirmed = false;

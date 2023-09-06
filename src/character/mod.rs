@@ -8,5 +8,6 @@ pub mod character_state_check;
 pub mod character_state_start;
 pub mod character_types;
 pub mod character_view;
+pub mod characters_builder;
 pub mod collisions_builder;
 pub mod stats;
