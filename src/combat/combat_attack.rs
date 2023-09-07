@@ -5,7 +5,7 @@ use crate::character::{
 
 impl Combat {
     pub fn process_attacking(&mut self, action: Action, characters: &mut Vec<Character>) {
-        if let Action::Attack { id, from, to } = action {
+        if let Action::FastAttack { id, from, to } = action {
             if self.turn >= from && self.turn <= to {
                 let bodies: Vec<Character> = characters.clone();
                 for character in characters.iter_mut().filter(|c| c.id == id) {
@@ -20,10 +20,11 @@ impl Combat {
                                         character.position.clone(),
                                         &weapon_collision,
                                     ) {
-                                        let spread_damage: f32 = character.attack_timer_hit as f32;
+                                        let spread_damage: f32 =
+                                            character.fast_attack_timer_hit as f32;
                                         let mut damage: f32 =
                                             (character.fast_damage - body.defense) / spread_damage;
-                                            println!("character.fast_damage: {:?} body.defense: {:?} spread_damage: {:?}", character.fast_damage, body.defense,  spread_damage);
+                                        println!("character.fast_damage: {:?} body.defense: {:?} spread_damage: {:?}", character.fast_damage, body.defense,  spread_damage);
                                         if damage <= 0.5 {
                                             damage = 0.5;
                                         }

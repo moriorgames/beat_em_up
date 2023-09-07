@@ -29,13 +29,13 @@ pub struct Character {
     pub character_type: CharacterTypes,
     pub facing: Facing,
     pub move_animation: Animation,
-    pub attack_animation: Animation,
+    pub fast_attack_animation: Animation,
     pub jump_animation: Animation,
     pub full_jump_timer: u8,
     pub jump_timer: u8,
-    pub full_attack_timer: u8,
+    pub fast_attack_timer: u8,
+    pub fast_attack_timer_hit: u8,
     pub attack_timer: u8,
-    pub attack_timer_hit: u8,
     pub damage_timer: u8,
     pub damage_processed: bool,
     pub body_collision: BoxCollision,
@@ -52,7 +52,7 @@ impl Character {
         stats: Stats,
         character_type: CharacterTypes,
         move_animation: Animation,
-        attack_animation: Animation,
+        fast_attack_animation: Animation,
         jump_animation: Animation,
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
@@ -65,8 +65,8 @@ impl Character {
             _ => Uuid::new_v4(),
         };
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
-        let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
-        let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
+        let fast_attack_timer: u8 = fast_attack_animation.move_frames * fast_attack_animation.delay;
+        let fast_attack_timer_hit: u8 = fast_attack_timer / 3 + 2;
         let (health, speed, speed_jump, fast_damage, slow_damage, counter_damage, defense, stamina) =
             stats.get_calculated_stats();
         Character {
@@ -88,13 +88,13 @@ impl Character {
             character_type,
             facing: Facing::Right,
             move_animation,
-            attack_animation,
+            fast_attack_animation,
             jump_animation,
             full_jump_timer,
             jump_timer: 0,
-            full_attack_timer,
+            fast_attack_timer,
+            fast_attack_timer_hit,
             attack_timer: 0,
-            attack_timer_hit,
             damage_timer: 0,
             damage_processed: false,
             body_collision,
@@ -121,7 +121,7 @@ impl Character {
     }
 
     pub fn back_to_idle(&mut self) {
-        self.attack_animation.reset();
+        self.fast_attack_animation.reset();
         self.jump_animation.reset();
         self.character_state = CharacterState::Idle;
         self.attack_timer = 0;
@@ -144,10 +144,10 @@ impl Character {
                 }
             }
             CharacterState::Attacking | CharacterState::CounterAttacking => {
-                self.attack_animation.update();
+                self.fast_attack_animation.update();
                 if self.attack_timer >= 1 {
                     self.attack_timer -= 1;
-                    if self.attack_timer <= self.attack_timer_hit {
+                    if self.attack_timer <= self.fast_attack_timer_hit {
                         let x_offset: f32 = match self.facing {
                             Facing::Left => -self.weapon_collision_template.x,
                             Facing::Right => self.weapon_collision_template.x,
@@ -317,22 +317,22 @@ impl Character {
             }
             CharacterState::Attacking => {
                 let animation_frame: u8 =
-                    self.attack_animation.frame % self.attack_animation.move_frames;
-                let action_type: String = self.attack_animation.action_type.to_string();
+                    self.fast_attack_animation.frame % self.fast_attack_animation.move_frames;
+                let action_type: String = self.fast_attack_animation.action_type.to_string();
 
                 format!(
                     "{}_{}_{}",
-                    self.attack_animation.sprite, action_type, animation_frame
+                    self.fast_attack_animation.sprite, action_type, animation_frame
                 )
             }
             CharacterState::CounterAttacking => {
                 let animation_frame: u8 =
-                    self.attack_animation.frame % self.attack_animation.move_frames;
+                    self.fast_attack_animation.frame % self.fast_attack_animation.move_frames;
                 let action_type: String = "counter_attack".to_string();
 
                 format!(
                     "{}_{}_{}",
-                    self.attack_animation.sprite, action_type, animation_frame
+                    self.fast_attack_animation.sprite, action_type, animation_frame
                 )
             }
         }

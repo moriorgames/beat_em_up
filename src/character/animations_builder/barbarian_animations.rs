@@ -9,7 +9,7 @@ pub fn create_barbarian_move_animation() -> Animation {
     Animation::new(sprite, action_type, move_frames, delay)
 }
 
-pub fn create_barbarian_attack_animation() -> Animation {
+pub fn create_barbarian_fast_attack_animation() -> Animation {
     let sprite: String = "barbarian".to_string();
     let action_type: String = "attack".to_string();
     let move_frames: u8 = 5;

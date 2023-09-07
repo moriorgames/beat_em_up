@@ -20,13 +20,13 @@ impl Character {
     }
 
     pub fn start_attacking(&mut self) {
-        self.attack_timer = self.full_attack_timer;
+        self.attack_timer = self.fast_attack_timer;
         self.character_state = CharacterState::Attacking;
         self.reduce_stamina(Stats::STAMINA_COST);
     }
 
     pub fn start_counter_attack(&mut self) {
-        self.attack_timer = self.full_attack_timer;
+        self.attack_timer = self.fast_attack_timer;
         self.character_state = CharacterState::CounterAttacking;
         self.reduce_stamina(Stats::STAMINA_COST);
     }

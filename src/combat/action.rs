@@ -5,7 +5,7 @@ pub const DAMAGE_DELAY: u8 = 4;
 
 #[derive(Clone, Debug)]
 pub enum Action {
-    Attack {
+    FastAttack {
         id: Uuid,
         from: u128,
         to: u128,

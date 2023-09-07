@@ -66,10 +66,10 @@ pub mod enemy_behavior {
 
         if distance <= 175.0 {
             if character.is_idle() {
-                actions.push(Action::Attack {
+                actions.push(Action::FastAttack {
                     id: character.id,
                     from: turn + 1,
-                    to: turn + character.full_attack_timer as u128,
+                    to: turn + character.fast_attack_timer as u128,
                 });
             }
         } else {

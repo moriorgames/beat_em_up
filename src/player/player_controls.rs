@@ -36,10 +36,10 @@ impl PlayerControls {
         let intention: PlayerIntention = self.get_intention(ctx);
 
         if intention.attack {
-            actions.push(Action::Attack {
+            actions.push(Action::FastAttack {
                 id: player.id,
                 from: turn + 2,
-                to: turn + player.full_attack_timer as u128,
+                to: turn + player.fast_attack_timer as u128,
             });
         }
 
@@ -52,7 +52,7 @@ impl PlayerControls {
                 id: player.id,
                 direction: counter_attack_direction,
                 from: turn + 3,
-                to: turn + player.full_attack_timer as u128 + 1,
+                to: turn + player.fast_attack_timer as u128 + 1,
             });
         }
 
