@@ -15,7 +15,12 @@ pub mod character_builder {
         let debug: Character = player.clone();
         println!(
             "- player {:?} speed {}, speed_jump {}, damage {}, defense {}, health {}",
-            debug.stats, debug.speed, debug.speed_jump, debug.damage, debug.defense, debug.health,
+            debug.stats,
+            debug.speed,
+            debug.speed_jump,
+            debug.fast_damage,
+            debug.defense,
+            debug.health,
         );
 
         player

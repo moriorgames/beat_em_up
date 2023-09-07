@@ -19,7 +19,9 @@ pub struct Character {
     pub health: f32,
     pub speed: f32,
     pub speed_jump: f32,
-    pub damage: f32,
+    pub fast_damage: f32,
+    pub slow_damage: f32,
+    pub counter_damage: f32,
     pub defense: f32,
     pub current_stamina: f32,
     pub stamina: f32,
@@ -65,7 +67,8 @@ impl Character {
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let full_attack_timer: u8 = attack_animation.move_frames * attack_animation.delay;
         let attack_timer_hit: u8 = full_attack_timer / 3 + 2;
-        let (health, speed, speed_jump, damage, defense, stamina) = stats.get_calculated_stats();
+        let (health, speed, speed_jump, fast_damage, slow_damage, counter_damage, defense, stamina) =
+            stats.get_calculated_stats();
         Character {
             id,
             position,
@@ -75,7 +78,9 @@ impl Character {
             health,
             speed,
             speed_jump,
-            damage,
+            fast_damage,
+            slow_damage,
+            counter_damage,
             defense,
             current_stamina: stamina,
             stamina,
@@ -101,13 +106,15 @@ impl Character {
     }
 
     pub fn rebuild_stats(&mut self) {
-        let (health, speed, speed_jump, damage, defense, stamina) =
+        let (health, speed, speed_jump, fast_damage, slow_damage, counter_damage, defense, stamina) =
             self.stats.get_calculated_stats();
         self.current_health = health;
         self.health = health;
         self.speed = speed;
         self.speed_jump = speed_jump;
-        self.damage = damage;
+        self.fast_damage = fast_damage;
+        self.slow_damage = slow_damage;
+        self.counter_damage = counter_damage;
         self.defense = defense;
         self.current_stamina = stamina;
         self.stamina = stamina;

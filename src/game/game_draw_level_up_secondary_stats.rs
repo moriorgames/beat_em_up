@@ -12,11 +12,29 @@ pub fn draw_character_secondary_stats(ctx: &mut Context, canvas: &mut Canvas, pl
 
     let rect_width: f32 = right_panel.w - config.padding * 2.0;
 
-    let (health, speed, speed_jump, damage, defense, stamina) =
+    let (health, speed, speed_jump, fast_damage, slow_damage, counter_damage, defense, stamina) =
         player.character.stats.get_calculated_stats();
 
-    let stat_labels: Vec<&str> = vec!["Vida", "Velocidad", "Salto", "Daño", "Defensa", "Aguante"];
-    let stat_values: Vec<f32> = vec![health, speed, speed_jump, damage, defense, stamina];
+    let stat_labels: Vec<&str> = vec![
+        "Vida",
+        "Velocidad",
+        "Salto",
+        "Ataque rápido",
+        "Ataque lento",
+        "Contraataque",
+        "Defensa",
+        "Aguante",
+    ];
+    let stat_values: Vec<f32> = vec![
+        health,
+        speed,
+        speed_jump,
+        fast_damage,
+        slow_damage,
+        counter_damage,
+        defense,
+        stamina,
+    ];
 
     for (i, label) in stat_labels.iter().enumerate() {
         let y: f32 =

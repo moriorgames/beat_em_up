@@ -43,8 +43,9 @@ impl Combat {
                                         &weapon_collision,
                                     ) {
                                         let spread_damage: f32 = character.attack_timer_hit as f32;
-                                        let mut damage: f32 =
-                                            (character.damage - body.defense) / spread_damage;
+                                        let mut damage: f32 = (character.counter_damage
+                                            - body.defense)
+                                            / spread_damage;
                                         if damage <= 1.0 {
                                             damage = 1.0;
                                         }
