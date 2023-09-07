@@ -30,11 +30,14 @@ pub struct Character {
     pub facing: Facing,
     pub move_animation: Animation,
     pub fast_attack_animation: Animation,
+    pub slow_attack_animation: Animation,
     pub jump_animation: Animation,
     pub full_jump_timer: u8,
     pub jump_timer: u8,
     pub fast_attack_timer: u8,
     pub fast_attack_timer_hit: u8,
+    pub slow_attack_timer: u8,
+    pub slow_attack_timer_hit: u8,
     pub attack_timer: u8,
     pub damage_timer: u8,
     pub damage_processed: bool,
@@ -53,6 +56,7 @@ impl Character {
         character_type: CharacterTypes,
         move_animation: Animation,
         fast_attack_animation: Animation,
+        slow_attack_animation: Animation,
         jump_animation: Animation,
         body_collision: BoxCollision,
         foot_collision: BoxCollision,
@@ -67,6 +71,8 @@ impl Character {
         let full_jump_timer: u8 = jump_animation.move_frames * jump_animation.delay;
         let fast_attack_timer: u8 = fast_attack_animation.move_frames * fast_attack_animation.delay;
         let fast_attack_timer_hit: u8 = fast_attack_timer / 3 + 2;
+        let slow_attack_timer: u8 = slow_attack_animation.move_frames * slow_attack_animation.delay;
+        let slow_attack_timer_hit: u8 = slow_attack_timer / 3 + 2;
         let (health, speed, speed_jump, fast_damage, slow_damage, counter_damage, defense, stamina) =
             stats.get_calculated_stats();
         Character {
@@ -89,11 +95,14 @@ impl Character {
             facing: Facing::Right,
             move_animation,
             fast_attack_animation,
+            slow_attack_animation,
             jump_animation,
             full_jump_timer,
             jump_timer: 0,
             fast_attack_timer,
             fast_attack_timer_hit,
+            slow_attack_timer,
+            slow_attack_timer_hit,
             attack_timer: 0,
             damage_timer: 0,
             damage_processed: false,
