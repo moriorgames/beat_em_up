@@ -20,8 +20,8 @@ pub fn build_orc(position: Position) -> Character {
     let size: Size = Size::new(210.0, 210.0);
 
     let vitality: f32 = 5.0;
-    let strength: f32 = 5.0;
-    let agility: f32 = 5.0;
+    let strength: f32 = 8.0;
+    let agility: f32 = 6.0;
     let resistance: f32 = 5.0;
     let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 

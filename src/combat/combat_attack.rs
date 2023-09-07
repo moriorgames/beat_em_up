@@ -23,8 +23,9 @@ impl Combat {
                                         let spread_damage: f32 = character.attack_timer_hit as f32;
                                         let mut damage: f32 =
                                             (character.fast_damage - body.defense) / spread_damage;
-                                        if damage <= 1.0 {
-                                            damage = 1.0;
+                                            println!("character.fast_damage: {:?} body.defense: {:?} spread_damage: {:?}", character.fast_damage, body.defense,  spread_damage);
+                                        if damage <= 0.5 {
+                                            damage = 0.5;
                                         }
                                         let action: Action = Action::Damage {
                                             id: body.id,

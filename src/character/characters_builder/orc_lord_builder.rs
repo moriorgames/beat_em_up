@@ -21,7 +21,7 @@ pub fn build_orc_lord(position: Position) -> Character {
 
     let vitality: f32 = 20.0;
     let strength: f32 = 20.0;
-    let agility: f32 = 5.0;
+    let agility: f32 = 8.0;
     let resistance: f32 = 20.0;
     let stats: Stats = Stats::new(vitality, strength, agility, resistance);
 

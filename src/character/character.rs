@@ -214,7 +214,7 @@ impl Character {
         }
     }
 
-    const DIAGONAL_SPEED_FACTOR: f32 = 0.7071; // 1 / sqrt(2)
+    const DIAGONAL_SPEED_FACTOR: f32 = 0.8;
 
     pub fn move_by_direction(&mut self, direction: Direction) {
         if self.character_state == CharacterState::Moving {
