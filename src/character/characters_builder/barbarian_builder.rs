@@ -7,8 +7,7 @@ use crate::{
     geometry::{position::Position, size::Size},
 };
 
-pub fn build_barbarian() -> Character {
-    let position: Position = Position::new(800.0, 700.0);
+pub fn build_barbarian(position: Position) -> Character {
     let size: Size = Size::new(210.0, 210.0);
 
     let vitality: f32 = 10.0;

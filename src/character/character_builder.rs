@@ -11,7 +11,8 @@ pub mod character_builder {
     };
 
     pub fn build_player() -> Character {
-        let player: Character = build_barbarian();
+        let position: Position = Position::new(800.0, 700.0);
+        let player: Character = build_barbarian(position);
         let debug: Character = player.clone();
         println!(
             "- player {:?} speed {}, speed_jump {}, damage {}, defense {}, health {}",
