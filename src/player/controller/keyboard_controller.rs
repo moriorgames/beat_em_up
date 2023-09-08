@@ -9,7 +9,8 @@ pub mod keyboard_controller {
             move_right: pressed_keys.contains(&KeyCode::Right),
             move_up: pressed_keys.contains(&KeyCode::Up),
             move_down: pressed_keys.contains(&KeyCode::Down),
-            attack: pressed_keys.contains(&KeyCode::A),
+            fast_attack: pressed_keys.contains(&KeyCode::A),
+            slow_attack: pressed_keys.contains(&KeyCode::W),
             jump: pressed_keys.contains(&KeyCode::S),
         }
     }

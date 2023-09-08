@@ -9,7 +9,8 @@ pub struct GamePadController {
     right_pressed: bool,
     up_pressed: bool,
     down_pressed: bool,
-    attack_pressed: bool,
+    fast_attack_pressed: bool,
+    slow_attack_pressed: bool,
     jump_pressed: bool,
 }
 
@@ -22,7 +23,8 @@ impl GamePadController {
             right_pressed: false,
             up_pressed: false,
             down_pressed: false,
-            attack_pressed: false,
+            fast_attack_pressed: false,
+            slow_attack_pressed: false,
             jump_pressed: false,
         }
     }
@@ -43,7 +45,10 @@ impl GamePadController {
                     self.down_pressed = value > 0.0;
                 }
                 ButtonChanged(Button::West, value, _) => {
-                    self.attack_pressed = value > 0.0;
+                    self.fast_attack_pressed = value > 0.0;
+                }
+                ButtonChanged(Button::North, value, _) => {
+                    self.slow_attack_pressed = value > 0.0;
                 }
                 ButtonChanged(Button::South, value, _) => {
                     self.jump_pressed = value > 0.0;
@@ -57,7 +62,8 @@ impl GamePadController {
             move_right: self.right_pressed,
             move_up: self.up_pressed,
             move_down: self.down_pressed,
-            attack: self.attack_pressed,
+            fast_attack: self.fast_attack_pressed,
+            slow_attack: self.slow_attack_pressed,
             jump: self.jump_pressed,
         }
     }
@@ -67,7 +73,7 @@ impl GamePadController {
         self.right_pressed = false;
         self.up_pressed = false;
         self.down_pressed = false;
-        self.attack_pressed = false;
+        self.fast_attack_pressed = false;
         self.jump_pressed = false;
         while let Some(Event { event, .. }) = self.gilrs.next_event() {
             match event {
@@ -84,10 +90,10 @@ impl GamePadController {
                     self.down_pressed = true;
                 }
                 ButtonPressed(Button::West, _) => {
-                    self.attack_pressed = true;
+                    self.fast_attack_pressed = true;
                 }
                 ButtonPressed(Button::South, _) => {
-                    self.attack_pressed = true;
+                    self.fast_attack_pressed = true;
                 }
                 _ => {}
             }
@@ -98,7 +104,7 @@ impl GamePadController {
             move_right: self.right_pressed,
             move_up: self.up_pressed,
             move_down: self.down_pressed,
-            confirm: self.attack_pressed,
+            confirm: self.fast_attack_pressed,
         }
     }
 }

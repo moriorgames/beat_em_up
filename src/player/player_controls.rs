@@ -15,7 +15,8 @@ pub struct PlayerIntention {
     pub move_right: bool,
     pub move_up: bool,
     pub move_down: bool,
-    pub attack: bool,
+    pub fast_attack: bool,
+    pub slow_attack: bool,
     pub jump: bool,
 }
 
@@ -35,7 +36,7 @@ impl PlayerControls {
 
         let intention: PlayerIntention = self.get_intention(ctx);
 
-        if intention.attack {
+        if intention.fast_attack {
             actions.push(Action::FastAttack {
                 id: player.id,
                 from: turn + 2,
@@ -43,7 +44,15 @@ impl PlayerControls {
             });
         }
 
-        if player.is_back_jumping() && intention.attack {
+        if intention.slow_attack {
+            actions.push(Action::SlowAttack {
+                id: player.id,
+                from: turn + 2,
+                to: turn + player.slow_attack_timer as u128,
+            });
+        }
+
+        if player.is_back_jumping() && intention.fast_attack {
             let counter_attack_direction: Direction = match player.facing {
                 Facing::Left => Direction::Left,
                 Facing::Right => Direction::Right,
@@ -128,7 +137,8 @@ impl PlayerControls {
             move_right: keyboard_intention.move_right || gamepad_intention.move_right,
             move_up: keyboard_intention.move_up || gamepad_intention.move_up,
             move_down: keyboard_intention.move_down || gamepad_intention.move_down,
-            attack: keyboard_intention.attack || gamepad_intention.attack,
+            fast_attack: keyboard_intention.fast_attack || gamepad_intention.fast_attack,
+            slow_attack: keyboard_intention.slow_attack || gamepad_intention.slow_attack,
             jump: keyboard_intention.jump || gamepad_intention.jump,
         }
     }

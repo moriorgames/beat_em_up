@@ -10,6 +10,11 @@ pub enum Action {
         from: u128,
         to: u128,
     },
+    SlowAttack {
+        id: Uuid,
+        from: u128,
+        to: u128,
+    },
     Move {
         id: Uuid,
         direction: Direction,
