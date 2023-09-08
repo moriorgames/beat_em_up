@@ -19,9 +19,15 @@ impl Character {
         self.reduce_stamina(Stats::STAMINA_COST);
     }
 
-    pub fn start_attacking(&mut self) {
+    pub fn start_fast_attacking(&mut self) {
         self.attack_timer = self.fast_attack_timer;
-        self.character_state = CharacterState::Attacking;
+        self.character_state = CharacterState::FastAttacking;
+        self.reduce_stamina(Stats::STAMINA_COST);
+    }
+
+    pub fn start_slow_attacking(&mut self) {
+        self.attack_timer = self.slow_attack_timer;
+        self.character_state = CharacterState::SlowAttacking;
         self.reduce_stamina(Stats::STAMINA_COST);
     }
 

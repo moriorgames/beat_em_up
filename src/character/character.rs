@@ -131,6 +131,7 @@ impl Character {
 
     pub fn back_to_idle(&mut self) {
         self.fast_attack_animation.reset();
+        self.slow_attack_animation.reset();
         self.jump_animation.reset();
         self.character_state = CharacterState::Idle;
         self.attack_timer = 0;
@@ -152,11 +153,31 @@ impl Character {
                     self.back_to_idle()
                 }
             }
-            CharacterState::Attacking | CharacterState::CounterAttacking => {
+            CharacterState::FastAttacking | CharacterState::CounterAttacking => {
                 self.fast_attack_animation.update();
                 if self.attack_timer >= 1 {
                     self.attack_timer -= 1;
                     if self.attack_timer <= self.fast_attack_timer_hit {
+                        let x_offset: f32 = match self.facing {
+                            Facing::Left => -self.weapon_collision_template.x,
+                            Facing::Right => self.weapon_collision_template.x,
+                        };
+                        self.weapon_collision = Some(BoxCollision {
+                            x: x_offset,
+                            y: self.weapon_collision_template.y,
+                            w: self.weapon_collision_template.w,
+                            h: self.weapon_collision_template.h,
+                        });
+                    }
+                } else {
+                    self.back_to_idle()
+                }
+            }
+            CharacterState::SlowAttacking => {
+                self.slow_attack_animation.update();
+                if self.attack_timer >= 1 {
+                    self.attack_timer -= 1;
+                    if self.attack_timer <= self.slow_attack_timer_hit {
                         let x_offset: f32 = match self.facing {
                             Facing::Left => -self.weapon_collision_template.x,
                             Facing::Right => self.weapon_collision_template.x,
@@ -179,7 +200,7 @@ impl Character {
     }
 
     pub fn attack(&mut self) {
-        if self.character_state == CharacterState::Attacking {
+        if self.character_state == CharacterState::FastAttacking || self.character_state == CharacterState::SlowAttacking {
             self.action_processed = true;
         }
     }
@@ -324,7 +345,7 @@ impl Character {
                     self.jump_animation.sprite, action_type, animation_frame
                 )
             }
-            CharacterState::Attacking => {
+            CharacterState::FastAttacking => {
                 let animation_frame: u8 =
                     self.fast_attack_animation.frame % self.fast_attack_animation.move_frames;
                 let action_type: String = self.fast_attack_animation.action_type.to_string();
@@ -332,6 +353,16 @@ impl Character {
                 format!(
                     "{}_{}_{}",
                     self.fast_attack_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::SlowAttacking => {
+                let animation_frame: u8 =
+                    self.slow_attack_animation.frame % self.slow_attack_animation.move_frames;
+                let action_type: String = self.slow_attack_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.slow_attack_animation.sprite, action_type, animation_frame
                 )
             }
             CharacterState::CounterAttacking => {

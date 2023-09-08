@@ -18,7 +18,7 @@ impl Character {
     }
 
     pub fn is_attacking(&self) -> bool {
-        self.character_state == CharacterState::Attacking
+        self.character_state == CharacterState::FastAttacking || self.character_state == CharacterState::SlowAttacking
     }
 
     pub fn is_counter_attacking(&self) -> bool {

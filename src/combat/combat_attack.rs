@@ -1,6 +1,7 @@
 use super::{action::Action, combat::Combat};
 use crate::character::{
     box_collision::BoxCollision, character::Character, character_state::CharacterState,
+    stats::Stats,
 };
 
 impl Combat {
@@ -20,11 +21,13 @@ impl Combat {
                                         character.position.clone(),
                                         &weapon_collision,
                                     ) {
-                                        let spread_damage: f32 =
-                                            character.fast_attack_timer_hit as f32;
-                                        let mut damage: f32 =
-                                            (character.fast_damage - body.defense) / spread_damage;
-                                        println!("character.fast_damage: {:?} body.defense: {:?} spread_damage: {:?}", character.fast_damage, body.defense,  spread_damage);
+                                        let mut damage: f32 = self.calculate_damage(
+                                            character,
+                                            body.defense,
+                                            action.clone(),
+                                        );
+
+                                        println!(" ------------------- damage {:?} action {:?}", damage, action);
                                         if damage <= 0.5 {
                                             damage = 0.5;
                                         }
@@ -40,7 +43,7 @@ impl Combat {
                         }
                     }
 
-                    self.attack_with_buffer(self.turn, from, character);
+                    self.attack_with_buffer(self.turn, from, character, action.clone());
                 }
             }
         }
@@ -58,14 +61,67 @@ impl Combat {
             && character.current_stamina >= 0.0
     }
 
-    fn attack_with_buffer(&mut self, turn: u128, from: u128, character: &mut Character) {
-        if (turn == from || turn == from + 1)
-            && character
-                .character_state
-                .can_transition_to(&CharacterState::Attacking)
-            && character.current_stamina >= 10.0
-        {
-            character.start_attacking();
+    fn attack_with_buffer(
+        &mut self,
+        turn: u128,
+        from: u128,
+        character: &mut Character,
+        action: Action,
+    ) {
+        if turn == from || turn == from + 1 {
+            if let Action::FastAttack {
+                id: _,
+                from: _,
+                to: _,
+            } = action
+            {
+                if character
+                    .character_state
+                    .can_transition_to(&CharacterState::FastAttacking)
+                    && character.current_stamina >= Stats::MIN_STAMINA
+                {
+                    character.start_fast_attacking();
+                }
+            } else if let Action::SlowAttack {
+                id: _,
+                from: _,
+                to: _,
+            } = action
+            {
+                if character
+                    .character_state
+                    .can_transition_to(&CharacterState::SlowAttacking)
+                    && character.current_stamina >= Stats::MIN_STAMINA
+                {
+                    character.start_slow_attacking();
+                }
+            }
         }
+    }
+
+    fn calculate_damage(&mut self, character: &mut Character, defense: f32, action: Action) -> f32 {
+        if let Action::FastAttack {
+            id: _,
+            from: _,
+            to: _,
+        } = action
+        {
+            let spread_damage: f32 = character.fast_attack_timer_hit as f32;
+            let damage: f32 = (character.fast_damage - defense) / spread_damage;
+
+            return damage;
+        } else if let Action::SlowAttack {
+            id: _,
+            from: _,
+            to: _,
+        } = action
+        {
+            let spread_damage: f32 = character.slow_attack_timer_hit as f32;
+            let damage: f32 = (character.slow_damage - defense) / spread_damage;
+
+            return damage;
+        }
+
+        return 0.0;
     }
 }

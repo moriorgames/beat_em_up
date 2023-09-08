@@ -4,7 +4,8 @@ pub enum CharacterState {
     Moving,
     Jumping,
     BackJumping,
-    Attacking,
+    FastAttacking,
+    SlowAttacking,
     CounterAttacking,
 }
 
@@ -13,7 +14,8 @@ impl CharacterState {
         match self {
             CharacterState::Idle => true,
             CharacterState::Moving => true,
-            CharacterState::Attacking => matches!(next_state, CharacterState::Idle),
+            CharacterState::FastAttacking => matches!(next_state, CharacterState::Idle),
+            CharacterState::SlowAttacking => matches!(next_state, CharacterState::Idle),
             CharacterState::CounterAttacking => matches!(next_state, CharacterState::Idle),
             CharacterState::Jumping => matches!(next_state, CharacterState::Idle),
             CharacterState::BackJumping => matches!(next_state, CharacterState::Idle),
