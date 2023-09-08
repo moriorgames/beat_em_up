@@ -1,9 +1,6 @@
 pub mod enemy_behavior {
     use crate::{
-        character::{
-            character::Character,
-            character_types::{CharacterTypes, Facing},
-        },
+        character::{character::Character, character_types::CharacterTypes},
         combat::{action::Action, direction::Direction},
         geometry::position::Position,
     };
@@ -37,7 +34,7 @@ pub mod enemy_behavior {
         let player_position: Position = player.position.clone();
         let enemy_position: Position = character.position.clone();
         let dir_x: f32 = player_position.x - enemy_position.x;
-        let dir_y: f32= player_position.y - enemy_position.y;
+        let dir_y: f32 = player_position.y - enemy_position.y;
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
         if distance <= 175.0 {

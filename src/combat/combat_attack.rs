@@ -27,7 +27,10 @@ impl Combat {
                                             action.clone(),
                                         );
 
-                                        println!(" ------------------- damage {:?} action {:?}", damage, action);
+                                        println!(
+                                            " ------------------- damage {:?} action {:?}",
+                                            damage, action
+                                        );
                                         if damage <= 0.5 {
                                             damage = 0.5;
                                         }

@@ -200,7 +200,9 @@ impl Character {
     }
 
     pub fn attack(&mut self) {
-        if self.character_state == CharacterState::FastAttacking || self.character_state == CharacterState::SlowAttacking {
+        if self.character_state == CharacterState::FastAttacking
+            || self.character_state == CharacterState::SlowAttacking
+        {
             self.action_processed = true;
         }
     }
