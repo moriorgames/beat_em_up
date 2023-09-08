@@ -36,40 +36,16 @@ pub mod enemy_behavior {
     ) {
         let player_position: Position = player.position.clone();
         let enemy_position: Position = character.position.clone();
-        let dir_x: f32;
-        let dir_y: f32;
-
-        if counter > 3 {
-            dir_x = match player.facing {
-                Facing::Left => player_position.x - enemy_position.x - 550.0,
-                Facing::Right => player_position.x - enemy_position.x + 550.0,
-            };
-            dir_y = match player.facing {
-                Facing::Left => player_position.y - enemy_position.y - 350.0,
-                Facing::Right => player_position.y - enemy_position.y + 350.0,
-            };
-        } else if counter > 2 {
-            dir_x = match player.facing {
-                Facing::Left => player_position.x - enemy_position.x - 250.0,
-                Facing::Right => player_position.x - enemy_position.x + 250.0,
-            };
-            dir_y = match player.facing {
-                Facing::Left => player_position.y - enemy_position.y - 150.0,
-                Facing::Right => player_position.y - enemy_position.y + 150.0,
-            };
-        } else {
-            dir_x = player_position.x - enemy_position.x;
-            dir_y = player_position.y - enemy_position.y;
-        }
-
+        let dir_x: f32 = player_position.x - enemy_position.x;
+        let dir_y: f32= player_position.y - enemy_position.y;
         let distance: f32 = (dir_x.powi(2) + dir_y.powi(2)).sqrt();
 
         if distance <= 175.0 {
             if character.is_idle() {
-                actions.push(Action::FastAttack {
+                actions.push(Action::SlowAttack {
                     id: character.id,
                     from: turn + 1,
-                    to: turn + character.fast_attack_timer as u128,
+                    to: turn + character.slow_attack_timer as u128,
                 });
             }
         } else {
