@@ -3,6 +3,7 @@ pub mod animations_builder;
 pub mod box_collision;
 pub mod character;
 pub mod character_builder;
+pub mod character_movement;
 pub mod character_state;
 pub mod character_state_check;
 pub mod character_state_start;
