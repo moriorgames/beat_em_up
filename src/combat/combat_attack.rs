@@ -26,20 +26,18 @@ impl Combat {
                                             body.defense,
                                             action.clone(),
                                         );
-
-                                        println!(
-                                            " ------------------- damage {:?} action {:?}",
-                                            damage, action
-                                        );
                                         if damage <= 0.5 {
                                             damage = 0.5;
                                         }
-                                        let action: Action = Action::Damage {
-                                            id: body.id,
-                                            damage,
-                                            from: self.turn + 1,
-                                        };
-                                        self.actions.push(action);
+                                        if body.is_defending() {
+                                            damage = 0.1;
+                                        }
+                                            let action: Action = Action::Damage {
+                                                id: body.id,
+                                                damage,
+                                                from: self.turn + 1,
+                                            };
+                                            self.actions.push(action);
                                     }
                                 }
                             }
