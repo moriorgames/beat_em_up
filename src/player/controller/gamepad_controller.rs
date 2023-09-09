@@ -12,6 +12,7 @@ pub struct GamePadController {
     fast_attack_pressed: bool,
     slow_attack_pressed: bool,
     jump_pressed: bool,
+    defense_pressed: bool,
 }
 
 impl GamePadController {
@@ -26,6 +27,7 @@ impl GamePadController {
             fast_attack_pressed: false,
             slow_attack_pressed: false,
             jump_pressed: false,
+            defense_pressed: false,
         }
     }
 
@@ -53,6 +55,9 @@ impl GamePadController {
                 ButtonChanged(Button::South, value, _) => {
                     self.jump_pressed = value > 0.0;
                 }
+                ButtonChanged(Button::East, value, _) => {
+                    self.defense_pressed = value > 0.0;
+                }
                 _ => {}
             }
         }
@@ -65,6 +70,7 @@ impl GamePadController {
             fast_attack: self.fast_attack_pressed,
             slow_attack: self.slow_attack_pressed,
             jump: self.jump_pressed,
+            defense: self.defense_pressed,
         }
     }
 

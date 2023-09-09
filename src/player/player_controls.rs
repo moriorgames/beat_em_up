@@ -18,6 +18,7 @@ pub struct PlayerIntention {
     pub fast_attack: bool,
     pub slow_attack: bool,
     pub jump: bool,
+    pub defense: bool,
 }
 
 impl PlayerControls {
@@ -35,6 +36,10 @@ impl PlayerControls {
         let mut actions: Vec<Action> = Vec::new();
 
         let intention: PlayerIntention = self.get_intention(ctx);
+
+        if intention.defense {
+            println!("    --------------------------- DEFENSE!!!!!!!!!!");
+        }
 
         if intention.fast_attack {
             actions.push(Action::FastAttack {
@@ -140,6 +145,7 @@ impl PlayerControls {
             fast_attack: keyboard_intention.fast_attack || gamepad_intention.fast_attack,
             slow_attack: keyboard_intention.slow_attack || gamepad_intention.slow_attack,
             jump: keyboard_intention.jump || gamepad_intention.jump,
+            defense: keyboard_intention.defense || gamepad_intention.defense,
         }
     }
 }
