@@ -9,6 +9,10 @@ impl Character {
         self.character_state == CharacterState::Moving
     }
 
+    pub fn is_defending(&self) -> bool {
+        self.character_state == CharacterState::Defending
+    }
+
     pub fn is_jumping(&self) -> bool {
         self.character_state == CharacterState::Jumping
     }

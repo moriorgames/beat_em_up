@@ -5,6 +5,7 @@ pub struct SpriteLoader {
 impl SpriteLoader {
     pub fn new() -> Self {
         let mut sprites: Vec<(String, String)> = Vec::new();
+        // Move
         sprites.push((
             "barbarian_move_0".to_string(),
             "/barbarian_move_0.png".to_string(),
@@ -37,6 +38,7 @@ impl SpriteLoader {
             "barbarian_move_7".to_string(),
             "/barbarian_move_7.png".to_string(),
         ));
+        // Attack
         sprites.push((
             "barbarian_attack_0".to_string(),
             "/barbarian_attack_0.png".to_string(),
@@ -57,6 +59,7 @@ impl SpriteLoader {
             "barbarian_attack_4".to_string(),
             "/barbarian_attack_4.png".to_string(),
         ));
+        // Jump
         sprites.push((
             "barbarian_jump_0".to_string(),
             "/barbarian_jump_0.png".to_string(),
@@ -69,11 +72,7 @@ impl SpriteLoader {
             "barbarian_jump_2".to_string(),
             "/barbarian_jump_2.png".to_string(),
         ));
-        sprites.push((
-            "barbarian_level_up".to_string(),
-            "/barbarian_level_up.png".to_string(),
-        ));
-
+        // Counter attack
         sprites.push((
             "barbarian_counter_attack_0".to_string(),
             "/barbarian_counter_attack_0.png".to_string(),
@@ -93,6 +92,16 @@ impl SpriteLoader {
         sprites.push((
             "barbarian_counter_attack_4".to_string(),
             "/barbarian_counter_attack_4.png".to_string(),
+        ));
+        // Defense
+        sprites.push((
+            "barbarian_defense_0".to_string(),
+            "/barbarian_defense_0.png".to_string(),
+        ));
+        // Level Up
+        sprites.push((
+            "barbarian_level_up".to_string(),
+            "/barbarian_level_up.png".to_string(),
         ));
 
         sprites.push(("orc_move_0".to_string(), "/orc_move_0.png".to_string()));

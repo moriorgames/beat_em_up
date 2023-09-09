@@ -145,6 +145,7 @@ impl Character {
             CharacterState::Idle | CharacterState::Moving => {
                 self.move_animation.update();
             }
+            CharacterState::Defending => {}
             CharacterState::Jumping | CharacterState::BackJumping => {
                 self.jump_animation.update();
                 if self.jump_timer >= 1 {
@@ -238,6 +239,15 @@ impl Character {
                 let animation_frame: u8 =
                     self.move_animation.frame % self.move_animation.move_frames;
                 let action_type: String = self.move_animation.action_type.to_string();
+
+                format!(
+                    "{}_{}_{}",
+                    self.move_animation.sprite, action_type, animation_frame
+                )
+            }
+            CharacterState::Defending => {
+                let animation_frame: u8 = 0;
+                let action_type: String = "defense".to_string();
 
                 format!(
                     "{}_{}_{}",

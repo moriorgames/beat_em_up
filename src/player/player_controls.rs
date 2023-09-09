@@ -38,7 +38,11 @@ impl PlayerControls {
         let intention: PlayerIntention = self.get_intention(ctx);
 
         if intention.defense {
-            println!("    --------------------------- DEFENSE!!!!!!!!!!");
+            actions.push(Action::Defense {
+                id: player.id,
+                from: turn + 1,
+                to: turn + 5,
+            });
         }
 
         if intention.fast_attack {

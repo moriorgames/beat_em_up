@@ -7,6 +7,7 @@ pub enum CharacterState {
     FastAttacking,
     SlowAttacking,
     CounterAttacking,
+    Defending,
 }
 
 impl CharacterState {
@@ -19,6 +20,7 @@ impl CharacterState {
             CharacterState::CounterAttacking => matches!(next_state, CharacterState::Idle),
             CharacterState::Jumping => matches!(next_state, CharacterState::Idle),
             CharacterState::BackJumping => matches!(next_state, CharacterState::Idle),
+            CharacterState::Defending => true,
         }
     }
 }

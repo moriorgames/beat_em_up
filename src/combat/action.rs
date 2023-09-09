@@ -39,6 +39,11 @@ pub enum Action {
         from: u128,
         to: u128,
     },
+    Defense {
+        id: Uuid,
+        from: u128,
+        to: u128,
+    },
     Damage {
         id: Uuid,
         damage: f32,

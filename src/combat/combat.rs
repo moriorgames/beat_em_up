@@ -33,6 +33,7 @@ impl Combat {
                 Action::CounterAttack { .. } => {
                     self.process_counter_attack(action, characters, world)
                 }
+                Action::Defense { .. } => self.process_defending(action, characters),
                 Action::Damage { .. } => self.process_damage(action, characters),
             }
         }
@@ -54,6 +55,7 @@ impl Combat {
             Action::Jump { to, .. } => self.turn <= *to,
             Action::BackJump { to, .. } => self.turn <= *to,
             Action::CounterAttack { to, .. } => self.turn <= *to,
+            Action::Defense { to, .. } => self.turn <= *to,
             Action::Damage { from, .. } => self.turn < *from,
         });
     }

@@ -5,6 +5,10 @@ impl Character {
         self.character_state = CharacterState::Moving
     }
 
+    pub fn start_defending(&mut self) {
+        self.character_state = CharacterState::Defending
+    }
+
     pub fn start_jumping(&mut self) {
         self.jump_timer = self.full_jump_timer;
         self.action_processed = true;
