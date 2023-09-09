@@ -1,26 +1,16 @@
-**Pasos iniciales para nuestro "beat'em up" con ggez:**
 
-1. **Configuración inicial del juego:**
-   - Crea un nuevo proyecto con `ggez`.
-   - Configura la ventana del juego, el título, dimensiones, etc.
+# Ideas sobre comporamiento de enemigos:
 
-2. **Representación del jugador y enemigos:**
-   - Usando las funciones de dibujo de `ggez`, crea un rectángulo para el personaje principal y triángulos o rectángulos más pequeños para los enemigos.
-   - Implementa el movimiento básico del jugador usando las teclas del teclado.
+1. **Modelar Comportamiento con Máquinas de Estados**: Utiliza una máquina de estados para definir los posibles comportamientos de los enemigos (defensivo, ofensivo, neutro, etc.).
 
-3. **Mecánicas básicas:**
-   - Implementa el ataque básico. Por ejemplo, cuando el jugador presiona una tecla, se puede cambiar el color del rectángulo o hacerlo parpadear para indicar un ataque.
-   - Añade una detección de colisiones básica. Si el "ataque" del jugador colisiona con un enemigo, este último podría cambiar de color o disminuir de tamaño para indicar daño.
+2. **Acciones Basadas en el Jugador**: Haz que la IA reaccione a las últimas acciones del jugador. Por ejemplo, si el jugador ha estado atacando agresivamente, el enemigo podría adoptar una postura más defensiva.
 
-4. **Vida y estado del jugador:**
-   - Usa barras rectangulares en la parte superior o inferior de la pantalla para representar la vida del jugador y, eventualmente, de los enemigos.
-   - Reduce esta barra cuando el jugador (o enemigo) reciba daño.
+3. **Comportamientos Específicos de Enemigos**: Diferentes tipos de enemigos podrían tener estrategias únicas. Por ejemplo, un enemigo más rápido podría enfocarse en esquivar y contraatacar, mientras que uno más fuerte podría ser más agresivo.
 
-5. **Enemigos:**
-   - Crea enemigos con comportamientos simples, como moverse hacia el jugador o moverse de un lado a otro.
-   - Considera agregar variedad al tener enemigos que se muevan más rápido o que hagan más daño.
+# Tipologías de enemigos
 
-6. **Interacción y retroalimentación:**
-   - Usa efectos visuales simples (cambios de color, parpadeo, etc.) para dar retroalimentación al jugador sobre golpes, daños, victorias, etc.
+1. **Enemigo Ágil y Escurridizo**: Este enemigo podría tener un estado que favorezca la esquiva y el contraataque. Podría ser especialmente sensible a patrones de ataques repetitivos por parte del jugador, adaptándose rápidamente para evitar daño.
 
-Una vez que tengas una base funcional, puedes expandir y refinar las mecánicas, añadir niveles, jefes, habilidades especiales, y mucho más.
+2. **Enemigo Pesado y Fuerte**: Este tipo de enemigo podría tener estados que favorezcan la agresividad y la resistencia. Podría ignorar ataques más débiles y centrarse en acercarse al jugador para infligir daño masivo.
+
+3. **Estados Personalizados**: Aparte de estados genéricos como "ofensivo" o "defensivo", podrías añadir estados que solo ciertos tipos de enemigos pueden usar. Por ejemplo, un enemigo con habilidades de curación podría tener un estado "Curativo" que activa cuando su salud baja a un cierto punto.
