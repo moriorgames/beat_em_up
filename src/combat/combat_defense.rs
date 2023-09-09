@@ -1,7 +1,5 @@
 use super::{action::Action, combat::Combat};
-use crate::character::{
-    character::Character, character_state::CharacterState,
-};
+use crate::character::{character::Character, character_state::CharacterState};
 
 impl Combat {
     pub fn process_defending(&mut self, action: Action, characters: &mut Vec<Character>) {

@@ -2,6 +2,7 @@ use super::{action::Action, combat::Combat};
 use crate::{
     character::{
         box_collision::BoxCollision, character::Character, character_state::CharacterState,
+        stats::Stats,
     },
     world::world::World,
 };
@@ -82,7 +83,7 @@ impl Combat {
             && character
                 .character_state
                 .can_transition_to(&CharacterState::CounterAttacking)
-            && character.current_stamina >= 10.0
+            && character.current_stamina >= Stats::MIN_STAMINA
         {
             character.start_counter_attack();
         }

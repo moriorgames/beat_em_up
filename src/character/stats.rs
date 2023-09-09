@@ -13,7 +13,7 @@ impl Stats {
     const COUNTER_DAMAGE: f32 = 19.0;
     const BASE_DEFENSE: f32 = 0.5;
     const BASE_STAMINA: f32 = 40.0;
-    pub const STAMINA_COST: f32 = 15.0;
+    pub const STAMINA_COST: f32 = 20.0;
     pub const MIN_STAMINA: f32 = 10.0;
 
     pub fn new(vitality: f32, strength: f32, agility: f32, resistance: f32) -> Self {

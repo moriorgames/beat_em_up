@@ -32,12 +32,12 @@ impl Combat {
                                         if body.is_defending() {
                                             damage = 0.1;
                                         }
-                                            let action: Action = Action::Damage {
-                                                id: body.id,
-                                                damage,
-                                                from: self.turn + 1,
-                                            };
-                                            self.actions.push(action);
+                                        let action: Action = Action::Damage {
+                                            id: body.id,
+                                            damage,
+                                            from: self.turn + 1,
+                                        };
+                                        self.actions.push(action);
                                     }
                                 }
                             }

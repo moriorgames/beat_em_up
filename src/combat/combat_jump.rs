@@ -2,6 +2,7 @@ use super::{action::Action, combat::Combat};
 use crate::{
     character::{
         box_collision::BoxCollision, character::Character, character_state::CharacterState,
+        stats::Stats,
     },
     world::world::World,
 };
@@ -66,7 +67,7 @@ impl Combat {
                 .character_state
                 .can_transition_to(&CharacterState::Jumping)
             && !character.action_processed
-            && character.current_stamina >= 10.0
+            && character.current_stamina >= Stats::MIN_STAMINA
         {
             match action {
                 Action::Jump {
