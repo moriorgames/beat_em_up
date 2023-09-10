@@ -155,8 +155,12 @@ pub mod character_view {
         let stamina_percentage: f32 = character.current_stamina / character.stamina;
         let stamina_width: f32 = stamina_percentage * character.stamina;
         let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT);
-        let color: Color = Color::GREEN;
 
+        let color: Color = if character.current_stamina < Stats::MIN_STAMINA -1.0 {
+            Color::RED
+        } else {
+            Color::GREEN
+        };
         if character.current_stamina >= 0.0 {
             draw_solid_rectangle(gfx, canvas, &stamina_position, &stamina_size, color);
         }
