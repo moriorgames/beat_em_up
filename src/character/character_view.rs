@@ -156,7 +156,7 @@ pub mod character_view {
         let stamina_width: f32 = stamina_percentage * character.stamina;
         let stamina_size: Size = Size::new(stamina_width, STAMINA_BAR_HEIGHT);
 
-        let color: Color = if character.current_stamina < Stats::MIN_STAMINA -1.0 {
+        let color: Color = if character.current_stamina < Stats::MIN_STAMINA - 1.0 {
             Color::RED
         } else {
             Color::GREEN

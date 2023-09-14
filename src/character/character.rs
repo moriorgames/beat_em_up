@@ -230,7 +230,8 @@ impl Character {
     }
 
     pub fn regenerate_stamina(&mut self) {
-        self.current_stamina = (self.current_stamina + Stats::STAMINA_REGENERATION).min(self.stamina);
+        self.current_stamina =
+            (self.current_stamina + Stats::STAMINA_REGENERATION).min(self.stamina);
     }
 
     pub fn get_sprite_name(&self) -> String {
